@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة ثابر التعليمية | بوابتك للتفوق</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: #084c54;
+            background-image: linear-gradient(135deg, #053238 0%, #158b97 100%);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .trust-bar {
+            background: rgba(0, 0, 0, 0.4);
+            width: 100%;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #f1c40f;
+            flex-wrap: wrap;
+        }
+        
+        .trust-bar span { display: flex; align-items: center; gap: 5px; }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            padding: 40px 10px;
+            text-align: center;
+            flex: 1;
+            padding-bottom: 120px; 
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            line-height: 1.2;
+        }
+        
+        .hero-title span { color: #f1c40f; }
+
+        .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            color: #e0f2f1;
+            font-weight: 700;
+            text-shadow: 1px 2px 3px rgba(0,0,0,0.3);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1); }
+            50% { box-shadow: 0 8px 25px rgba(241, 196, 15, 0.6); transform: scale(1.02); }
+            100% { box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1); }
+        }
+
+        .feature-pill {
+            background: linear-gradient(45deg, #ffffff, #f7f7f7);
+            color: #084c54;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #f1c40f;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+        
+        .feature-pill:hover {
+            transform: translateY(-5px) scale(1.05);
+            animation: none;
+            box-shadow: 0 12px 20px rgba(241, 196, 15, 0.4);
+        }
+
+        .main-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 35px 25px;
+            width: 320px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            border-top: 8px solid;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(241, 196, 15, 0.05) 100%);
+            z-index: 1; pointer-events: none;
+        }
+
+        .card:hover { transform: translateY(-15px); box-shadow: 0 30px 50px rgba(0,0,0,0.4); }
+        
+        .card::after {
+            content: 'اكتشف التفاصيل 👆';
+            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            background: #084c54; color: #f1c40f; padding: 8px 20px;
+            border-radius: 20px; font-size: 1rem; font-weight: 900;
+            opacity: 0; transition: all 0.3s ease; white-space: nowrap; z-index: 2;
+        }
+        .card:hover::after { opacity: 1; bottom: 20px; }
+
+        .card-classroom { border-color: #F4B400; }
+        .card-chat { border-color: #0F9D58; }
+        .card-whatsapp { border-color: #128c7e; }
+        .card-pricing { border-color: #d35400; }
+        .card-bank { border-color: #2980b9; }
+        .card-ambassador { border-color: #8e44ad; }
+        .card-free-services { border-color: #e84393; }
+
+        @keyframes pulse-icon {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .card-icon { 
+            font-size: 4.5rem; 
+            margin-bottom: 10px; 
+            z-index: 2; 
+            position: relative;
+            animation: pulse-icon 2s infinite ease-in-out; 
+            display: inline-block;
+        }
+        
+        .card:hover .card-icon { animation: none; transform: scale(1.1); }
+
+        .card-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 15px; z-index: 2; position: relative; }
+        .card-content { flex: 1; z-index: 2; position: relative; }
+
+        .marketing-tag {
+            background: #f1c40f; color: #000; font-size: 0.85rem; font-weight: bold;
+            padding: 5px 12px; border-radius: 15px; display: inline-block; margin-bottom: 10px;
+        }
+
+        /* ------------------------------------- */
+        /* تعديلات النوافذ المنبثقة */
+        /* ------------------------------------- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center;
+            z-index: 1000; backdrop-filter: blur(8px);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .modal-content {
+            background: #ffffff; color: #333; width: 100%; max-width: 650px;
+            border-radius: 25px; padding: 30px; position: relative; text-align: right;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            border: 4px solid #f1c40f;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .modal-content.large-modal { max-width: 950px; }
+
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-thumb { background-color: #f1c40f; border-radius: 10px; }
+
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .close-btn {
+            position: absolute; top: 15px; left: 20px; font-size: 2.5rem;
+            color: #aaa; cursor: pointer; transition: color 0.3s; line-height: 1; z-index: 10;
+        }
+        .close-btn:hover { color: #e74c3c; }
+
+        .modal-title {
+            font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;
+            color: #084c54; border-bottom: 3px solid #eee; padding-bottom: 15px; display: flex; align-items: center; gap: 15px;
+        }
+        
+        .modal-body { font-size: 1.15rem; line-height: 1.9; }
+        .modal-body ul { padding-right: 25px; }
+        .modal-body ul li { margin-bottom: 15px; position: relative; }
+        .modal-body ul li::marker { content: '✅ '; font-size: 1.2rem; }
+        .modal-body strong { color: #d35400; }
+        
+        .modal-close-btn-bottom {
+            display: block; width: 100%; margin-top: 20px; padding: 12px;
+            background: #eee; color: #555; text-align: center; font-weight: bold;
+            border-radius: 15px; border: none; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;
+        }
+        .modal-close-btn-bottom:hover { background: #ddd; color: #333; }
+
+        .cta-container { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 100; width: 85%; max-width: 350px; text-align: center; }
+        .cta-btn {
+            background: linear-gradient(45deg, #f39c12, #d35400); color: #ffffff;
+            font-size: 1.15rem; font-weight: 900; padding: 12px 20px; border-radius: 50px;
+            text-decoration: none; box-shadow: 0 8px 20px rgba(211, 84, 0, 0.5);
+            border: 3px solid #fff; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
+            animation: pulse-gold 2s infinite; width: 100%;
+        }
+        .cta-btn:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 35px rgba(211, 84, 0, 0.7); }
+        
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
+        }
+
+        .footer {
+            background: #053238; width: 100%; padding: 25px 0; display: flex; justify-content: center; align-items: center;
+            gap: 40px; font-size: 1.2rem; font-weight: bold; border-top: 2px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap; padding-bottom: 120px; color: #a3d9d3; margin-top: auto;
+        }
+
+        /* ------------------------------------- */
+        /* تنسيقات داخل نافذة الأسعار */
+        /* ------------------------------------- */
+        .pricing-grid {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;
+        }
+        .price-card {
+            background: #f9f9f9; border-radius: 20px; padding: 25px 15px; width: 260px;
+            text-align: center; border: 3px solid transparent; position: relative;
+        }
+        .price-card.special { border-color: #f1c40f; background: linear-gradient(to bottom, #fff, #fffef5); }
+        .special-badge {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            background: #d35400; color: white; padding: 5px 15px; border-radius: 15px;
+            font-weight: bold; font-size: 0.9rem; white-space: nowrap;
+        }
+        .price-card h3 { color: #084c54; font-size: 1.3rem; margin: 10px 0 5px; font-weight: 900; }
+        .price-value { font-size: 2.2rem; font-weight: 900; color: #d35400; margin: 15px 0; line-height: 1; }
+        .price-value span { font-size: 1rem; color: #777; font-weight: normal; }
+        
+        .installment-box {
+            background: #f1f8f8; border: 2px dashed #158b97; padding: 20px;
+            border-radius: 15px; margin-top: 30px; text-align: right;
+        }
+        .installment-box h4 { color: #084c54; font-size: 1.3rem; margin-top: 0; margin-bottom: 10px; }
+
+        /* ------------------------------------- */
+        /* تنسيقات داخل نافذة السفراء */
+        /* ------------------------------------- */
+        .amb-badges-container {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;
+        }
+        .amb-badge {
+            background: #f1c40f; color: #084c54; padding: 8px 20px; border-radius: 30px;
+            font-weight: 900; font-size: 1rem; display: flex; align-items: center; gap: 8px;
+        }
+        .steps-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+        }
+        .step-card {
+            background: #f8f9fa; border: 2px dashed #158b97; border-radius: 15px;
+            padding: 15px 10px; width: 140px; display: flex; flex-direction: column;
+            align-items: center; text-align: center;
+        }
+        .step-number {
+            background: #d35400; color: white; width: 30px; height: 30px; display: flex;
+            justify-content: center; align-items: center; border-radius: 50%;
+            font-weight: 900; font-size: 1.1rem; margin-bottom: 10px;
+        }
+        .step-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .step-text { font-size: 0.9rem; font-weight: 900; color: #333; line-height: 1.4; }
+        .dashboard-note {
+            background: #084c54; color: #ffffff; padding: 12px 25px; border-radius: 50px;
+            display: inline-flex; align-items: center; gap: 10px; margin-top: 25px;
+            font-weight: bold; font-size: 1.1rem; justify-content: center; width: auto;
+        }
+
+        /* ------------------------------------- */
+        /* تنسيقات نافذة الحساب البنكي */
+        /* ------------------------------------- */
+        .bank-details-box {
+            background: #f8f9fa; border: 2px dashed #2980b9; padding: 30px 20px;
+            border-radius: 15px; text-align: center; font-size: 1.2rem;
+            line-height: 2; margin-top: 15px; color: #333;
+        }
+        .bank-details-box p { margin: 10px 0; }
+        .bank-details-box span.val { 
+            font-weight: 900; color: #084c54; font-size: 1.4rem; 
+            display: block; letter-spacing: 1px; margin-top: 5px;
+        }
+        .bank-warning {
+            color: #d35400; font-weight: bold; margin-top: 25px;
+            border-top: 1px dashed #ccc; padding-top: 20px; font-size: 1.1rem; line-height: 1.6;
+        }
+
+        /* استجابة الموبايل */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .subtitle { font-size: 1.1rem; }
+            .card { width: 100%; max-width: 350px; }
+            .trust-bar { font-size: 0.8rem; gap: 15px; }
+            .modal-title { font-size: 1.5rem; }
+            .modal-content { padding: 20px; }
+            .price-card { width: 100%; }
+            .step-card { width: 100%; max-width: 200px; flex-direction: row; text-align: right; gap: 15px; justify-content: flex-start; padding: 10px 15px; }
+            .step-icon { margin-bottom: 0; font-size: 2rem; }
+            .step-number { margin-bottom: 0; flex-shrink: 0; }
+            .bank-details-box { font-size: 1.1rem; padding: 20px 10px; }
+            .bank-details-box span.val { font-size: 1.2rem; }
+            .cta-btn { font-size: 1rem; padding: 10px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="trust-bar">
+    <span>👨‍🏫 نخبة من أفضل المعلمين</span>
+    <span>📊 تقارير أداء مستمرة</span>
+    <span>🎯 خطط دراسية مرنة ومجربة</span>
+</div>
+
+<div class="container">
+    <h1 class="hero-title">منصة <span>ثابر</span> التعليمية</h1>
+    <p class="subtitle">نحن لا نقدم دروساً فقط.. نحن نصنع بيئة متكاملة تضمن <strong>متعة التعلم للطالب</strong>، و<strong>راحة البال لولي الأمر</strong>. اكتشف كيف نفعل ذلك 👇</p>
+
+    <div class="features-grid">
+        <div class="feature-pill" onclick="openModal('features-modal')">⭐ لماذا يختارنا الطلاب؟ (اكتشف السر)</div>
+    </div>
+
+    <!-- بطاقات الواجهة الرئيسية -->
+    <div class="main-cards">
+
+        <!-- بطاقة خدمات مجانية -->
+        <div class="card card-free-services" onclick="openModal('free-services-modal')">
+            <span class="marketing-tag" style="background: #e84393; color: #fff;">هدية لطلابنا 🎁</span>
+            <div class="card-icon">🆓</div>
+            <div class="card-title" style="color: #e84393;">خدمات مجانية</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أدوات تدعم تفوقك مجاناً.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">اكتشف جدول المذاكرة الذكي، ومكتبة الامتحانات والكتب الدراسية من الصف 5 للثاني عشر.</p>
+            </div>
+        </div>
+        
+        <!-- بطاقة جوجل كلاس روم -->
+        <div class="card card-classroom" onclick="openModal('classroom-modal')">
+            <span class="marketing-tag">الطالب يدرس بذكاء 🧠</span>
+            <div class="card-icon">🏫</div>
+            <div class="card-title" style="color: #d35400;">فصلك في جيبك</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">بيئة تعليمية لا تعرف الملل.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">كل دروسك، واجباتك، وملازمك منظمة بطريقة تفتح النفس للمذاكرة (عبر جوجل كلاس روم).</p>
+            </div>
+        </div>
+
+        <!-- بطاقة جوجل تشات -->
+        <div class="card card-chat" onclick="openModal('chat-modal')">
+            <span class="marketing-tag">لا للمذاكرة وحيداً 🤝</span>
+            <div class="card-icon">💬</div>
+            <div class="card-title" style="color: #0F9D58;">مجتمع ثابر التفاعلي</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أسئلتك مُجاب عليها فوراً.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">عبر (جوجل تشات)، تواصل مع معلميك وزملائك في أي وقت، شارك أفكارك، وتغلب على أي صعوبة.</p>
+            </div>
+        </div>
+        
+        <!-- بطاقة مجتمع واتساب -->
+        <div class="card card-whatsapp" onclick="openModal('whatsapp-modal')">
+            <span class="marketing-tag">لولي الأمر المطمئن 🛡️</span>
+            <div class="card-icon">📢</div>
+            <div class="card-title" style="color: #128c7e;">أنت معنا بالصورة</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">لا مفاجآت بعد اليوم.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">عبر (مجتمع واتساب)، تصلك تنبيهات فورية بمواعيد الحصص، الامتحانات، ومستوى إنجاز الأبناء.</p>
+            </div>
+        </div>
+
+        <!-- بطاقة باقات الأسعار -->
+        <div class="card card-pricing" onclick="openModal('pricing-modal')">
+            <span class="marketing-tag" style="background: #d35400; color: #fff;">استثمر بذكاء 💡</span>
+            <div class="card-icon">💸</div>
+            <div class="card-title" style="color: #d35400;">باقات وخطط الاشتراك</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أفضل قيمة لمستقبل ابنك.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">اكتشف أسعار المواد العلمية، الباقة الشاملة، عروض خصم التعدد، ونظام التقسيط المريح جداً.</p>
+            </div>
+        </div>
+        
+        <!-- بطاقة الحساب البنكي -->
+        <div class="card card-bank" onclick="openModal('bank-modal')">
+            <span class="marketing-tag" style="background: #2980b9; color: #fff;">طرق الدفع 💳</span>
+            <div class="card-icon">🏦</div>
+            <div class="card-title" style="color: #2980b9;">الحساب البنكي للتحويل</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أرقام الحسابات المعتمدة.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">اضغط هنا لمعرفة تفاصيل الحساب البنكي والآيبان لإتمام عملية الاشتراك بنجاح.</p>
+            </div>
+        </div>
+
+        <!-- بطاقة سفراء ثابر -->
+        <div class="card card-ambassador" onclick="openModal('ambassador-modal')">
+            <span class="marketing-tag" style="background: #8e44ad; color: #fff;">اربح معنا 🎁</span>
+            <div class="card-icon">🤝</div>
+            <div class="card-title" style="color: #8e44ad;">برنامج سفراء ثابر</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">شارك المعرفة واكسب.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">كن سفيراً للمنصة وحوّل تسويقك الذكي لعائدات مالية ومواد مجانية بخطوات بسيطة جداً.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="cta-container">
+    <a href="https://linktr.ee/thaberacademy" target="_blank" class="cta-btn">
+        🚀 استثمر في مستقبل ابنك - اشترك الآن
+    </a>
+</div>
+
+<div class="footer">
+    <div style="display: flex; gap: 10px; align-items: center;"><span>📸</span> <span dir="ltr">@Thaber_educational</span></div>
+    <div style="display: flex; gap: 10px; align-items: center;"><span>📞</span> <span dir="ltr">71444589</span></div>
+    <div style="display: flex; gap: 10px; align-items: center;"><span>🌐</span> <span dir="ltr">www.thaber.com</span></div>
+</div>
+
+<!-- ================= النوافذ المنبثقة (Modals) ================= -->
+
+<!-- نافذة خدمات مجانية -->
+<div class="modal-overlay" id="free-services-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('free-services-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🎁</span> خدمات ثابر المجانية</div>
+        <div class="modal-body">
+            <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555;">
+                لأننا شركاء في نجاحك، نوفر لك مجموعة من الأدوات والمراجع التي تساعدك على التفوق <strong style="color: #e84393;">بشكل مجاني بالكامل</strong>:
+            </p>
+
+            <ul>
+                <li><strong>جدول المذاكرة الذكي الإلكتروني:</strong> أداة تفاعلية رائعة تساعدك على تنظيم وقتك الدراسي بفعالية، لتذاكر بذكاء وبدون إرهاق.</li>
+                <li><strong>مكتبة شاملة (من الصف 5 إلى 12):</strong> قسم خاص ومتكامل يحتوي على:
+                    <ul style="margin-top: 10px; padding-right: 20px;">
+                        <li style="margin-bottom: 5px;">الامتحانات النهائية للسنوات السابقة لتتدرب عليها.</li>
+                        <li style="margin-bottom: 5px;">الكتب الدراسية بصيغة رقمية لسهولة الوصول إليها.</li>
+                        <li style="margin-bottom: 5px;">أنشطة ومواد متنوعة تدعم فهمك للمناهج.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p style="text-align: center; font-weight: bold; color: #084c54; margin-top: 25px;">
+                كل هذا وأكثر متاح لجميع طلابنا مجاناً لضمان أفضل تجربة تعليمية! 🚀
+            </p>
+            <button class="modal-close-btn-bottom" onclick="closeModal('free-services-modal')">رائع، إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- بقية النوافذ الأساسية -->
+<div class="modal-overlay" id="classroom-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('classroom-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🏫</span> نظام دراسي مصمم لنجاحك</div>
+        <div class="modal-body">
+            <p>نحن نعلم أن الفوضى تشتت التركيز، لذلك استخدمنا <strong>جوجل كلاس روم</strong> لنرتب لك طريق التفوق:</p>
+            <ul>
+                <li><strong>وداعاً لضياع الدروس:</strong> مكتبة رقمية ضخمة ومسجلة.</li>
+                <li><strong>مذكرات وملازم حصرية:</strong> جاهزة للتحميل بضغطة زر.</li>
+                <li><strong>تنظيم يريح الأعصاب:</strong> لوحة تحكم تخبرك بما أنجزته.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('classroom-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="chat-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">💬</span> لن تتعثر في أي سؤال</div>
+        <div class="modal-body">
+            <p>صممنا لك بيئة تفاعلية حية عبر <strong>جوجل تشات</strong>:</p>
+            <ul>
+                <li><strong>معلمك معك دائماً:</strong> مساحات نقاش (Spaces) مخصصة لكل مادة.</li>
+                <li><strong>تعلم من أخطاء غيرك:</strong> الأسئلة السابقة محفوظة.</li>
+                <li><strong>جو تنافسي إيجابي:</strong> تواصل راقٍ ومفيد.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('chat-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="whatsapp-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('whatsapp-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🛡️</span> راحة البال لولي الأمر</div>
+        <div class="modal-body">
+            <p>صممنا <strong>مجتمع واتساب المغلق</strong> ليكون حلقة الوصل:</p>
+            <ul>
+                <li><strong>متابعة لحظية (بدون إزعاج):</strong> إشعارات بمواعيد بدء الحصص.</li>
+                <li><strong>تنبيهات الامتحانات:</strong> رسائل تذكيرية قبل التقييمات.</li>
+                <li><strong>قرارات وتحديثات المنصة:</strong> كن أول من يعلم بالمعسكرات.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('whatsapp-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="features-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('features-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🏆</span> منظومة ثابر.. أكثر من دروس</div>
+        <div class="modal-body">
+            <ul>
+                <li><strong>تقييم مستمر:</strong> اختبارات رقمية دورية.</li>
+                <li><strong>تقارير أداء كاشفة:</strong> تحليل دقيق لمستوى الطالب.</li>
+                <li><strong>تحفيز يصنع المعجزات:</strong> شهادات وتكريم دوري.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('features-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة الحساب البنكي -->
+<div class="modal-overlay" id="bank-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('bank-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">💰</span> الحساب البنكي المعتمد</div>
+        <div class="modal-body">
+            <div class="bank-details-box">
+                <p><strong>اسم البنك:</strong> بنك مسقط</p>
+                <p><strong>رقم الحساب:</strong> <span class="val" dir="ltr">0338002883930067</span></p>
+                <p><strong>الآيبان (IBAN):</strong> <span class="val" dir="ltr">OM300270338002883930067</span></p>
+                <p><strong>باسم:</strong> أنور خميس البلوشي</p>
+                
+                <div class="bank-warning">
+                    ⚠️ تنبيه هام جداً: لا يوجد تحويل برقم الهاتف نهائياً، يرجى التحويل برقم الحساب أو الآيبان الموضحين أعلاه فقط.
+                </div>
+            </div>
+            <button class="modal-close-btn-bottom" onclick="closeModal('bank-modal')">حسناً، فهمت</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة الأسعار -->
+<div class="modal-overlay" id="pricing-modal">
+    <div class="modal-content large-modal">
+        <span class="close-btn" onclick="closeModal('pricing-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">💸</span> باقات وخطط الاشتراك</div>
+        <div class="modal-body">
+            <p style="text-align: center; font-weight: bold; margin-bottom: 20px;">
+                صممنا أسعارنا بكل شفافية وبمرونة تامة لتناسب الجميع وتضمن لكم أفضل قيمة تعليمية.
+            </p>
+
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>🔬 المواد العلمية والرياضيات</h3>
+                    <p style="color: #777; font-size: 0.85rem;">(فيزياء، كيمياء، أحياء، رياضيات)</p>
+                    <div class="price-value">25 <span>ريال / للمادة</span></div>
+                </div>
+                
+                <div class="price-card">
+                    <h3>📖 بقية المواد الأخرى</h3>
+                    <p style="color: #777; font-size: 0.85rem;">(اللغات وبقية المواد الدراسية)</p>
+                    <div class="price-value">20 <span>ريال / للمادة</span></div>
+                </div>
+
+                <div class="price-card special">
+                    <div class="special-badge">🔥 العرض الأوفر</div>
+                    <h3>🌟 الباقة الشاملة</h3>
+                    <p style="color: #777; font-size: 0.85rem;">(اشترك في جميع المواد الدراسية)</p>
+                    <div class="price-value">15 <span>ريال / للمادة</span></div>
+                </div>
+            </div>
+
+            <div class="installment-box">
+                <h4>🎁 عروض التوفير الذكية (خصم التعدد)</h4>
+                <p>
+                    كلما زاد عدد المواد التي تشتركون بها، قلّ السعر! 
+                    يُخصم <strong>ريال واحد</strong> من كل مادة عند الاشتراك في مادتين، ويُخصم <strong>ريالين</strong> لـ 3 مواد.. وهكذا وصولاً للباقة الشاملة.
+                </p>
+                
+                <h4 style="margin-top: 20px;">💳 تسهيلات الدفع المريحة (نظام التقسيط)</h4>
+                <p>إذا بلغت قيمة الاشتراك الإجمالية <strong>60 ريالاً</strong>، يمكنكم التقسيط:</p>
+                <ul style="margin-bottom: 0;">
+                    <li><strong>الدفعة الأولى:</strong> تُدفع <strong>60%</strong> فقط عند الاشتراك للبدء فوراً.</li>
+                    <li><strong>الدفعة الثانية:</strong> تُدفع الـ <strong>40%</strong> المتبقية براحتكم بعد شهر كامل.</li>
+                </ul>
+            </div>
+            <button class="modal-close-btn-bottom" onclick="closeModal('pricing-modal')">حسناً، فهمت</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة سفراء ثابر -->
+<div class="modal-overlay" id="ambassador-modal">
+    <div class="modal-content large-modal">
+        <span class="close-btn" onclick="closeModal('ambassador-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🤝</span> انضم لبرنامج سفراء ثابر</div>
+        <div class="modal-body">
+            
+            <div class="amb-badges-container">
+                <div class="amb-badge">👨‍🎓 كن سفيراً.. ألهم زملائك!</div>
+                <div class="amb-badge">👩‍🎓 سفيرة ثابر.. شاركي المعرفة!</div>
+            </div>
+
+            <p style="text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 1.2rem; color: #158b97;">
+                حول تسويقك الذكي لعائدات ومواد مجانية بخطوات بسيطة! 💡
+            </p>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🧑‍💼</div>
+                    <div class="step-text">أنشئ الكود الخاص بك</div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📲</div>
+                    <div class="step-text">شارك كودك مع الطلاب الآخرين</div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">💻</div>
+                    <div class="step-text">يستخدم الطالب كودك عند الاشتراك</div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">🏷️</div>
+                    <div class="step-text">يحصل الطالب على خصم ريالين من كل مادة</div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">🪙</div>
+                    <div class="step-text">مكافأة نجاح التسويق: 1 ريال لكل مشترك</div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <div class="step-icon">🎁</div>
+                    <div class="step-text">جمعت 10؟ اسحبها كعائدات نقداً أو مادة مجاناً</div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="dashboard-note">
+                    <span>📊</span> تابع عدد الاشتراكات في لوحة التحكم الخاصة بك
+                </div>
+            </div>
+            
+            <button class="modal-close-btn-bottom" onclick="closeModal('ambassador-modal')">رائع، إغلاق النافذة</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // نظام التحكم بالنوافذ المنبثقة
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+        document.body.style.overflow = 'hidden'; 
+    }
+    
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+        document.body.style.overflow = 'auto'; 
+    }
+
+    // إغلاق النافذة عند الضغط في المساحة الرمادية
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+</script>
+
+</body>
+</html>
