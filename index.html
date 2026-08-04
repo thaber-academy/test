@@ -469,14 +469,14 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
   .timeline-actions button { width: 100% !important; }
 }
 
-/* 🖨️ التنسيقات الدقيقة للطباعة */
+/* 🖨️ التنسيقات الدقيقة للطباعة والتصدير لـ PDF */
 @media print {
   @page {
     size: A4 portrait;
     margin: 8mm;
   }
   body { background: #fff !important; padding: 0 !important; }
-  .app-header, .mobile-tabs, .control-panel, .stats-grid, .timeline-actions, .res-link, .modal-overlay {
+  .app-header, .mobile-tabs, .control-panel, .stats-grid, .timeline-actions, .modal-overlay {
     display: none !important;
   }
   .app-layout { display: block !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
@@ -805,11 +805,10 @@ function formatUrl(url) {
   return trimmed;
 }
 
-// 📲 دالة التوجيه للواتساب عند النقر على محتوى مقفل (معدلة للعمل بأمان على GitHub)
+// 📲 دالة التوجيه للواتساب عند النقر على محتوى مقفل (معدلة لمنع about:blank#blocked)
 function promptSubscription(lessonName, grade) {
   const msg = encodeURIComponent(`مرحباً منصة ثابر، أرغب بالاشتراك لـ (الصف ${grade}) لمشاهدة مرفقات وأنشطة درس: (${lessonName}) ✨`);
   if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال للواتساب للاشتراك وتفعيل إيميلك الآن؟`)) {
-    // استخدمنا التوجيه المباشر بدلاً من فتح نافذة جديدة لمنع الحظر
     window.location.href = `https://wa.me/96871444589?text=${msg}`;
   }
 }
@@ -1222,12 +1221,12 @@ function generateSchedule(){
 
         let resHtml = '';
         
+        // 🛠️ تم تعديل target="_top" لتفادي حظر الشاشة البيضاء about:blank#blocked
         const makeBtn = (url, label, btnClass, icon) => {
           if (!url) return '';
           if (isLocked) {
             return `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 ${label} (للمشتركين)</a>`;
           }
-          // تم تغيير target="_blank" إلى target="_top" ليفتح الرابط فوراً حتى لو كان الطالب داخل الواتساب
           return `<a href="${url}" target="_top" rel="noopener noreferrer" class="res-link ${btnClass}">${icon} ${label}</a>`;
         };
 
