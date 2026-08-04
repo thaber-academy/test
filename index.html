@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 <!-- 🌟 عنوان ووسوم المعاينة الاحترافية للواتساب وتطبيقات التواصل (Open Graph) -->
-<title>مخطط ثابر الذكي | نسخة التجارب المحمية</title>
+<title>مخطط ثابر الذكي | منصة ثابر التعليمية</title>
 <meta name="description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
 <meta property="og:title" content="مخطط ثابر الذكي | منصة ثابر التعليمية" />
 <meta property="og:description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
@@ -461,10 +461,10 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
 <script>
 'use strict';
 
-// 🔗 رابط Google Apps Script التجريبي الخاص بك
+// 🔗 رابط Google Apps Script التجريبي
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbx4T3dMdY7m3ZXtx6EiAEzqIxqy6QORPiZ4Im-POAtgzAjP823j4wVOH66tPUE5GnUu3Q/exec";
 
-// 🔧 دالة ذكية لتنظيف وتأمين الروابط ومصادقة صيغ Google Drive
+// 🔧 دالة تنظيم واختبار صحة الروابط دون تعديل صيغ Drive لتفادي حظر about:blank#blocked
 function formatUrl(url) {
   if (!url || typeof url !== 'string') return '';
   let trimmed = url.trim();
@@ -473,21 +473,16 @@ function formatUrl(url) {
   if (!/^https?:\/\//i.test(trimmed)) {
     trimmed = 'https://' + trimmed;
   }
-  
-  if (trimmed.includes('drive.google.com') && trimmed.includes('/view')) {
-    trimmed = trimmed.replace(/\/view.*/, '/preview');
-  }
   return trimmed;
 }
 
 function promptSubscription(lessonName, grade) {
   const msg = encodeURIComponent(`مرحباً منصة ثابر، أرغب بالاشتراك لـ (الصف ${grade}) لمشاهدة مرفقات وأنشطة درس: (${lessonName}) ✨`);
   if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال للواتساب للاشتراك وتفعيل إيميلك الآن؟`)) {
-    window.location.href = `https://wa.me/96871444589?text=${msg}`;
+    window.open(`https://wa.me/96871444589?text=${msg}`, '_blank', 'noopener,noreferrer');
   }
 }
 
-// 🛡️ المخطط يبدأ فارغاً بدون أي دروس مكتوبة يدوياً للحماية المطلقة من السرقة
 let fullData = { lessons: {} };
 
 async function fetchDataFromSheet() {
@@ -574,9 +569,14 @@ function populateTimeControls(){
       select.value = defaultVal;
     });
 
+    // 🗓️ ضبط تاريخ اليوم بالتوقيت المحلي بدقة بدلاً من UTC
     const dateInput = $('studyDate');
     if(dateInput && !dateInput.value) {
-      dateInput.valueAsDate = new Date();
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
     }
   } catch (err) {
     console.error("خطأ في جلب التواقيت:", err);
@@ -783,7 +783,10 @@ function generateSchedule(){
   let lessonsQueue = [...selectedLessonsList];
   let dayOffset = 0, totalStudyMins = 0;
   let maxDays = planType === 'daily' ? 1 : 7;
-  const baseDate = new Date(baseDateVal);
+  
+  // 🗓️ تفكيك التاريخ المحلي بدقة دون تحويل UTC
+  const [yyyy, mm, dd] = baseDateVal.split('-').map(Number);
+  const baseDate = new Date(yyyy, mm - 1, dd);
 
   while (lessonsQueue.length > 0 && dayOffset < maxDays) {
     let currentDate = new Date(baseDate);
@@ -816,12 +819,10 @@ function generateSchedule(){
       if (actualDuration > 0) {
         totalStudyMins += actualDuration;
         
-        // 🔒 قفل الزر أوتوماتيكياً في حال مسح السيرفر للروابط بسبب عدم الاشتراك
         const isLocked = (item.access === 'مشتركين' && !item.videoUrl && !item.pdfUrl && !item.activityUrl && !item.examUrl);
 
         let resHtml = '';
         
-        // 🛠️ فتح آمن ومباشر للروابط عبر target="_blank" يمنع حظر المتصفح
         const makeBtn = (url, label, btnClass, icon) => {
           const formatted = formatUrl(url);
           if (!formatted) return '';
@@ -898,7 +899,9 @@ function exportToICS() {
   const studyStartMins = timeToMinutes($('startTime').value);
   const studyEndMins = timeToMinutes($('endTime').value);
   const planType = document.querySelector('input[name="planType"]:checked').value;
-  const baseDate = new Date(baseDateVal);
+  
+  const [yyyy, mm, dd] = baseDateVal.split('-').map(Number);
+  const baseDate = new Date(yyyy, mm - 1, dd);
   
   let icsLines = [
     'BEGIN:VCALENDAR',
