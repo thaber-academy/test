@@ -1,713 +1,1264 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة ثابر التعليمية | بوابتك للتفوق</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            background-color: #084c54;
-            background-image: linear-gradient(135deg, #053238 0%, #158b97 100%);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-        .trust-bar {
-            background: rgba(0, 0, 0, 0.4);
-            width: 100%;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #f1c40f;
-            flex-wrap: wrap;
-        }
-        
-        .trust-bar span { display: flex; align-items: center; gap: 5px; }
+<!-- 🌟 عنوان ووسوم المعاينة الاحترافية للواتساب وتطبيقات التواصل (Open Graph) -->
+<title>مخطط ثابر الذكي | منصة ثابر التعليمية</title>
+<meta name="description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
+<meta property="og:title" content="مخطط ثابر الذكي | منصة ثابر التعليمية" />
+<meta property="og:description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
+<meta property="og:image" content="https://i.imgur.com/pZ9hazV.png" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="https://i.imgur.com/pZ9hazV.png" type="image/png" />
 
-        .container {
-            width: 95%;
-            max-width: 1200px;
-            padding: 40px 10px;
-            text-align: center;
-            flex: 1;
-            padding-bottom: 120px; 
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #ffffff;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
-            line-height: 1.2;
-        }
-        
-        .hero-title span { color: #f1c40f; }
+<style>
+:root {
+  /* 🌟 درجات لون أزرق شعار "ثابر" الرسمي */
+  --brand-primary: #2253a3;
+  --brand-dark: #194082;
+  --brand-gradient: linear-gradient(135deg, #2253a3 0%, #366bc5 100%);
+  --brand-light: #eef4ff;
+  --bg-main: #f1f5f9;
+  --panel-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --accent-amber: #f59e0b;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+  --shadow-md: 0 10px 20px -5px rgba(34, 83, 163, 0.12);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
 
-        .subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 40px;
-            color: #e0f2f1;
-            font-weight: 700;
-            text-shadow: 1px 2px 3px rgba(0,0,0,0.3);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding-bottom: 60px;
+  -webkit-font-smoothing: antialiased;
+}
 
-        .features-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
+/* 🌟 الشريط العلوي والشعار المطور */
+.app-header {
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky; top: 0; z-index: 1000;
+  padding: 10px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  max-width: 1300px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand-logo { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+.brand-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+.brand-title h1 { 
+  font-size: 1.25rem; 
+  font-weight: 900; 
+  color: var(--brand-primary); 
+  line-height: 1.2; 
+}
+.brand-title p { 
+  font-size: 0.8rem; 
+  color: var(--text-secondary); 
+  font-weight: 700; 
+  margin-top: -2px;
+}
 
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1); }
-            50% { box-shadow: 0 8px 25px rgba(241, 196, 15, 0.6); transform: scale(1.02); }
-            100% { box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1); }
-        }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        .feature-pill {
-            background: linear-gradient(45deg, #ffffff, #f7f7f7);
-            color: #084c54;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #f1c40f;
-            animation: pulse-glow 2s infinite ease-in-out;
-        }
-        
-        .feature-pill:hover {
-            transform: translateY(-5px) scale(1.05);
-            animation: none;
-            box-shadow: 0 12px 20px rgba(241, 196, 15, 0.4);
-        }
+/* 💡 زر النافذة المنبثقة للتعليمات */
+.btn-instructions {
+  background: var(--brand-light);
+  color: var(--brand-primary);
+  border: 1.5px solid #c1d6f3;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s ease;
+}
+.btn-instructions:hover {
+  background: var(--brand-primary);
+  color: #ffffff;
+}
 
-        .main-cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: stretch;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+/* 💬 شارة الواتساب التفاعلية */
+.badge-contact {
+  background: #25d366; color: #ffffff; font-size: 0.85rem;
+  font-weight: 800; padding: 8px 16px; border-radius: 999px;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3); transition: 0.2s ease;
+}
+.badge-contact:hover {
+  transform: scale(1.03); background: #1ebd56;
+}
 
-        .card {
-            background-color: #ffffff;
-            border-radius: 30px;
-            padding: 35px 25px;
-            width: 320px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            border-top: 8px solid;
-            overflow: hidden;
-        }
+/* 📱 شريط التبويبات للموبايل */
+.mobile-tabs {
+  display: none;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 20px 0;
+  position: sticky; top: 69px; z-index: 999;
+}
+.mobile-tabs-inner {
+  display: flex; gap: 10px; max-width: 500px; margin: 0 auto;
+}
+.tab-btn {
+  flex: 1; padding: 12px 10px; font-family: inherit; font-weight: 800; font-size: 0.95rem;
+  background: none; border: none; border-bottom: 3px solid transparent;
+  color: var(--text-secondary); cursor: pointer; transition: 0.3s;
+}
+.tab-btn.active {
+  color: var(--brand-primary); border-bottom-color: var(--brand-primary);
+}
 
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(241, 196, 15, 0.05) 100%);
-            z-index: 1; pointer-events: none;
-        }
+/* 📐 التنسيق الرئيسي */
+.app-layout {
+  max-width: 1300px; margin: 20px auto; padding: 0 20px;
+  display: flex; gap: 24px; align-items: flex-start;
+}
 
-        .card:hover { transform: translateY(-15px); box-shadow: 0 30px 50px rgba(0,0,0,0.4); }
-        
-        .card::after {
-            content: 'اكتشف التفاصيل 👆';
-            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
-            background: #084c54; color: #f1c40f; padding: 8px 20px;
-            border-radius: 20px; font-size: 1rem; font-weight: 900;
-            opacity: 0; transition: all 0.3s ease; white-space: nowrap; z-index: 2;
-        }
-        .card:hover::after { opacity: 1; bottom: 20px; }
+.control-panel, .workspace {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.control-panel { flex: 0 0 400px; }
+.workspace { flex: 1; min-width: 0; }
 
-        .card-classroom { border-color: #F4B400; }
-        .card-chat { border-color: #0F9D58; }
-        .card-whatsapp { border-color: #128c7e; }
-        .card-pricing { border-color: #d35400; }
-        .card-bank { border-color: #2980b9; }
-        .card-ambassador { border-color: #8e44ad; }
-        .card-free-services { border-color: #e84393; }
+.panel-card {
+  background: var(--panel-bg); border-radius: var(--radius-lg); padding: 24px;
+  border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
+}
 
-        @keyframes pulse-icon {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); }
-            100% { transform: scale(1); }
-        }
+.card-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--bg-main);
+}
+.step-badge {
+  background: var(--brand-gradient); color: #fff; width: 26px; height: 26px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 900;
+}
+.card-header h2 { font-size: 1.05rem; font-weight: 800; color: var(--brand-primary); }
 
-        .card-icon { 
-            font-size: 4.5rem; 
-            margin-bottom: 10px; 
-            z-index: 2; 
-            position: relative;
-            animation: pulse-icon 2s infinite ease-in-out; 
-            display: inline-block;
-        }
-        
-        .card:hover .card-icon { animation: none; transform: scale(1.1); }
+.toggle-group { display: flex; background: var(--bg-main); border-radius: var(--radius-md); padding: 4px; margin-bottom: 16px; }
+.toggle-group label { flex: 1; text-align: center; font-size: 0.85rem; font-weight: 700; padding: 10px; cursor: pointer; border-radius: 8px; color: var(--text-secondary); transition: 0.2s; }
+.toggle-group input { display: none; }
+.toggle-group input:checked + span { background: #fff; color: var(--brand-primary); box-shadow: var(--shadow-sm); display: block; padding: 10px; border-radius: 8px; }
 
-        .card-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 15px; z-index: 2; position: relative; }
-        .card-content { flex: 1; z-index: 2; position: relative; }
+.field-group { margin-bottom: 14px; }
+label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; }
+input[type="text"], input[type="date"], select {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; font-weight: 600;
+  background: var(--bg-main); color: var(--text-primary); outline: none; transition: 0.2s;
+}
+input:focus, select:focus { background: #fff; border-color: var(--brand-primary); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        .marketing-tag {
-            background: #f1c40f; color: #000; font-size: 0.85rem; font-weight: bold;
-            padding: 5px 12px; border-radius: 15px; display: inline-block; margin-bottom: 10px;
-        }
+.btn {
+  width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
+  font-family: inherit; font-weight: 800; font-size: 0.95rem; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
+}
+.btn-brand { background: var(--brand-gradient); color: #fff; box-shadow: 0 4px 15px rgba(34, 83, 163, 0.3); }
+.btn-brand:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34, 83, 163, 0.4); }
+.btn-outline { background: #fff; color: var(--brand-primary); border: 2px solid var(--brand-light); }
+.btn-outline:hover { background: var(--brand-light); }
+.btn-whatsapp { background: #25d366; color: #fff; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+.btn-whatsapp:hover { background: #1ebd56; transform: translateY(-2px); }
 
-        /* ------------------------------------- */
-        /* تعديلات النوافذ المنبثقة */
-        /* ------------------------------------- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center;
-            z-index: 1000; backdrop-filter: blur(8px);
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .modal-content {
-            background: #ffffff; color: #333; width: 100%; max-width: 650px;
-            border-radius: 25px; padding: 30px; position: relative; text-align: right;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
-            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            border: 4px solid #f1c40f;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        
-        .modal-content.large-modal { max-width: 950px; }
+.lessons-picker { max-height: 340px; overflow-y: auto; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 10px; background: var(--bg-main); }
 
-        .modal-content::-webkit-scrollbar { width: 8px; }
-        .modal-content::-webkit-scrollbar-thumb { background-color: #f1c40f; border-radius: 10px; }
+/* 🌟 تصميم بطاقة الدرس */
+.lesson-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  margin-bottom: 10px;
+  border: 1.5px solid var(--border-color);
+  transition: all 0.25s ease;
+}
+.lesson-card-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.lesson-card-item.selected {
+  background: var(--brand-light);
+  border-color: var(--brand-primary);
+  box-shadow: 0 4px 12px rgba(34, 83, 163, 0.12);
+}
+.lesson-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+.lesson-info-row input[type="checkbox"] {
+  accent-color: var(--brand-primary);
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.lesson-activity-select {
+  width: 100% !important;
+  padding: 9px 12px !important;
+  font-size: 0.85rem !important;
+  font-weight: 800 !important;
+  border-radius: 10px !important;
+  border: 2px solid var(--brand-primary) !important;
+  background-color: #ffffff !important;
+  color: var(--brand-primary) !important;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.selected-tags { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.tag-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-main); border-right: 4px solid var(--brand-primary); padding: 10px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; }
+.tag-item .remove-btn { color: #ef4444; font-size: 1.2rem; cursor: pointer; font-weight: bold; }
 
-        .close-btn {
-            position: absolute; top: 15px; left: 20px; font-size: 2.5rem;
-            color: #aaa; cursor: pointer; transition: color 0.3s; line-height: 1; z-index: 10;
-        }
-        .close-btn:hover { color: #e74c3c; }
+/* 🗑️ زر مسح المسودة */
+.clear-draft-btn {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px dashed #fca5a5;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 6px;
+  text-align: center;
+  transition: 0.2s;
+  width: 100%;
+}
+.clear-draft-btn:hover {
+  background: #fee2e2;
+}
 
-        .modal-title {
-            font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;
-            color: #084c54; border-bottom: 3px solid #eee; padding-bottom: 15px; display: flex; align-items: center; gap: 15px;
-        }
-        
-        .modal-body { font-size: 1.15rem; line-height: 1.9; }
-        .modal-body ul { padding-right: 25px; }
-        .modal-body ul li { margin-bottom: 15px; position: relative; }
-        .modal-body ul li::marker { content: '✅ '; font-size: 1.2rem; }
-        .modal-body strong { color: #d35400; }
-        
-        .modal-close-btn-bottom {
-            display: block; width: 100%; margin-top: 20px; padding: 12px;
-            background: #eee; color: #555; text-align: center; font-weight: bold;
-            border-radius: 15px; border: none; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;
-        }
-        .modal-close-btn-bottom:hover { background: #ddd; color: #333; }
+/* 📊 الإحصائيات */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.stat-box { background: var(--panel-bg); border-radius: var(--radius-lg); padding: 16px; border: 1px solid var(--border-color); text-align: center; }
+.stat-number { font-size: 1.5rem; font-weight: 900; color: var(--brand-primary); display: block; }
+.stat-label { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); }
 
-        .cta-container { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 100; width: 85%; max-width: 350px; text-align: center; }
-        .cta-btn {
-            background: linear-gradient(45deg, #f39c12, #d35400); color: #ffffff;
-            font-size: 1.15rem; font-weight: 900; padding: 12px 20px; border-radius: 50px;
-            text-decoration: none; box-shadow: 0 8px 20px rgba(211, 84, 0, 0.5);
-            border: 3px solid #fff; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
-            animation: pulse-gold 2s infinite; width: 100%;
-        }
-        .cta-btn:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 35px rgba(211, 84, 0, 0.7); }
-        
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
-        }
+/* 🗓️ المخطط الزمني والهوية الرسمية */
+.timeline-card { background: var(--panel-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color); overflow: hidden; position: relative; }
 
-        .footer {
-            background: #053238; width: 100%; padding: 25px 0; display: flex; justify-content: center; align-items: center;
-            gap: 40px; font-size: 1.2rem; font-weight: bold; border-top: 2px solid rgba(255,255,255,0.1);
-            flex-wrap: wrap; padding-bottom: 120px; color: #a3d9d3; margin-top: auto;
-        }
+/* 🌊 العلامة المائية الشفافة منصة ثابر */
+.schedule-watermark {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+  width: 65%;
+  max-width: 450px;
+  text-align: center;
+}
+.schedule-watermark img {
+  width: 100%;
+  height: auto;
+}
 
-        /* ------------------------------------- */
-        /* تنسيقات داخل نافذة الأسعار */
-        /* ------------------------------------- */
-        .pricing-grid {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;
-        }
-        .price-card {
-            background: #f9f9f9; border-radius: 20px; padding: 25px 15px; width: 260px;
-            text-align: center; border: 3px solid transparent; position: relative;
-        }
-        .price-card.special { border-color: #f1c40f; background: linear-gradient(to bottom, #fff, #fffef5); }
-        .special-badge {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            background: #d35400; color: white; padding: 5px 15px; border-radius: 15px;
-            font-weight: bold; font-size: 0.9rem; white-space: nowrap;
-        }
-        .price-card h3 { color: #084c54; font-size: 1.3rem; margin: 10px 0 5px; font-weight: 900; }
-        .price-value { font-size: 2.2rem; font-weight: 900; color: #d35400; margin: 15px 0; line-height: 1; }
-        .price-value span { font-size: 1rem; color: #777; font-weight: normal; }
-        
-        .installment-box {
-            background: #f1f8f8; border: 2px dashed #158b97; padding: 20px;
-            border-radius: 15px; margin-top: 30px; text-align: right;
-        }
-        .installment-box h4 { color: #084c54; font-size: 1.3rem; margin-top: 0; margin-bottom: 10px; }
+/* 🌟 جدول الطباعة المحسن لضمان تكرار الهيدر في كل صفحة */
+.print-layout-table {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+  z-index: 2;
+}
+.print-layout-table td {
+  padding: 0;
+}
 
-        /* ------------------------------------- */
-        /* تنسيقات داخل نافذة السفراء */
-        /* ------------------------------------- */
-        .amb-badges-container {
-            display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;
-        }
-        .amb-badge {
-            background: #f1c40f; color: #084c54; padding: 8px 20px; border-radius: 30px;
-            font-weight: 900; font-size: 1rem; display: flex; align-items: center; gap: 8px;
-        }
-        .steps-container {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-        }
-        .step-card {
-            background: #f8f9fa; border: 2px dashed #158b97; border-radius: 15px;
-            padding: 15px 10px; width: 140px; display: flex; flex-direction: column;
-            align-items: center; text-align: center;
-        }
-        .step-number {
-            background: #d35400; color: white; width: 30px; height: 30px; display: flex;
-            justify-content: center; align-items: center; border-radius: 50%;
-            font-weight: 900; font-size: 1.1rem; margin-bottom: 10px;
-        }
-        .step-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .step-text { font-size: 0.9rem; font-weight: 900; color: #333; line-height: 1.4; }
-        .dashboard-note {
-            background: #084c54; color: #ffffff; padding: 12px 25px; border-radius: 50px;
-            display: inline-flex; align-items: center; gap: 10px; margin-top: 25px;
-            font-weight: bold; font-size: 1.1rem; justify-content: center; width: auto;
-        }
+.thaber-brand-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--brand-light);
+  border-bottom: 2px solid var(--brand-primary);
+  width: 100%;
+}
+.stamp-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+.stamp-info {
+  text-align: left;
+}
+.stamp-info h4 {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--brand-primary);
+}
+.stamp-info p {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1ebd56;
+}
 
-        /* ------------------------------------- */
-        /* تنسيقات نافذة الحساب البنكي */
-        /* ------------------------------------- */
-        .bank-details-box {
-            background: #f8f9fa; border: 2px dashed #2980b9; padding: 30px 20px;
-            border-radius: 15px; text-align: center; font-size: 1.2rem;
-            line-height: 2; margin-top: 15px; color: #333;
-        }
-        .bank-details-box p { margin: 10px 0; }
-        .bank-details-box span.val { 
-            font-weight: 900; color: #084c54; font-size: 1.4rem; 
-            display: block; letter-spacing: 1px; margin-top: 5px;
-        }
-        .bank-warning {
-            color: #d35400; font-weight: bold; margin-top: 25px;
-            border-top: 1px dashed #ccc; padding-top: 20px; font-size: 1.1rem; line-height: 1.6;
-        }
+.timeline-header { background: var(--brand-gradient); color: #fff; padding: 22px 24px; }
+.timeline-header h2 { font-size: 1.25rem; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.timeline-header p { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
 
-        /* استجابة الموبايل */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.2rem; }
-            .subtitle { font-size: 1.1rem; }
-            .card { width: 100%; max-width: 350px; }
-            .trust-bar { font-size: 0.8rem; gap: 15px; }
-            .modal-title { font-size: 1.5rem; }
-            .modal-content { padding: 20px; }
-            .price-card { width: 100%; }
-            .step-card { width: 100%; max-width: 200px; flex-direction: row; text-align: right; gap: 15px; justify-content: flex-start; padding: 10px 15px; }
-            .step-icon { margin-bottom: 0; font-size: 2rem; }
-            .step-number { margin-bottom: 0; flex-shrink: 0; }
-            .bank-details-box { font-size: 1.1rem; padding: 20px 10px; }
-            .bank-details-box span.val { font-size: 1.2rem; }
-            .cta-btn { font-size: 1rem; padding: 10px 15px; }
-        }
-    </style>
+.timeline-body { padding: 24px; min-height: 300px; }
+
+.day-section { margin-bottom: 24px; background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); page-break-inside: avoid; break-inside: avoid; }
+.day-title { font-size: 1.1rem; font-weight: 900; color: var(--brand-primary); padding-bottom: 12px; margin-bottom: 16px; border-bottom: 2px dashed var(--border-color); display: flex; justify-content: space-between; }
+.timeline-container { position: relative; padding-right: 15px; }
+.timeline-container::before { content: ''; position: absolute; right: 5px; top: 10px; bottom: 10px; width: 3px; background: #e2e8f0; border-radius: 99px; }
+.timeline-item { position: relative; margin-bottom: 16px; padding-right: 20px; page-break-inside: avoid; break-inside: avoid; }
+.timeline-item::after { content: ''; position: absolute; right: -19px; top: 16px; width: 13px; height: 13px; border-radius: 50%; background: var(--brand-primary); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--brand-primary); }
+.timeline-item.break-item::after { background: var(--accent-amber); box-shadow: 0 0 0 2px var(--accent-amber); }
+.timeline-content { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; display: flex; justify-content: space-between; gap: 12px; }
+.timeline-item.break-item .timeline-content { background: #fffbeb; border-color: #fde68a; }
+.time-pill { background: var(--brand-light); color: var(--brand-primary); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; height: fit-content; }
+.timeline-item.break-item .time-pill { background: #fef3c7; color: #b45309; }
+
+.lesson-details strong { font-size: 0.95rem; color: var(--text-primary); display: block; }
+.lesson-details p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+
+/* 🔗 أزرار الروابط التفاعلية (فيديو، نشاط، اختبار، ملخص) */
+.resource-bar { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.res-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 8px; text-decoration: none; transition: 0.2s; }
+.res-link:hover { transform: translateY(-1px); filter: brightness(0.95); }
+.res-video { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+.res-pdf { background: #fdf2f8; color: #db2777; border: 1px solid #fbcfe8; }
+.res-interactive { background: var(--brand-light); color: var(--brand-primary); border: 1px solid #c1d6f3; }
+.res-exam { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+
+.timeline-actions { background: var(--panel-bg); padding: 16px 24px; display: flex; gap: 10px; justify-content: flex-end; border: 1px solid var(--border-color); border-radius: var(--radius-lg); margin-top: 16px; flex-wrap: wrap; }
+
+#loadingStatus { background: #e0f2fe; color: #0369a1; padding: 12px; border-radius: var(--radius-md); font-weight: 800; text-align: center; font-size: 0.85rem; margin-bottom: 15px; display: none; }
+
+/* 🪟 تنسيقات النافذة المنبثقة (Modal) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  max-width: 580px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+.modal-overlay.active .modal-card {
+  transform: translateY(0);
+}
+.modal-header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--brand-light);
+  margin-bottom: 18px;
+}
+.modal-header-title h3 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--brand-primary);
+}
+.instructions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.instruction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--bg-main);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border-right: 4px solid var(--brand-primary);
+}
+.instruction-num {
+  background: var(--brand-primary);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.instruction-text {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* 📱 استجابة الشاشات */
+@media (max-width: 1024px) {
+  .mobile-tabs { display: block; }
+  .app-layout { display: block; padding: 15px; }
+  .control-panel { display: flex; }
+  .workspace { display: none; }
+  body.view-workspace .control-panel { display: none !important; }
+  body.view-workspace .workspace { display: flex !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .timeline-content { flex-direction: column; align-items: flex-start; }
+  .time-pill { margin-top: 10px; align-self: flex-end; }
+  .day-title { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .timeline-actions button { width: 100% !important; }
+}
+
+/* 🖨️ التنسيقات الدقيقة للطباعة */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+  body { background: #fff !important; padding: 0 !important; }
+  .app-header, .mobile-tabs, .control-panel, .stats-grid, .timeline-actions, .res-link, .modal-overlay {
+    display: none !important;
+  }
+  .app-layout { display: block !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .workspace { display: block !important; width: 100% !important; }
+  .timeline-card { border: none !important; box-shadow: none !important; }
+  
+  thead.print-header-group {
+    display: table-header-group !important;
+  }
+  .thaber-brand-stamp { 
+    display: flex !important; 
+    border-bottom: 2px solid var(--brand-primary) !important;
+    background: #f5f8ff !important;
+    margin-bottom: 10px;
+  }
+  .schedule-watermark {
+    opacity: 0.08 !important;
+  }
+}
+</style>
 </head>
 <body>
 
-<div class="trust-bar">
-    <span>👨‍🏫 نخبة من أفضل المعلمين</span>
-    <span>📊 تقارير أداء مستمرة</span>
-    <span>🎯 خطط دراسية مرنة ومجربة</span>
-</div>
-
-<div class="container">
-    <h1 class="hero-title">منصة <span>ثابر</span> التعليمية</h1>
-    <p class="subtitle">نحن لا نقدم دروساً فقط.. نحن نصنع بيئة متكاملة تضمن <strong>متعة التعلم للطالب</strong>، و<strong>راحة البال لولي الأمر</strong>. اكتشف كيف نفعل ذلك 👇</p>
-
-    <div class="features-grid">
-        <div class="feature-pill" onclick="openModal('features-modal')">⭐ لماذا يختارنا الطلاب؟ (اكتشف السر)</div>
+<header class="app-header">
+  <div class="header-inner">
+    
+    <!-- 🌟 الشعار والعنوان -->
+    <div class="brand-logo">
+      <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="شعار ثابر" class="brand-logo-img">
+      <div class="brand-title">
+        <h1>مخطط ثابر الذكي</h1>
+        <p>منصة ثابر التعليمية</p>
+      </div>
     </div>
 
-    <!-- بطاقات الواجهة الرئيسية -->
-    <div class="main-cards">
+    <div class="header-actions">
+      <!-- 📖 زر فتح النافذة المنبثقة للتعليمات -->
+      <button type="button" class="btn-instructions" onclick="openInstructionsModal()">
+        📖 طريقة الاستخدام
+      </button>
 
-        <!-- بطاقة خدمات مجانية -->
-        <div class="card card-free-services" onclick="openModal('free-services-modal')">
-            <span class="marketing-tag" style="background: #e84393; color: #fff;">هدية لطلابنا 🎁</span>
-            <div class="card-icon">🆓</div>
-            <div class="card-title" style="color: #e84393;">خدمات مجانية</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أدوات تدعم تفوقك مجاناً.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">اكتشف جدول المذاكرة الذكي، ومكتبة الامتحانات والكتب الدراسية من الصف 5 للثاني عشر.</p>
-            </div>
-        </div>
-        
-        <!-- بطاقة جوجل كلاس روم -->
-        <div class="card card-classroom" onclick="openModal('classroom-modal')">
-            <span class="marketing-tag">الطالب يدرس بذكاء 🧠</span>
-            <div class="card-icon">🏫</div>
-            <div class="card-title" style="color: #d35400;">فصلك في جيبك</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">بيئة تعليمية لا تعرف الملل.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">كل دروسك، واجباتك، وملازمك منظمة بطريقة تفتح النفس للمذاكرة (عبر جوجل كلاس روم).</p>
-            </div>
-        </div>
-
-        <!-- بطاقة جوجل تشات -->
-        <div class="card card-chat" onclick="openModal('chat-modal')">
-            <span class="marketing-tag">لا للمذاكرة وحيداً 🤝</span>
-            <div class="card-icon">💬</div>
-            <div class="card-title" style="color: #0F9D58;">مجتمع ثابر التفاعلي</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أسئلتك مُجاب عليها فوراً.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">عبر (جوجل تشات)، تواصل مع معلميك وزملائك في أي وقت، شارك أفكارك، وتغلب على أي صعوبة.</p>
-            </div>
-        </div>
-        
-        <!-- بطاقة مجتمع واتساب -->
-        <div class="card card-whatsapp" onclick="openModal('whatsapp-modal')">
-            <span class="marketing-tag">لولي الأمر المطمئن 🛡️</span>
-            <div class="card-icon">📢</div>
-            <div class="card-title" style="color: #128c7e;">أنت معنا بالصورة</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">لا مفاجآت بعد اليوم.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">عبر (مجتمع واتساب)، تصلك تنبيهات فورية بمواعيد الحصص، الامتحانات، ومستوى إنجاز الأبناء.</p>
-            </div>
-        </div>
-
-        <!-- بطاقة باقات الأسعار -->
-        <div class="card card-pricing" onclick="openModal('pricing-modal')">
-            <span class="marketing-tag" style="background: #d35400; color: #fff;">استثمر بذكاء 💡</span>
-            <div class="card-icon">💸</div>
-            <div class="card-title" style="color: #d35400;">باقات وخطط الاشتراك</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أفضل قيمة لمستقبل ابنك.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">اكتشف أسعار المواد العلمية، الباقة الشاملة، عروض خصم التعدد، ونظام التقسيط المريح جداً.</p>
-            </div>
-        </div>
-        
-        <!-- بطاقة الحساب البنكي -->
-        <div class="card card-bank" onclick="openModal('bank-modal')">
-            <span class="marketing-tag" style="background: #2980b9; color: #fff;">طرق الدفع 💳</span>
-            <div class="card-icon">🏦</div>
-            <div class="card-title" style="color: #2980b9;">الحساب البنكي للتحويل</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أرقام الحسابات المعتمدة.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">اضغط هنا لمعرفة تفاصيل الحساب البنكي والآيبان لإتمام عملية الاشتراك بنجاح.</p>
-            </div>
-        </div>
-
-        <!-- بطاقة سفراء ثابر -->
-        <div class="card card-ambassador" onclick="openModal('ambassador-modal')">
-            <span class="marketing-tag" style="background: #8e44ad; color: #fff;">اربح معنا 🎁</span>
-            <div class="card-icon">🤝</div>
-            <div class="card-title" style="color: #8e44ad;">برنامج سفراء ثابر</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">شارك المعرفة واكسب.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">كن سفيراً للمنصة وحوّل تسويقك الذكي لعائدات مالية ومواد مجانية بخطوات بسيطة جداً.</p>
-            </div>
-        </div>
-
+      <!-- 💬 زر تواصل عبر الواتساب -->
+      <a href="https://wa.me/96871444589" target="_blank" class="badge-contact">
+        💬 71444589
+      </a>
     </div>
+  </div>
+</header>
+
+<div class="mobile-tabs">
+  <div class="mobile-tabs-inner">
+    <button class="tab-btn active" id="tab-controls" onclick="switchTab('controls')">⚙️ إعداد الخطة</button>
+    <button class="tab-btn" id="tab-workspace" onclick="switchTab('workspace')">📊 عرض الجدول</button>
+  </div>
 </div>
 
-<div class="cta-container">
-    <a href="https://linktr.ee/thaberacademy" target="_blank" class="cta-btn">
-        🚀 استثمر في مستقبل ابنك - اشترك الآن
-    </a>
-</div>
-
-<div class="footer">
-    <div style="display: flex; gap: 10px; align-items: center;"><span>📸</span> <span dir="ltr">@Thaber_educational</span></div>
-    <div style="display: flex; gap: 10px; align-items: center;"><span>📞</span> <span dir="ltr">71444589</span></div>
-    <div style="display: flex; gap: 10px; align-items: center;"><span>🌐</span> <span dir="ltr">www.thaber.com</span></div>
-</div>
-
-<!-- ================= النوافذ المنبثقة (Modals) ================= -->
-
-<!-- نافذة خدمات مجانية -->
-<div class="modal-overlay" id="free-services-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('free-services-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🎁</span> خدمات ثابر المجانية</div>
-        <div class="modal-body">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555;">
-                لأننا شركاء في نجاحك، نوفر لك مجموعة من الأدوات والمراجع التي تساعدك على التفوق <strong style="color: #e84393;">بشكل مجاني بالكامل</strong>:
-            </p>
-
-            <ul>
-                <li><strong>جدول المذاكرة الذكي الإلكتروني:</strong> أداة تفاعلية رائعة تساعدك على تنظيم وقتك الدراسي بفعالية، لتذاكر بذكاء وبدون إرهاق.</li>
-                <li><strong>مكتبة شاملة (من الصف 5 إلى 12):</strong> قسم خاص ومتكامل يحتوي على:
-                    <ul style="margin-top: 10px; padding-right: 20px;">
-                        <li style="margin-bottom: 5px;">الامتحانات النهائية للسنوات السابقة لتتدرب عليها.</li>
-                        <li style="margin-bottom: 5px;">الكتب الدراسية بصيغة رقمية لسهولة الوصول إليها.</li>
-                        <li style="margin-bottom: 5px;">أنشطة ومواد متنوعة تدعم فهمك للمناهج.</li>
-                    </ul>
-                </li>
-            </ul>
-
-            <p style="text-align: center; font-weight: bold; color: #084c54; margin-top: 25px;">
-                كل هذا وأكثر متاح لجميع طلابنا مجاناً لضمان أفضل تجربة تعليمية! 🚀
-            </p>
-            <button class="modal-close-btn-bottom" onclick="closeModal('free-services-modal')">رائع، إغلاق</button>
+<div class="app-layout">
+  
+  <aside class="control-panel" id="controlsArea">
+    
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">1</span>
+        <h2>الروتين ووقت المذاكرة</h2>
+      </div>
+      
+      <div class="field-group">
+        <div class="toggle-group">
+          <label><input type="radio" name="planType" value="daily" checked> <span>يوم واحد</span></label>
+          <label><input type="radio" name="planType" value="weekly"> <span>أسبوعي (مرحل)</span></label>
         </div>
+      </div>
+
+      <div class="field-group">
+        <label>اسم الطالب (اختياري)</label>
+        <input type="text" id="studentName" placeholder="مثال: أحمد">
+      </div>
+
+      <div class="field-group">
+        <label>تاريخ بداية الجدول</label>
+        <input type="date" id="studyDate">
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label>بداية المذاكرة</label>
+          <select id="startTime" data-default-time="16:00" class="time-12"></select>
+        </div>
+        <div class="field-group">
+          <label>نهاية المذاكرة</label>
+          <select id="endTime" data-default-time="21:00" class="time-12"></select>
+        </div>
+      </div>
     </div>
+
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">2</span>
+        <h2>الاستراحة والصلاة</h2>
+      </div>
+      <div class="field-group">
+        <label>المسمى (مثال: صلاة المغرب)</label>
+        <input type="text" id="breakLabel" placeholder="أدخل اسم الاستراحة">
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <label>البداية</label>
+          <select id="breakStartTime" data-default-time="18:30" class="time-12"></select>
+        </div>
+        <div class="field-group">
+          <label>المدة</label>
+          <select id="breakDuration">
+            <option value="15">15 دقيقة</option>
+            <option value="30" selected>30 دقيقة</option>
+            <option value="45">45 دقيقة</option>
+            <option value="60">60 دقيقة</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline" id="addBreakBtn">+ إضافة</button>
+      <div id="breaksListContainer" class="selected-tags"></div>
+    </div>
+
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">3</span>
+        <h2>الصف الدراسي</h2>
+      </div>
+      <div id="loadingStatus"></div>
+      <div class="field-group">
+        <select id="gradeSelect">
+          <option value="">-- اختر الصف --</option>
+          <option value="5">الصف الخامس</option>
+          <option value="6">الصف السادس</option>
+          <option value="7">الصف السابع</option>
+          <option value="8">الصف الثامن</option>
+          <option value="9">الصف التاسع</option>
+          <option value="10">الصف العاشر</option>
+          <option value="11">الصف الحادي عشر</option>
+          <option value="12">الصف الثاني عشر / دبلوم التعليم العام</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panel-card" id="lessonCard" style="display:none;">
+      <div class="card-header">
+        <span class="step-badge">4</span>
+        <h2>تحديد الدروس</h2>
+      </div>
+      <div class="field-group">
+        <label>المادة</label>
+        <select id="subjectSelect"></select>
+      </div>
+      <div class="field-group">
+        <label>حدد الدروس ونوع النشاط</label>
+        <div id="lessonSelect" class="lessons-picker"></div>
+      </div>
+      <button type="button" class="btn btn-outline" id="addLessonBtn">إضافة للمسودة +</button>
+      <div id="selectedLessons" class="selected-tags"></div>
+      <div id="clearDraftContainer" style="display:none;">
+        <button type="button" class="clear-draft-btn" onclick="clearDraft()">🗑️ تفريغ كافة الدروس من المسودة</button>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-brand" id="generateBtn" style="padding: 16px; font-size: 1.1rem;">✨ إنشاء المخطط الزمني</button>
+
+  </aside>
+
+  <main class="workspace" id="workspaceArea">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-number" id="lessonsCount">0</span>
+        <span class="stat-label">الدروس</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="subjectsCount">0</span>
+        <span class="stat-label">المواد</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="studyTimeCount">0</span>
+        <span class="stat-label">دقيقة مذاكرة</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="breaksCount">0</span>
+        <span class="stat-label">فواصل</span>
+      </div>
+    </div>
+
+    <!-- 🗓️ منطقة الجدول مع العلامة المائية والترويسة المطبوعة المكررة -->
+    <div class="timeline-card" id="scheduleArea">
+      
+      <!-- 🌊 العلامة المائية الشفافة -->
+      <div class="schedule-watermark">
+        <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="علامة مائية منصة ثابر">
+      </div>
+
+      <!-- 🌟 الجدول المتكامل لضمان تكرار الترويسة في كل صفحة عند الطباعة/PDF -->
+      <table class="print-layout-table">
+        <thead class="print-header-group">
+          <tr>
+            <td>
+              <div class="thaber-brand-stamp">
+                <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="منصة ثابر التعليمية" class="stamp-logo-img">
+                <div class="stamp-info">
+                  <h4>منصة ثابر التعليمية | مخطط المذاكرة الذكي</h4>
+                  <p>💬 للتواصل والاشتراكات: 71444589</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="timeline-header">
+                <div>
+                  <h2>✨ مخطط ثابر الذكي</h2>
+                  <p id="scheduleNote">قم بإعداد الخطة من الإعدادات لتظهر هنا.</p>
+                </div>
+              </div>
+              
+              <div class="timeline-body" id="timelineBody">
+                <div style="text-align:center; padding: 40px; color: var(--text-secondary); font-weight: 700;">
+                  لا توجد خطط مجدولة حالياً ☕
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 🖨️ أزرار الإجراءات الرئيسية -->
+    <div class="timeline-actions">
+      <button type="button" class="btn btn-whatsapp" id="shareWaBtn" style="width:auto;">📲 إرسال الجدول عبر الواتساب</button>
+      <button type="button" class="btn btn-outline" id="calendarBtn" style="width:auto;">📅 إضافة للتقويم الشخصي</button>
+      <button type="button" class="btn btn-brand" id="printBtn" style="width:auto;">🖨️ طباعة الجدول / حفظ كـ PDF</button>
+    </div>
+  </main>
 </div>
 
-<!-- بقية النوافذ الأساسية -->
-<div class="modal-overlay" id="classroom-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('classroom-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🏫</span> نظام دراسي مصمم لنجاحك</div>
-        <div class="modal-body">
-            <p>نحن نعلم أن الفوضى تشتت التركيز، لذلك استخدمنا <strong>جوجل كلاس روم</strong> لنرتب لك طريق التفوق:</p>
-            <ul>
-                <li><strong>وداعاً لضياع الدروس:</strong> مكتبة رقمية ضخمة ومسجلة.</li>
-                <li><strong>مذكرات وملازم حصرية:</strong> جاهزة للتحميل بضغطة زر.</li>
-                <li><strong>تنظيم يريح الأعصاب:</strong> لوحة تحكم تخبرك بما أنجزته.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('classroom-modal')">إغلاق</button>
-        </div>
+<!-- 🪟 النافذة المنبثقة (Modal) للتعليمات -->
+<div class="modal-overlay" id="instructionsModal">
+  <div class="modal-card">
+    <div class="modal-header-title">
+      <span style="font-size: 1.5rem;">📖</span>
+      <h3>دليل استخدام مخطط ثابر الذكي</h3>
     </div>
-</div>
-
-<div class="modal-overlay" id="chat-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💬</span> لن تتعثر في أي سؤال</div>
-        <div class="modal-body">
-            <p>صممنا لك بيئة تفاعلية حية عبر <strong>جوجل تشات</strong>:</p>
-            <ul>
-                <li><strong>معلمك معك دائماً:</strong> مساحات نقاش (Spaces) مخصصة لكل مادة.</li>
-                <li><strong>تعلم من أخطاء غيرك:</strong> الأسئلة السابقة محفوظة.</li>
-                <li><strong>جو تنافسي إيجابي:</strong> تواصل راقٍ ومفيد.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('chat-modal')">إغلاق</button>
+    
+    <div class="instructions-list">
+      <div class="instruction-step">
+        <span class="instruction-num">1</span>
+        <div class="instruction-text">
+          <strong>تحديد الروتين والوقت:</strong> اختر نوع الخطة (يومية أو أسبوعية)، أدخل اسمك وتاريخ بداية المذاكرة، ثم حدد وقت بداية ونهاية جلسة المذاكرة اليومية.
         </div>
-    </div>
-</div>
+      </div>
 
-<div class="modal-overlay" id="whatsapp-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('whatsapp-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🛡️</span> راحة البال لولي الأمر</div>
-        <div class="modal-body">
-            <p>صممنا <strong>مجتمع واتساب المغلق</strong> ليكون حلقة الوصل:</p>
-            <ul>
-                <li><strong>متابعة لحظية (بدون إزعاج):</strong> إشعارات بمواعيد بدء الحصص.</li>
-                <li><strong>تنبيهات الامتحانات:</strong> رسائل تذكيرية قبل التقييمات.</li>
-                <li><strong>قرارات وتحديثات المنصة:</strong> كن أول من يعلم بالمعسكرات.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('whatsapp-modal')">إغلاق</button>
+      <div class="instruction-step">
+        <span class="instruction-num">2</span>
+        <div class="instruction-text">
+          <strong>إضافة أوقات الصلاة والاستراحة:</strong> أدخل اسم الاستراحة (مثلاً: صلاة المغرب) ووقتها ومدتها ليتم حجزها تلقائياً داخل جدولك وعدم التعارض مع المذاكرة.
         </div>
-    </div>
-</div>
+      </div>
 
-<div class="modal-overlay" id="features-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('features-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🏆</span> منظومة ثابر.. أكثر من دروس</div>
-        <div class="modal-body">
-            <ul>
-                <li><strong>تقييم مستمر:</strong> اختبارات رقمية دورية.</li>
-                <li><strong>تقارير أداء كاشفة:</strong> تحليل دقيق لمستوى الطالب.</li>
-                <li><strong>تحفيز يصنع المعجزات:</strong> شهادات وتكريم دوري.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('features-modal')">إغلاق</button>
+      <div class="instruction-step">
+        <span class="instruction-num">3</span>
+        <div class="instruction-text">
+          <strong>اختيار الدروس ونوع المذاكرة:</strong> حدد صفك الدراسي والمادة، اختر الدروس وحدد نوع المذاكرة المناسب لكل درس (تحضير، مراجعة سريعة، فهم وشرح، إلخ).
         </div>
-    </div>
-</div>
+      </div>
 
-<!-- نافذة الحساب البنكي -->
-<div class="modal-overlay" id="bank-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('bank-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💰</span> الحساب البنكي المعتمد</div>
-        <div class="modal-body">
-            <div class="bank-details-box">
-                <p><strong>اسم البنك:</strong> بنك مسقط</p>
-                <p><strong>رقم الحساب:</strong> <span class="val" dir="ltr">0338002883930067</span></p>
-                <p><strong>الآيبان (IBAN):</strong> <span class="val" dir="ltr">OM300270338002883930067</span></p>
-                <p><strong>باسم:</strong> أنور خميس البلوشي</p>
-                
-                <div class="bank-warning">
-                    ⚠️ تنبيه هام جداً: لا يوجد تحويل برقم الهاتف نهائياً، يرجى التحويل برقم الحساب أو الآيبان الموضحين أعلاه فقط.
-                </div>
-            </div>
-            <button class="modal-close-btn-bottom" onclick="closeModal('bank-modal')">حسناً، فهمت</button>
+      <div class="instruction-step">
+        <span class="instruction-num">4</span>
+        <div class="instruction-text">
+          <strong>الجمع من مواد مختلفة:</strong> اضغط على زر <code>إضافة للمسودة +</code>. يمكنك تغيير المادة واختيار دروس أخرى لجمع عدة مواد في نفس المسودة السفلية!
         </div>
-    </div>
-</div>
+      </div>
 
-<!-- نافذة الأسعار -->
-<div class="modal-overlay" id="pricing-modal">
-    <div class="modal-content large-modal">
-        <span class="close-btn" onclick="closeModal('pricing-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💸</span> باقات وخطط الاشتراك</div>
-        <div class="modal-body">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 20px;">
-                صممنا أسعارنا بكل شفافية وبمرونة تامة لتناسب الجميع وتضمن لكم أفضل قيمة تعليمية.
-            </p>
-
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <h3>🔬 المواد العلمية والرياضيات</h3>
-                    <p style="color: #777; font-size: 0.85rem;">(فيزياء، كيمياء، أحياء، رياضيات)</p>
-                    <div class="price-value">25 <span>ريال / للمادة</span></div>
-                </div>
-                
-                <div class="price-card">
-                    <h3>📖 بقية المواد الأخرى</h3>
-                    <p style="color: #777; font-size: 0.85rem;">(اللغات وبقية المواد الدراسية)</p>
-                    <div class="price-value">20 <span>ريال / للمادة</span></div>
-                </div>
-
-                <div class="price-card special">
-                    <div class="special-badge">🔥 العرض الأوفر</div>
-                    <h3>🌟 الباقة الشاملة</h3>
-                    <p style="color: #777; font-size: 0.85rem;">(اشترك في جميع المواد الدراسية)</p>
-                    <div class="price-value">15 <span>ريال / للمادة</span></div>
-                </div>
-            </div>
-
-            <div class="installment-box">
-                <h4>🎁 عروض التوفير الذكية (خصم التعدد)</h4>
-                <p>
-                    كلما زاد عدد المواد التي تشتركون بها، قلّ السعر! 
-                    يُخصم <strong>ريال واحد</strong> من كل مادة عند الاشتراك في مادتين، ويُخصم <strong>ريالين</strong> لـ 3 مواد.. وهكذا وصولاً للباقة الشاملة.
-                </p>
-                
-                <h4 style="margin-top: 20px;">💳 تسهيلات الدفع المريحة (نظام التقسيط)</h4>
-                <p>إذا بلغت قيمة الاشتراك الإجمالية <strong>60 ريالاً</strong>، يمكنكم التقسيط:</p>
-                <ul style="margin-bottom: 0;">
-                    <li><strong>الدفعة الأولى:</strong> تُدفع <strong>60%</strong> فقط عند الاشتراك للبدء فوراً.</li>
-                    <li><strong>الدفعة الثانية:</strong> تُدفع الـ <strong>40%</strong> المتبقية براحتكم بعد شهر كامل.</li>
-                </ul>
-            </div>
-            <button class="modal-close-btn-bottom" onclick="closeModal('pricing-modal')">حسناً، فهمت</button>
+      <div class="instruction-step">
+        <span class="instruction-num">5</span>
+        <div class="instruction-text">
+          <strong>توليد وحفظ المخطط:</strong> اضغط على <code>✨ إنشاء المخطط الزمني</code> ليقوم النظام بتوزيع دروسك بدقة، ثم يمكنك طباعته أو مزامنه مع تقويمك أو إرساله للواتساب.
         </div>
+      </div>
     </div>
-</div>
 
-<!-- نافذة سفراء ثابر -->
-<div class="modal-overlay" id="ambassador-modal">
-    <div class="modal-content large-modal">
-        <span class="close-btn" onclick="closeModal('ambassador-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🤝</span> انضم لبرنامج سفراء ثابر</div>
-        <div class="modal-body">
-            
-            <div class="amb-badges-container">
-                <div class="amb-badge">👨‍🎓 كن سفيراً.. ألهم زملائك!</div>
-                <div class="amb-badge">👩‍🎓 سفيرة ثابر.. شاركي المعرفة!</div>
-            </div>
-
-            <p style="text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 1.2rem; color: #158b97;">
-                حول تسويقك الذكي لعائدات ومواد مجانية بخطوات بسيطة! 💡
-            </p>
-
-            <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <div class="step-icon">🧑‍💼</div>
-                    <div class="step-text">أنشئ الكود الخاص بك</div>
-                </div>
-                
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <div class="step-icon">📲</div>
-                    <div class="step-text">شارك كودك مع الطلاب الآخرين</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <div class="step-icon">💻</div>
-                    <div class="step-text">يستخدم الطالب كودك عند الاشتراك</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <div class="step-icon">🏷️</div>
-                    <div class="step-text">يحصل الطالب على خصم ريالين من كل مادة</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">5</div>
-                    <div class="step-icon">🪙</div>
-                    <div class="step-text">مكافأة نجاح التسويق: 1 ريال لكل مشترك</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">6</div>
-                    <div class="step-icon">🎁</div>
-                    <div class="step-text">جمعت 10؟ اسحبها كعائدات نقداً أو مادة مجاناً</div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <div class="dashboard-note">
-                    <span>📊</span> تابع عدد الاشتراكات في لوحة التحكم الخاصة بك
-                </div>
-            </div>
-            
-            <button class="modal-close-btn-bottom" onclick="closeModal('ambassador-modal')">رائع، إغلاق النافذة</button>
-        </div>
-    </div>
+    <!-- 👈 زر الرجوع للمخطط -->
+    <button type="button" class="btn btn-brand" onclick="closeInstructionsModal()" style="margin-top: 24px; width: 100%;">
+      👈 رجوع للمخطط
+    </button>
+  </div>
 </div>
 
 <script>
-    // نظام التحكم بالنوافذ المنبثقة
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
-        document.body.style.overflow = 'hidden'; 
+'use strict';
+
+// 🔗 ضع رابط Google Apps Script الخاص بك هنا
+const GOOGLE_SHEET_URL = "رابط_جوجل_سكريبت_الخاص_بك";
+
+let lessonData = {};
+
+// 🌟 جلب الدروس والروابط ديناميكياً من جوجل شيت
+async function fetchLessonsFromSheet() {
+  const loadingStatus = $('loadingStatus');
+  if (loadingStatus) {
+    loadingStatus.style.display = 'block';
+    loadingStatus.textContent = '⏳ جاري جلب أحدث المناهج الدراسية...';
+  }
+
+  try {
+    if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== "رابط_جوجل_سكريبت_الخاص_بك") {
+      const response = await fetch(GOOGLE_SHEET_URL);
+      const data = await response.json();
+      if (data && Object.keys(data).length > 0) {
+        lessonData = data;
+        console.log("✅ تم جلب البيانات والروابط بنجاح من Google Sheets");
+      }
     }
+  } catch (error) {
+    console.warn("⚠️ تعذر الاتصال بـ Google Sheets، تم الاعتماد على البيانات المحلية.", error);
+  } finally {
+    if (loadingStatus) loadingStatus.style.display = 'none';
+  }
+}
+
+const subjectOrder = {
+'11': ['التربية الإسلامية','اللغة العربية','اللغة الإنجليزية','الرياضيات الأساسية','الرياضيات المتقدمة','الكيمياء','الفيزياء','الأحياء','العلوم البيئية','الدراسات الاجتماعية (هذا وطني)','التاريخ (الحضارة الإسلامية)','الجغرافيا الاقتصادية','الفنون التشكيلية','المهارات الموسيقية','تقنية المعلومات'],
+'12': ['التربية الإسلامية','اللغة العربية','اللغة الإنجليزية','الرياضيات الأساسية','الرياضيات المتقدمة','الكيمياء','الفيزياء','الأحياء','العلوم البيئية','التاريخ (العالم من حولي)','الجغرافيا والتقنيات الحديثة','الدراسات الاجتماعية (هذا وطني)','الفنون التشكيلية','الرياضة المدرسية','تقنية المعلومات']
+};
+
+function $(id){ return document.getElementById(id); }
+
+function openInstructionsModal() { $('instructionsModal').classList.add('active'); }
+function closeInstructionsModal() { $('instructionsModal').classList.remove('active'); }
+
+function switchTab(tabName) {
+  if(window.innerWidth > 1024) return;
+  if(tabName === 'workspace') {
+    document.body.classList.add('view-workspace');
+    $('tab-workspace').classList.add('active');
+    $('tab-controls').classList.remove('active');
+  } else {
+    document.body.classList.remove('view-workspace');
+    $('tab-controls').classList.add('active');
+    $('tab-workspace').classList.remove('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function timeToMinutes(timeStr) {
+  if(!timeStr) return 0;
+  const parts = timeStr.split(':');
+  return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+}
+
+function minutesToTimeStr(mins) {
+  let h = Math.floor(mins / 60) % 24;
+  let m = mins % 60;
+  const period = h < 12 ? 'صباحًا' : 'مساءً';
+  let displayH = h % 12;
+  if (displayH === 0) displayH = 12;
+  return `${String(displayH).padStart(2,'0')}:${String(m).padStart(2,'0')} ${period}`;
+}
+
+function populateTimeControls(){
+  document.querySelectorAll('select.time-12').forEach(select => {
+    const defaultVal = select.dataset.defaultTime || '00:00';
+    select.innerHTML = '';
+    for(let m = 0; m < 1440; m += 15){
+      const hh = Math.floor(m / 60);
+      const mm = String(m % 60).padStart(2, '0');
+      const timeVal = `${String(hh).padStart(2,'0')}:${mm}`;
+      const period = hh < 12 ? 'صباحًا' : 'مساءً';
+      const displayHour = (hh % 12) === 0 ? 12 : (hh % 12);
+      const option = document.createElement('option');
+      option.value = timeVal;
+      option.textContent = `${String(displayHour).padStart(2,'0')}:${mm} ${period}`;
+      select.appendChild(option);
+    }
+    select.value = defaultVal;
+  });
+
+  if(!$('studyDate').value) $('studyDate').valueAsDate = new Date();
+}
+
+function loadSubjects(){
+  const grade = $('gradeSelect').value;
+  const lessonCard = $('lessonCard');
+  if(!grade){ lessonCard.style.display = 'none'; return; }
+
+  let subjects = Object.keys(lessonData[grade] || {});
+  if(subjectOrder[grade]) {
+    subjects.sort((a, b) => {
+      let idxA = subjectOrder[grade].indexOf(a);
+      let idxB = subjectOrder[grade].indexOf(b);
+      if(idxA === -1) idxA = 999;
+      if(idxB === -1) idxB = 999;
+      return idxA - idxB;
+    });
+  }
+
+  $('subjectSelect').innerHTML = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+  lessonCard.style.display = 'block';
+  loadLessons();
+}
+
+function loadLessons(){
+  const grade = $('gradeSelect').value;
+  const subject = $('subjectSelect').value;
+  const lessons = (lessonData[grade] && lessonData[grade][subject]) || [];
+  
+  $('lessonSelect').innerHTML = lessons.map((l, i) => {
+    const lessonName = typeof l === 'object' ? l.name : l;
+    return `
+    <div class="lesson-card-item" id="card_${i}">
+      <label class="lesson-info-row" for="chk_${i}">
+        <input type="checkbox" value="${i}" id="chk_${i}" onchange="toggleCardSelection(${i})">
+        <span>${lessonName}</span>
+      </label>
+      <select class="lesson-activity-select" id="act_${i}" onclick="event.stopPropagation();">
+        <option value="تحضير الدرس">تحضير الدرس (15 دقيقة)</option>
+        <option value="مراجعة سريعة">مراجعة سريعة (25 دقيقة)</option>
+        <option value="تلخيص وحفظ">تلخيص وحفظ (35 دقيقة)</option>
+        <option value="فهم وشرح">فهم وشرح (45 دقيقة)</option>
+        <option value="حل أسئلة">حل أسئلة (45 دقيقة)</option>
+      </select>
+    </div>`;
+  }).join('');
+}
+
+function toggleCardSelection(index) {
+  const chk = document.getElementById(`chk_${index}`);
+  const card = document.getElementById(`card_${index}`);
+  if (chk && card) {
+    if (chk.checked) card.classList.add('selected');
+    else card.classList.remove('selected');
+  }
+}
+
+let selectedLessonsList = [];
+let breaksList = [];
+
+function clearDraft() {
+  if (confirm('هل أنت تأكد من تفريغ كافة الدروس من المسودة؟')) {
+    selectedLessonsList = [];
+    renderSelectedList();
+  }
+}
+
+// 🌟 إضافة الدروس وقراءة كافة الروابط المتاحة للدرس
+function addLesson(isAuto = false){
+  const grade = $('gradeSelect').value;
+  const subject = $('subjectSelect').value;
+  const checkboxes = document.querySelectorAll('#lessonSelect input[type="checkbox"]:checked');
+  if(!grade || !subject || checkboxes.length === 0){ 
+    if(!isAuto) alert('حدد درسًا واحدًا على الأقل.'); 
+    return; 
+  }
+  
+  let duplicateCount = 0;
+
+  checkboxes.forEach(cb => {
+    const idx = cb.value;
+    const lessonObj = lessonData[grade][subject][idx];
     
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-        document.body.style.overflow = 'auto'; 
+    // استخراج اسم الدرس والروابط
+    const lessonName = typeof lessonObj === 'object' ? lessonObj.name : lessonObj;
+    const videoUrl = typeof lessonObj === 'object' ? (lessonObj.video || '') : '';
+    const activityUrl = typeof lessonObj === 'object' ? (lessonObj.activity || '') : '';
+    const examUrl = typeof lessonObj === 'object' ? (lessonObj.exam || '') : '';
+    const pdfUrl = typeof lessonObj === 'object' ? (lessonObj.pdf || '') : '';
+
+    const actSelect = document.getElementById(`act_${idx}`);
+    const activityVal = actSelect ? actSelect.value : 'فهم وشرح';
+
+    const isAlreadyAdded = selectedLessonsList.some(item => item.subject === subject && item.lesson === lessonName);
+
+    if (isAlreadyAdded) {
+      duplicateCount++;
+    } else {
+      selectedLessonsList.push({ 
+        subject: subject, 
+        lesson: lessonName, 
+        activity: activityVal,
+        videoUrl: videoUrl,
+        activityUrl: activityUrl,
+        examUrl: examUrl,
+        pdfUrl: pdfUrl
+      });
     }
 
-    // إغلاق النافذة عند الضغط في المساحة الرمادية
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-overlay')) {
-            event.target.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+    cb.checked = false;
+    toggleCardSelection(idx);
+  });
+
+  if (duplicateCount > 0 && !isAuto) {
+    alert(`⚠️ تم تجاهل (${duplicateCount}) درس/دروس لأنها مضافة بالفعل في المسودة.`);
+  }
+
+  renderSelectedList();
+}
+
+function renderSelectedList(){
+  $('selectedLessons').innerHTML = selectedLessonsList.map((item, i) => `
+    <div class="tag-item">
+      <div><strong>${item.subject}</strong> - ${item.lesson} <span style="font-size:0.75rem; color:var(--text-secondary);">(${item.activity})</span></div>
+      <span class="remove-btn" onclick="removeLesson(${i})">×</span>
+    </div>`).join('');
+  
+  $('lessonsCount').textContent = selectedLessonsList.length;
+  $('subjectsCount').textContent = new Set(selectedLessonsList.map(x=>x.subject)).size;
+  $('clearDraftContainer').style.display = selectedLessonsList.length > 0 ? 'block' : 'none';
+}
+
+function removeLesson(index){ 
+  selectedLessonsList.splice(index, 1); 
+  renderSelectedList(); 
+}
+
+function addBreak(){
+  const label = $('breakLabel').value.trim() || 'استراحة / صلاة';
+  const startMins = timeToMinutes($('breakStartTime').value);
+  const duration = parseInt($('breakDuration').value, 10);
+  
+  if (breaksList.some(b => startMins < (b.startMins + b.duration) && (startMins + duration) > b.startMins)) {
+    alert(`⚠️ الوقت يتعارض مع استراحة سابقة.`); return;
+  }
+  breaksList.push({ label, startMins, duration });
+  breaksList.sort((a, b) => a.startMins - b.startMins);
+  $('breakLabel').value = '';
+  renderBreaksList();
+}
+
+function renderBreaksList(){
+  $('breaksListContainer').innerHTML = breaksList.map((b, i) => `
+    <div class="tag-item break-tag">
+      <div><strong>☕ ${b.label}</strong> (${minutesToTimeStr(b.startMins)} - ${minutesToTimeStr(b.startMins + b.duration)})</div>
+      <span class="remove-btn" onclick="removeBreak(${i})">×</span>
+    </div>`).join('');
+  $('breaksCount').textContent = breaksList.length;
+}
+
+function removeBreak(index){ 
+  breaksList.splice(index, 1); 
+  renderBreaksList(); 
+}
+
+function getLessonDuration(activity) {
+  if (activity === 'تحضير الدرس') return 15;
+  if (activity === 'مراجعة سريعة') return 25;
+  if (activity === 'تلخيص وحفظ') return 35;
+  if (activity === 'فهم وشرح' || activity === 'حل أسئلة') return 45;
+  return 30;
+}
+
+function generateSchedule(){
+  const checkedBoxes = document.querySelectorAll('#lessonSelect input[type="checkbox"]:checked');
+  if (checkedBoxes.length > 0) {
+    addLesson(true);
+  }
+
+  if(!selectedLessonsList.length){ alert('قم بإضافة أو تحديد الدروس أولاً من لوحة التحكم.'); return; }
+
+  const planType = document.querySelector('input[name="planType"]:checked').value;
+  const baseDateVal = $('studyDate').value;
+  const studyStartMins = timeToMinutes($('startTime').value);
+  const studyEndMins = timeToMinutes($('endTime').value);
+  const studentName = $('studentName').value.trim();
+
+  if(!baseDateVal) { alert('اختر تاريخ بداية الجدول.'); return; }
+  if(studyEndMins <= studyStartMins) { alert('تأكد من أن وقت النهاية بعد وقت البداية.'); return; }
+
+  const timelineBody = $('timelineBody');
+  timelineBody.innerHTML = '';
+  
+  let lessonsQueue = [...selectedLessonsList];
+  let dayOffset = 0, totalStudyMins = 0;
+  let maxDays = planType === 'daily' ? 1 : 7;
+  const baseDate = new Date(baseDateVal);
+
+  while (lessonsQueue.length > 0 && dayOffset < maxDays) {
+    let currentDate = new Date(baseDate);
+    currentDate.setDate(baseDate.getDate() + dayOffset);
+    let dayName = currentDate.toLocaleDateString('ar-OM', { weekday: 'long' });
+    let dateStr = currentDate.toISOString().split('T')[0];
+
+    let daySection = document.createElement('div');
+    daySection.className = 'day-section';
+    daySection.innerHTML = `<div class="day-title"><span>📅 ${dayName} (${dateStr})</span> <span style="font-size:0.8rem; color:var(--text-secondary);">الروتين: ${minutesToTimeStr(studyStartMins)} - ${minutesToTimeStr(studyEndMins)}</span></div><div class="timeline-container"></div>`;
+    let container = daySection.querySelector('.timeline-container');
+    let currentTime = studyStartMins;
+
+    while (currentTime < studyEndMins && lessonsQueue.length > 0) {
+      const activeBreak = breaksList.find(b => currentTime >= b.startMins && currentTime < (b.startMins + b.duration));
+      if (activeBreak) {
+        const breakEndMins = Math.min(activeBreak.startMins + activeBreak.duration, studyEndMins);
+        container.innerHTML += `<div class="timeline-item break-item"><div class="timeline-content"><div><strong>☕ ${activeBreak.label}</strong></div><span class="time-pill">${minutesToTimeStr(currentTime)} - ${minutesToTimeStr(breakEndMins)}</span></div></div>`;
+        currentTime = breakEndMins;
+        continue;
+      }
+
+      const item = lessonsQueue.shift();
+      let duration = getLessonDuration(item.activity);
+      
+      let nextBreak = breaksList.find(b => b.startMins > currentTime && b.startMins < (currentTime + duration));
+      let sessionEndMins = Math.min(nextBreak ? nextBreak.startMins : currentTime + duration, studyEndMins);
+
+      let actualDuration = sessionEndMins - currentTime;
+      if (actualDuration > 0) {
+        totalStudyMins += actualDuration;
+        
+        // 🌟 بناء شريط الأزرار للروابط التفاعلية المتاحة فقط
+        let resHtml = '';
+        if(item.videoUrl) resHtml += `<a href="${item.videoUrl}" target="_blank" class="res-link res-video">🎥 فيديو الشرح</a>`;
+        if(item.pdfUrl) resHtml += `<a href="${item.pdfUrl}" target="_blank" class="res-link res-pdf">📄 ملخص PDF</a>`;
+        if(item.activityUrl) resHtml += `<a href="${item.activityUrl}" target="_blank" class="res-link res-interactive">🌐 نشاط تفاعلي</a>`;
+        if(item.examUrl) resHtml += `<a href="${item.examUrl}" target="_blank" class="res-link res-exam">📝 اختبار إلكتروني</a>`;
+
+        container.innerHTML += `
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <div class="lesson-details">
+                <strong>${item.subject} - ${item.lesson}</strong>
+                <p>نوع النشاط: ${item.activity} (${actualDuration} دقيقة)</p>
+                <div class="resource-bar">${resHtml}</div>
+              </div>
+              <span class="time-pill">${minutesToTimeStr(currentTime)} - ${minutesToTimeStr(sessionEndMins)}</span>
+            </div>
+          </div>`;
+        currentTime = sessionEndMins;
+      }
     }
+    timelineBody.appendChild(daySection);
+    dayOffset++;
+  }
+
+  if (lessonsQueue.length > 0 && planType === 'daily') {
+    timelineBody.innerHTML += `<div style="background:#fef2f2; color:#991b1b; padding:15px; border-radius:10px; font-weight:bold; text-align:center;">⚠️ امتلأ وقت اليوم المتاح! متبقي لديك (${lessonsQueue.length}) دروس. اختر (أسبوعي) لترحيلها للغد أوتوماتيكياً.</div>`;
+  }
+
+  $('studyTimeCount').textContent = totalStudyMins;
+  $('scheduleNote').textContent = studentName ? `الخطة الخاصة بالطالب: ${studentName} ✨` : 'خطة دراسية مخصصة ✨';
+  
+  switchTab('workspace');
+}
+
+function shareViaWhatsApp() {
+  if(!selectedLessonsList.length) { 
+    alert('⚠️ يرجى إنشاء المخطط الزمني أولاً قبل المشاركة.'); 
+    return; 
+  }
+  let studentName = $('studentName').value.trim() || 'طالب ثابر المتفوق';
+  let message = `🎓 *جدول المذاكرة الشخصي - منصة ثابر التعليمية*\n`;
+  message += `👤 *الطالب:* ${studentName}\n`;
+  message += `⏱️ *إجمالي وقت المذاكرة:* ${$('studyTimeCount').textContent} دقيقة\n\n`;
+  message += `📚 *قائمة الدروس المجدولة:*\n`;
+
+  selectedLessonsList.forEach((item, idx) => {
+    message += `${idx + 1}. *${item.subject}*: ${item.lesson} (${item.activity})\n`;
+  });
+
+  message += `\n📄 *يمكنك حفظ الجدول كـ PDF مطبوع برأسية ثابر الرسمية من الموقع مباشرة.*`;
+  message += `\n💬 *للتواصل والتسجيل منصة ثابر:* 71444589`;
+
+  const encodedMsg = encodeURIComponent(message);
+  window.open(`https://api.whatsapp.com/send?text=${encodedMsg}`, '_blank');
+}
+
+function exportToICS() {
+  if (!selectedLessonsList.length) {
+    alert('⚠️ يرجى إنشاء المخطط الزمني أولاً قبل التصدير للتقويم.');
+    return;
+  }
+
+  const baseDateVal = $('studyDate').value;
+  if (!baseDateVal) {
+    alert('اختر تاريخ بداية الجدول أولاً.');
+    return;
+  }
+
+  const studyStartMins = timeToMinutes($('startTime').value);
+  const studyEndMins = timeToMinutes($('endTime').value);
+  const planType = document.querySelector('input[name="planType"]:checked').value;
+  const baseDate = new Date(baseDateVal);
+  
+  let icsLines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Thaber Platform//Study Planner//AR',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH'
+  ];
+
+  let lessonsQueue = [...selectedLessonsList];
+  let dayOffset = 0;
+  let maxDays = planType === 'daily' ? 1 : 7;
+
+  while (lessonsQueue.length > 0 && dayOffset < maxDays) {
+    let currentDate = new Date(baseDate);
+    currentDate.setDate(baseDate.getDate() + dayOffset);
+
+    let currentTime = studyStartMins;
+
+    while (currentTime < studyEndMins && lessonsQueue.length > 0) {
+      const activeBreak = breaksList.find(b => currentTime >= b.startMins && currentTime < (b.startMins + b.duration));
+      if (activeBreak) {
+        const breakEndMins = Math.min(activeBreak.startMins + activeBreak.duration, studyEndMins);
+        icsLines.push(...createICSEvent(currentDate, currentTime, breakEndMins, `☕ ${activeBreak.label}`, 'استراحة مخصصة في جدول ثابر'));
+        currentTime = breakEndMins;
+        continue;
+      }
+
+      const item = lessonsQueue.shift();
+      let duration = getLessonDuration(item.activity);
+      let nextBreak = breaksList.find(b => b.startMins > currentTime && b.startMins < (currentTime + duration));
+      let sessionEndMins = Math.min(nextBreak ? nextBreak.startMins : currentTime + duration, studyEndMins);
+
+      let actualDuration = sessionEndMins - currentTime;
+      if (actualDuration > 0) {
+        let title = `📚 ${item.subject}: ${item.lesson}`;
+        let description = `نوع النشاط: ${item.activity} - منصة ثابر التعليمية`;
+        icsLines.push(...createICSEvent(currentDate, currentTime, sessionEndMins, title, description));
+        currentTime = sessionEndMins;
+      }
+    }
+    dayOffset++;
+  }
+
+  icsLines.push('END:VCALENDAR');
+
+  const blob = new Blob([icsLines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.setAttribute('download', `جدول_ثابر_${baseDateVal}.ics`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function createICSEvent(dateObj, startMins, endMins, summary, description) {
+  const startDT = formatICSDate(dateObj, startMins);
+  const endDT = formatICSDate(dateObj, endMins);
+  
+  return [
+    'BEGIN:VEVENT',
+    `SUMMARY:${summary}`,
+    `DESCRIPTION:${description}`,
+    `DTSTART:${startDT}`,
+    `DTEND:${endDT}`,
+    'STATUS:CONFIRMED',
+    'END:VEVENT'
+  ];
+}
+
+function formatICSDate(dateObj, mins) {
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  const hours = String(Math.floor(mins / 60)).padStart(2, '0');
+  const minutes = String(mins % 60).padStart(2, '0');
+  return `${year}${month}${day}T${hours}${minutes}00`;
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  populateTimeControls();
+  
+  await fetchLessonsFromSheet();
+
+  $('gradeSelect').addEventListener('change', loadSubjects);
+  $('subjectSelect').addEventListener('change', loadLessons);
+  $('addLessonBtn').addEventListener('click', () => addLesson(false));
+  $('addBreakBtn').addEventListener('click', addBreak);
+  $('generateBtn').addEventListener('click', generateSchedule);
+  $('printBtn').addEventListener('click', () => window.print());
+  $('shareWaBtn').addEventListener('click', shareViaWhatsApp);
+  $('calendarBtn').addEventListener('click', exportToICS);
+
+  $('instructionsModal').addEventListener('click', (e) => {
+    if (e.target === $('instructionsModal')) closeInstructionsModal();
+  });
+});
 </script>
-
 </body>
 </html>

@@ -1,0 +1,816 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>مخطط ثابر الذكي | منصة ثابر التعليمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+
+<style>
+:root {
+  --brand-primary: #4f46e5;
+  --brand-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --brand-light: #f5f3ff;
+  --bg-main: #f1f5f9;
+  --panel-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --accent-amber: #f59e0b;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+  --shadow-md: 0 10px 20px -5px rgba(79, 70, 229, 0.08);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding-bottom: 60px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 🌟 الشريط العلوي */
+.app-header {
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky; top: 0; z-index: 1000;
+  padding: 12px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  max-width: 1300px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand-logo { display: flex; align-items: center; gap: 12px; }
+.logo-img {
+  height: 48px; width: auto; object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+.brand-title h1 { font-size: 1.15rem; font-weight: 900; color: var(--text-primary); line-height: 1.2; }
+.brand-title p { font-size: 0.75rem; color: var(--brand-primary); font-weight: 800; }
+
+/* 💬 شارة الواتساب التفاعلية */
+.badge-contact {
+  background: #25d366; color: #ffffff; font-size: 0.85rem;
+  font-weight: 800; padding: 6px 14px; border-radius: 999px;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3); transition: 0.2s ease;
+}
+.badge-contact:hover {
+  transform: scale(1.03); background: #1ebd56;
+}
+
+/* 📱 شريط التبويبات للموبايل */
+.mobile-tabs {
+  display: none;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 20px 0;
+  position: sticky; top: 67px; z-index: 999;
+}
+.mobile-tabs-inner {
+  display: flex; gap: 10px; max-width: 500px; margin: 0 auto;
+}
+.tab-btn {
+  flex: 1; padding: 12px 10px; font-family: inherit; font-weight: 800; font-size: 0.95rem;
+  background: none; border: none; border-bottom: 3px solid transparent;
+  color: var(--text-secondary); cursor: pointer; transition: 0.3s;
+}
+.tab-btn.active {
+  color: var(--brand-primary); border-bottom-color: var(--brand-primary);
+}
+
+/* 📐 التنسيق الرئيسي */
+.app-layout {
+  max-width: 1300px; margin: 20px auto; padding: 0 20px;
+  display: flex; gap: 24px; align-items: flex-start;
+}
+
+.control-panel, .workspace {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.control-panel { flex: 0 0 400px; }
+.workspace { flex: 1; min-width: 0; }
+
+.panel-card {
+  background: var(--panel-bg); border-radius: var(--radius-lg); padding: 24px;
+  border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--bg-main);
+}
+.step-badge {
+  background: var(--brand-gradient); color: #fff; width: 26px; height: 26px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 900;
+}
+.card-header h2 { font-size: 1.05rem; font-weight: 800; }
+
+.toggle-group { display: flex; background: var(--bg-main); border-radius: var(--radius-md); padding: 4px; margin-bottom: 16px; }
+.toggle-group label { flex: 1; text-align: center; font-size: 0.85rem; font-weight: 700; padding: 10px; cursor: pointer; border-radius: 8px; color: var(--text-secondary); transition: 0.2s; }
+.toggle-group input { display: none; }
+.toggle-group input:checked + span { background: #fff; color: var(--brand-primary); box-shadow: var(--shadow-sm); display: block; padding: 10px; border-radius: 8px; }
+
+.field-group { margin-bottom: 14px; }
+label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; }
+input[type="text"], input[type="date"], select {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; font-weight: 600;
+  background: var(--bg-main); color: var(--text-primary); outline: none; transition: 0.2s;
+}
+input:focus, select:focus { background: #fff; border-color: var(--brand-primary); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.btn {
+  width: 100%; padding: 14px; border: none; border-radius: var(--radius-md);
+  font-family: inherit; font-weight: 800; font-size: 0.95rem; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
+}
+.btn-brand { background: var(--brand-gradient); color: #fff; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+.btn-brand:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); }
+.btn-outline { background: #fff; color: var(--brand-primary); border: 2px solid var(--brand-light); }
+.btn-outline:hover { background: var(--brand-light); }
+
+.lessons-picker { max-height: 250px; overflow-y: auto; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 8px; background: var(--bg-main); }
+.lesson-option {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px; border-radius: var(--radius-sm); background: #fff; margin-bottom: 6px;
+  border: 1px solid var(--border-color);
+}
+.lesson-info { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; font-size: 0.85rem; font-weight: 700; }
+.lesson-info input { accent-color: var(--brand-primary); width: 18px; height: 18px; }
+.lesson-activity-select { width: auto !important; padding: 6px 10px !important; font-size: 0.75rem !important; border-radius: 6px !important; border: 1px solid #cbd5e1 !important; }
+
+.selected-tags { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.tag-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-main); border-right: 4px solid var(--brand-primary); padding: 10px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; }
+.tag-item .remove-btn { color: #ef4444; font-size: 1.2rem; cursor: pointer; font-weight: bold; }
+
+/* 📊 الإحصائيات */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.stat-box { background: var(--panel-bg); border-radius: var(--radius-lg); padding: 16px; border: 1px solid var(--border-color); text-align: center; }
+.stat-number { font-size: 1.5rem; font-weight: 900; color: var(--brand-primary); display: block; }
+.stat-label { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); }
+
+/* 🗓️ المخطط الزمني والهوية الرسمية */
+.timeline-card { background: var(--panel-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color); overflow: hidden; }
+.timeline-header { background: var(--brand-gradient); color: #fff; padding: 22px 24px; }
+.timeline-header h2 { font-size: 1.25rem; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.timeline-header p { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
+
+/* 🌟 ختم منصة ثابر الرسمي مع الشعار */
+.thaber-brand-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--brand-light);
+  border-bottom: 2px dashed #ddd6fe;
+  font-weight: 900;
+  color: var(--brand-primary);
+  font-size: 1.1rem;
+}
+.stamp-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.timeline-body { padding: 24px; min-height: 300px; }
+
+.day-section { margin-bottom: 24px; background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); page-break-inside: avoid; break-inside: avoid; }
+.day-title { font-size: 1.1rem; font-weight: 900; color: var(--brand-primary); padding-bottom: 12px; margin-bottom: 16px; border-bottom: 2px dashed var(--border-color); display: flex; justify-content: space-between; }
+.timeline-container { position: relative; padding-right: 15px; }
+.timeline-container::before { content: ''; position: absolute; right: 5px; top: 10px; bottom: 10px; width: 3px; background: #e2e8f0; border-radius: 99px; }
+.timeline-item { position: relative; margin-bottom: 16px; padding-right: 20px; page-break-inside: avoid; break-inside: avoid; }
+.timeline-item::after { content: ''; position: absolute; right: -19px; top: 16px; width: 13px; height: 13px; border-radius: 50%; background: var(--brand-primary); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--brand-primary); }
+.timeline-item.break-item::after { background: var(--accent-amber); box-shadow: 0 0 0 2px var(--accent-amber); }
+.timeline-content { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; display: flex; justify-content: space-between; gap: 12px; }
+.timeline-item.break-item .timeline-content { background: #fffbeb; border-color: #fde68a; }
+.time-pill { background: var(--brand-light); color: var(--brand-primary); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; height: fit-content; }
+.timeline-item.break-item .time-pill { background: #fef3c7; color: #b45309; }
+
+.lesson-details strong { font-size: 0.95rem; color: var(--text-primary); display: block; }
+.lesson-details p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+.resource-bar { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.res-link { display: inline-flex; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-decoration: none; }
+.res-pdf { background: #fee2e2; color: #dc2626; }
+.res-interactive { background: #e0e7ff; color: #4f46e5; }
+
+.timeline-actions { background: var(--panel-bg); padding: 16px 24px; display: flex; gap: 10px; justify-content: flex-end; border: 1px solid var(--border-color); border-radius: var(--radius-lg); margin-top: 16px; }
+
+#loadingStatus { background: #e0f2fe; color: #0369a1; padding: 12px; border-radius: var(--radius-md); font-weight: 800; text-align: center; font-size: 0.85rem; margin-bottom: 15px; display: none; }
+
+/* 📱 استجابة الشاشات */
+@media (max-width: 1024px) {
+  .mobile-tabs { display: block; }
+  .app-layout { display: block; padding: 15px; }
+  .control-panel { display: flex; }
+  .workspace { display: none; }
+  body.view-workspace .control-panel { display: none !important; }
+  body.view-workspace .workspace { display: flex !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .timeline-content { flex-direction: column; align-items: flex-start; }
+  .time-pill { margin-top: 10px; align-self: flex-end; }
+  .day-title { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+/* 🖨️ التنسيقات عند الطباعة المباشرة من المتصفح */
+@media print {
+  body { background: #fff !important; padding: 0 !important; }
+  .app-header, .mobile-tabs, .control-panel, .stats-grid, .timeline-actions, .res-link {
+    display: none !important;
+  }
+  .app-layout { display: block !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .workspace { display: block !important; width: 100% !important; }
+  .timeline-card { border: none !important; box-shadow: none !important; }
+  .thaber-brand-stamp { display: flex !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand-logo">
+      <img src="https://i.imgur.com/WVNRksD.png" crossorigin="anonymous" alt="شعار ثابر" class="logo-img">
+      <div class="brand-title">
+        <h1>مخطط ثابر الذكي</h1>
+        <p>منصة ثابر التعليمية</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- 💬 زر تواصل عبر الواتساب -->
+      <a href="https://wa.me/96871444589" target="_blank" class="badge-contact">
+        💬 71444589
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-tabs">
+  <div class="mobile-tabs-inner">
+    <button class="tab-btn active" id="tab-controls" onclick="switchTab('controls')">⚙️ إعداد الخطة</button>
+    <button class="tab-btn" id="tab-workspace" onclick="switchTab('workspace')">📊 عرض الجدول</button>
+  </div>
+</div>
+
+<div class="app-layout">
+  
+  <aside class="control-panel" id="controlsArea">
+    
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">1</span>
+        <h2>الروتين ووقت المذاكرة</h2>
+      </div>
+      
+      <div class="field-group">
+        <div class="toggle-group">
+          <label><input type="radio" name="planType" value="daily" checked> <span>يوم واحد</span></label>
+          <label><input type="radio" name="planType" value="weekly"> <span>أسبوعي (مرحل)</span></label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>اسم الطالب (اختياري)</label>
+        <input type="text" id="studentName" placeholder="مثال: أحمد">
+      </div>
+
+      <div class="field-group">
+        <label>تاريخ بداية الجدول</label>
+        <input type="date" id="studyDate">
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label>بداية المذاكرة</label>
+          <select id="startTime" data-default-time="16:00" class="time-12"></select>
+        </div>
+        <div class="field-group">
+          <label>نهاية المذاكرة</label>
+          <select id="endTime" data-default-time="21:00" class="time-12"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">2</span>
+        <h2>الاستراحة والصلاة</h2>
+      </div>
+      <div class="field-group">
+        <label>المسمى (مثال: صلاة المغرب)</label>
+        <input type="text" id="breakLabel" placeholder="أدخل اسم الاستراحة">
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <label>البداية</label>
+          <select id="breakStartTime" data-default-time="18:30" class="time-12"></select>
+        </div>
+        <div class="field-group">
+          <label>المدة</label>
+          <select id="breakDuration">
+            <option value="15">15 دقيقة</option>
+            <option value="30" selected>30 دقيقة</option>
+            <option value="45">45 دقيقة</option>
+            <option value="60">60 دقيقة</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline" id="addBreakBtn">+ إضافة</button>
+      <div id="breaksListContainer" class="selected-tags"></div>
+    </div>
+
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">3</span>
+        <h2>الصف الدراسي</h2>
+      </div>
+      <div id="loadingStatus"></div>
+      <div class="field-group">
+        <select id="gradeSelect">
+          <option value="">-- اختر الصف --</option>
+          <option value="5">الصف الخامس</option>
+          <option value="6">الصف السادس</option>
+          <option value="7">الصف السابع</option>
+          <option value="8">الصف الثامن</option>
+          <option value="9">الصف التاسع</option>
+          <option value="10">الصف العاشر</option>
+          <option value="11">الصف الحادي عشر</option>
+          <option value="12">الصف الثاني عشر / دبلوم التعليم العام</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panel-card" id="lessonCard" style="display:none;">
+      <div class="card-header">
+        <span class="step-badge">4</span>
+        <h2>تحديد الدروس</h2>
+      </div>
+      <div class="field-group">
+        <label>المادة</label>
+        <select id="subjectSelect"></select>
+      </div>
+      <div class="field-group">
+        <label>حدد الدروس ونوع النشاط</label>
+        <div id="lessonSelect" class="lessons-picker"></div>
+      </div>
+      <button type="button" class="btn btn-outline" id="addLessonBtn">إضافة للمسودة +</button>
+      <div id="selectedLessons" class="selected-tags"></div>
+    </div>
+
+    <button type="button" class="btn btn-brand" id="generateBtn" style="padding: 16px; font-size: 1.1rem;">✨ إنشاء المخطط الزمني</button>
+
+  </aside>
+
+  <main class="workspace" id="workspaceArea">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-number" id="lessonsCount">0</span>
+        <span class="stat-label">الدروس</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="subjectsCount">0</span>
+        <span class="stat-label">المواد</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="studyTimeCount">0</span>
+        <span class="stat-label">دقيقة مذاكرة</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-number" id="breaksCount">0</span>
+        <span class="stat-label">فواصل</span>
+      </div>
+    </div>
+
+    <!-- 🗓️ منطقة الجدول التي تُصدر كـ PDF أو تطبع -->
+    <div class="timeline-card" id="scheduleArea">
+      <div class="thaber-brand-stamp">
+        <img src="https://i.imgur.com/WVNRksD.png" crossorigin="anonymous" alt="شعار ثابر" class="stamp-logo">
+        <span>منصة ثابر التعليمية | جدول المذاكرة الشخصي</span>
+      </div>
+      <div class="timeline-header">
+        <div>
+          <h2>✨ مخطط ثابر الذكي</h2>
+          <p id="scheduleNote">قم بإعداد الخطة من الإعدادات لتظهر هنا.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-body" id="timelineBody">
+        <div style="text-align:center; padding: 40px; color: var(--text-secondary); font-weight: 700;">
+          لا توجد خطط مجدولة حالياً ☕
+        </div>
+      </div>
+    </div>
+
+    <!-- 🖨️ أزرار الإجراءات خارج منطقة تصدير PDF -->
+    <div class="timeline-actions">
+      <button type="button" class="btn btn-outline" id="printBtn" style="width:auto;">🖨️ طباعة الجدول</button>
+      <button type="button" class="btn btn-brand" id="pdfBtn" style="width:auto;">📄 حفظ كـ PDF</button>
+    </div>
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const lessonData = {
+ "5": {
+ "التربية الإسلامية": ["القرآن الكريم", "العقيدة", "الحديث الشريف", "الفقه", "السيرة"],
+ "اللغة العربية": ["القراءة", "النصوص الأدبية", "القواعد", "الإملاء", "التعبير", "المفيد 4-4 تطبيق متكامل"],
+ "اللغة الإنجليزية": ["Reading", "Grammar", "Writing", "Vocabulary", "Listening"],
+ "الرياضيات": ["الأعداد والعمليات", "الكسور", "القياس", "الهندسة", "البيانات"],
+ "العلوم": ["الكائنات الحية", "المادة", "القوى والطاقة", "الأرض والفضاء"],
+ "الدراسات الاجتماعية": ["4-1 نشأة المذهب الإباضي وتطوره", "4-2 الإمام جابر بن زيد وانتشار المذهب الإباضي", "4-3 الحياة الثقافية والاجتماعية والاقتصادية", "5-1 الاحتباس الحراري", "5-2 التصحر", "5-3 الأعاصير المدارية", "5-4 أخطار الزلازل والبراكين", "6-1 الولايات المتحدة الأمريكية", "6-2 اليابان", "6-3 الصين", "6-4 التكتلات الاقتصادية في العالم"]
+ },
+ "6": {
+ "التربية الإسلامية": ["التلاوة والحفظ", "العقيدة", "الحديث الشريف", "الفقه", "القيم الإسلامية"],
+ "اللغة العربية": ["القراءة", "النصوص الأدبية", "القواعد", "الإملاء", "التعبير"],
+ "اللغة الإنجليزية": ["Reading", "Grammar", "Writing", "Vocabulary", "Listening"],
+ "الرياضيات": ["الأعداد النسبية", "النسبة والتناسب", "الهندسة", "القياس", "الإحصاء"],
+ "العلوم": ["الخلية والكائنات", "المادة وخصائصها", "الطاقة", "الأرض والفضاء"],
+ "الدراسات الاجتماعية": ["جغرافية عمان", "تاريخ عمان", "المواطنة", "الموارد الاقتصادية"]
+ },
+ "7": {
+ "التربية الإسلامية": ["التلاوة والحفظ", "1-1 مقدمة في التفخيم والترقيق / تجويد", "1-2 سورة الإسراء: (23 - 30) / تفسير", "1-3 الأعمال بالنيات / حديث شريف", "1-4 الله «الوهاب» / عقيدة", "1-5 قضاء الصلوات الفائتة / فقه", "1-6 يوم بدر / سيرة", "1-7 آداب السفر / قيم وأخلاق", "2-1 الألف المدية والغنة / تجويد", "2-2 سورة يس: (20 - 30) / تفسير", "2-3 المسلم أخو المسلم / حديث شريف", "2-4 الدين / عقيدة", "2-5 أحكام الصيام / فقه", "2-6 عاقبة نقض العهد / سيرة", "2-7 الفأل الحسن / قيم وأخلاق", "3-1 ترقيق الراء / تجويد", "3-2 سورة سبأ: (10 - 14) / تفسير", "3-3 المؤمن شاكر صابر / حديث شريف", "3-4 الرجاء والخوف / عقيدة", "3-5 الغسل / فقه", "3-6 يوم أحد / سيرة", "3-7 أعترف بالجميل / قيم وأخلاق", "4-1 تفخيم الراء / تجويد", "4-2 سورة آل عمران: (190 - 195) / تفسير", "4-3 أشراط الساعة / حديث شريف", "4-4 عاقبة الكبر / عقيدة", "4-5 صلاة الاستخارة / فقه", "4-6 أبو عبيدة بن الجراح رضي الله عنه / سيرة"],
+ "اللغة العربية": ["1-1 قصة قارون", "1-2 الخفاش يبصر بأذنيه", "1-3 علام تقولين شكراً؟", "الاستماع: طبيب الأسنان", "2-1 جوهرة مسقط", "2-2 نسيبة الآراء", "2-3 وتجلت لي عمانُ", "3-1 حبات البرتقال", "3-2 تقنيات الثورة الصناعية الرابعة", "3-3 رحلة إلى طوكيو", "الاستماع: حكايات العلوم (تقنية النانو)", "4-1 إسلام سعد", "4-2 من حيل النمل", "4-3 نسيم الصبح"],
+ "اللغة الإنجليزية": ["Welcome", "Unit 1: Entertainment", "Unit 1 graded readers", "Unit 2: Awesome animals", "Unit 2 graded readers", "Unit 3: Travel", "Unit 3 graded readers", "WOW! Learning Club 1", "Science: How can we classify types of energy in diagrams?", "Fun corners", "Grammar reference", "Progress path", "How to write...", "English in action reference", "Word list", "Graded readers activities"],
+ "الرياضيات": ["1-1 العمليات الحسابية على الأعداد الصحيحة", "1-1 أ جمع وطرح الأعداد الصحيحة", "1-1 ب ضرب وقسمة الأعداد الصحيحة", "2-1 المضاعفات", "3-1 العوامل وقابلية القسمة", "4-1 الأعداد الأولية", "5-1 الأسس", "6-1 القوى (الأسس) والجذور", "7-1 ترتيب العمليات الحسابية", "تمارين ومسائل عامة (الوحدة الأولى)", "1-2 كتابة العبارات الجبرية", "2-2 تجميع الحدود المتشابهة", "3-2 فك الأقواس", "4-2 استنتاج واستخدام الصيغ", "5-2 كتابة المعادلات وحلها", "تمارين ومسائل عامة (الوحدة الثانية)", "1-3 ترتيب الأعداد والكسور التعامل معها", "2-3 التقريب", "3-3 جمع الأعداد العشرية والكسور العشرية وطرحها", "4-3 ضرب الأعداد العشرية والكسور العشرية", "5-3 قسمة الأعداد العشرية والكسور العشرية (1)", "6-3 قسمة الأعداد العشرية والكسور العشرية (2)", "7-3 الضرب في 0.1 أو 0.01 والقسمة عليهما", "8-3 التقدير والتقريب", "تمارين ومسائل عامة (الوحدة الثالثة)", "1-4 التعرف على وحدات القياس", "2-4 اختيار وحدات القياس المناسبة", "تمارين ومسائل عامة (الوحدة الرابعة)", "1-5 تسمية الزوايا وتقديرها", "2-5 قياسات الزوايا", "3-5 حل مسائل الزوايا", "4-5 الخطوط المتوازية", "تمارين ومسائل عامة (الوحدة الخامسة)", "1-6 تبسيط الكسور", "2-6 مقارنة الكسور", "3-6 الكسور غير الاعتيادية والأعداد الكسرية", "4-6 جمع الكسور وطرحها", "5-6 استخدام الكسور مع الكميات", "6-6 تحويل الكسور إلى كسور عشرية", "7-6 ترتيب الكسور", "8-6 حساب الباقي", "تمارين ومسائل عامة (الوحدة السادسة)", "1-7 التحويل بين وحدات قياس المساحة", "2-7 مساحة المستطيل ومحيطه", "3-7 مساحة المثلث", "4-7 مساحة متوازي الأضلاع ومساحة شبه المنحرف", "5-7 مساحة الدائرة ومحيطها", "6-7 مساحة الأشكال المركبة", "تمارين ومسائل عامة (الوحدة السابعة)", "1-8 النسب المئوية البسيطة", "2-8 حساب الكسور والكسور العشرية والنسب المئوية المتكافئة", "3-8 حساب النسب المئوية من الكميات", "4-8 تطبيقات على النسب المئوية", "تمارين ومسائل عامة (الوحدة الثامنة)"],
+ "العلوم": ["1-1 أعضاء النبات", "2-1 الأزهار", "3-1 التلقيح", "4-1 الإخصاب", "5-1 الثمار", "6-1 أجهزة جسم الإنسان", "7-1 الهيكل العظمي للإنسان", "8-1 المفاصل", "9-1 العضلات", "10-1 دراسة جسم الإنسان", "أسئلة نهاية الوحدة الأولى", "1-2 المواد الصلبة والسائلة والغازية", "2-2 نظرية الجزيئات", "3-2 تغير الحالة", "4-2 تفسير تغيرات الحالة", "5-2 الانتشار", "6-2 استقصاء الانتشار", "7-2 ضغط الغاز", "أسئلة نهاية الوحدة الثانية", "1-3 استخدام الطّاقة", "2-3 المخازن الكيميائية للطاقة", "3-3 مخازن أخرى للطاقة", "4-3 طاقة الحركة", "5-3 الطاقة الحرارية", "6-3 نقل الطاقة", "7-3 توصيل الحرارة", "8-3 الحمل الحراري", "9-3 الإشعاع", "10-3 الأشكال المتغيرة للطاقة", "11-3 حفظ الطاقة", "12-3 كيف نستخدم الطاقة؟", "13-3 الوقود الأحفوري", "14-3 مصادر الطاقة المتجددة وغير المتجددة", "أسئلة نهاية الوحدة الثالثة", "1-4 خصائص الكائنات الحية", "2-4 الكائنات الدقيقة", "3-4 الكائنات الدقيقة والتحلل", "4-4 الكائنات الدقيقة والغذاء", "5-4 الكائنات الدقيقة والأمراض", "6-4 الخلايا النباتية", "7-4 الخلايا الحيوانية", "8-4 الخلايا والأنسجة والأعضاء", "أسئلة نهاية الوحدة الرابعة"],
+ "الدراسات الاجتماعية": ["1-1 الطقس والمناخ", "1-2 مناخ سلطنة عمان", "1-3 تشكيل سطح الأرض: العمليات الداخلية", "1-4 تشكيل سطح الأرض: العمليات الخارجية", "2-1 العصر العباسي الثاني", "2-2 علاقة عمان بالدولة العباسية (العصر العباسي الثاني)", "2-3 المنجزات الحضارية العمانية في العصر العباسي الثاني", "3-1 النظام الأساسي بوصلة الوطن", "3-2 الدولة: تنظيمها ومؤسساتها"]
+ },
+ "8": {
+ "التربية الإسلامية": ["1-1 أسباب النزول / علوم القرآن", "1-2 سورة الحجرات (١-٥) / تفسير", "1-3 وصايا نبوية / حديث شريف", "1-4 الله البصير / عقيدة", "1-5 من مقاصد الشريعة الإسلامية (حفظ الدين والنفس) / فقه", "1-6 غزوة الأحزاب / سيرة", "1-7 الأناة / قيم وأخلاق", "2-1 إدغام المتجانسين والمتقاربين / تجويد", "2-2 سورة الحجرات (٦-١٠) / تفسير", "2-3 المؤمن القوي / حديث شريف", "2-4 الغلو في الدين / عقيدة", "2-5 من مقاصد الشريعة الإسلامية (حفظ العقل والعرض والمال) / فقه", "2-6 حصار بني قريظة / سيرة", "2-7 تحمل المسؤولية / قيم وأخلاق", "3-1 المد للسكون العارض / تجويد", "3-2 سورة مريم (١-١٥) / تفسير", "3-3 اجتناب الغيبة / حديث شريف", "3-4 الله المصور / عقيدة", "3-5 الحكم الشرعي التكليفي / فقه", "3-6 خالد بن الوليد رضي الله عنه / سيرة", "3-7 نعمة الأمن / قيم وأخلاق", "4-1 سورة العنكبوت (٤١-٤٤) / تفسير", "4-2 الاعتدال في الطعام والشراب / حديث شريف", "4-3 الله الغني / عقيدة", "4-4 العمرة / فقه", "4-5 سلمان الفارسي رضي الله عنه / سيرة", "4-6 احترام الخصوصية / قيم وأخلاق"],
+ "اللغة العربية": ["الاستماع: الأساس الخالد", "1-1 (وتلك حجتنا آتيناها إبراهيم)", "1-2 من أين يبدأ الفضاء؟", "1-3 أردت أن أبصر...", "1-4 تداخل في الحديث... لا تقاطعه!", "2-1 كيف أصبحت كاتبة؟", "2-2 وجبة خفيفة", "2-3 الطب يتغير والإنسان هو الإنسان", "2-4 هجرة في سبيل الله", "الاستماع: مروءة الصحراء", "3-1 ملكة الكتابة", "3-2 ما في الخزائن", "3-3 المحفظة", "3-4 إلى أمي"],
+ "اللغة الإنجليزية": ["Welcome Let's get started!", "Unit 1: Our planet", "Unit 1 graded readers", "Unit 2: Adventure sports", "Unit 2 graded readers", "Unit 3: Spend or save?", "Unit 3 graded readers", "WOW! Learning Club 1", "Fun corners", "Grammar reference", "How to write...", "English in action reference", "Get ready for...", "Progress path", "Word list", "Graded readers activities"],
+ "الرياضيات": ["1-1 الأعداد الموجهة", "1-2 الجذور التربيعية والجذور التكعيبية", "1-3 الأسس", "1-4 استخدام الأسس", "تمارين ومسائل عامة (الوحدة الأولى)", "2-1 ضرب الكسور العشرية وقسمتها ذهنياً", "2-2 الضرب في قوى العدد 10 والقسمة عليها", "2-3 التقريب", "2-4 ترتيب العمليات", "تمارين ومسائل عامة (الوحدة الثانية)", "3-1 رسم شبكات للمجسمات", "3-2 شرح خصائص الزوايا", "3-3 حل مسائل الزوايا", "تمارين ومسائل عامة (الوحدة الثالثة)", "4-1 كتابة الكسر في أبسط صورة", "4-2 جمع الكسور وطرحها", "4-3 ضرب الكسور", "4-4 قسمة الكسور", "4-5 التعامل مع الكسور ذهنياً", "تمارين ومسائل عامة (الوحدة الرابعة)", "5-1 كتابة المعادلات وحلها", "5-2 تبسيط العبارات الجبرية", "5-3 كتابة العبارات الجبرية", "5-4 التعويض في العبارات الجبرية", "5-5 الصيغ واستخدامها", "5-6 التحليل إلى عوامل", "5-7 جمع الكسور الجبرية وطرحها", "5-8 فك ناتج عبارتين خطيتين", "تمارين ومسائل عامة (الوحدة الخامسة)", "6-1 تحويل وحدات المساحة والحجم", "6-2 حل مسائل الدائرة", "6-3 العمليات الحسابية المتعلقة بالمنشور والأسطوانة", "تمارين ومسائل عامة (الوحدة السادسة)", "7-1 احتمال عدم حدوث نتيجة ما", "7-2 نتائج الاحتمالات المرجحة بالتساوي", "7-3 كتابة قائمة بالنتائج المحتملة (فضاء الإمكانات)", "7-4 الاحتمالات التجريبية للنظرية", "تمارين ومسائل عامة (الوحدة السابعة)", "8-1 استخدام الطرق الذهنية", "8-2 مقارنة الكميات المختلفة", "8-3 تغيرات النسبة المئوية", "8-4 أمثلة عملية", "تمارين ومسائل عامة (الوحدة الثامنة)"],
+ "العلوم": ["1-1 التمثيل الضوئي", "2-1 أوراق النبات", "3-1 المزيد حول التمثيل الضوئي", "4-1 استقصاء التمثيل الضوئي", "5-1 الجذور", "6-1 نقل الماء والأملاح المعدنية", "7-1 الأملاح المعدنية للنباتات", "8-1 النباتات والماء", "أسئلة نهاية الوحدة الأولى", "1-2 الذرات", "2-2 الذرات والعناصر", "3-2 الجدول الدوري", "4-2 المزيد حول تركيب الذرة", "5-2 خواص المجموعة الأولى", "6-2 خواص بعض المجموعات الأخرى", "7-2 المركبات الكيميائية", "8-2 الصيغ الكيميائية", "9-2 المركبات والمخاليط", "10-2 المزيد حول المخاليط", "أسئلة نهاية الوحدة الثانية", "1-3 كيف ينتقل الضوء؟", "2-3 كيف تتكون الظلال؟", "3-3 كيف تكون الانعكاسات؟", "4-3 كيف ينكسر الضوء؟", "5-3 طيف الضوء الأبيض", "6-3 الضوء الملون", "أسئلة نهاية الوحدة الثالثة", "1-4 المجموعات الغذائية", "2-4 النظام الغذائي المتوازن", "3-4 الهضم والامتصاص", "4-4 الجهاز الهضمي للإنسان", "5-4 الأسنان", "أسئلة نهاية الوحدة الرابعة", "1-5 التغيرات الفيزيائية والكيميائية", "2-5 الاحتراق", "3-5 المزيد حول الاحتراق", "4-5 التفاعلات مع الأحماض", "5-5 إعادة ترتيب الذرات", "6-5 المزيد حول حفظ الكتلة", "7-5 الكشف عن التفاعلات الكيميائية", "8-5 الصدأ", "أسئلة نهاية الوحدة الخامسة"],
+ "الدراسات الاجتماعية": ["1-1 الطقس والمناخ", "1-2 عناصر المناخ", "1-3 الأقاليم المناخية", "2-1 قيام دولة البوسعيد (١٧٤٤م)", "2-2 المنجزات الحضارية لدولة البوسعيد", "2-3 العلاقات الحضارية لعمان في عصر دولة البوسعيد", "3-1 التنظيم الإداري لسلطنة عمان", "3-2 النظام الأساسي للدولة", "3-3 الشورى في المجتمع العماني"]
+ },
+ "9": {
+ "التربية الإسلامية": ["التلاوة والحفظ", "1-1 المكيّ والمدنيّ / علومُ القرآنِ", "2-1 سورةُ آلِ عمرانَ (١٤-١٧) / تفسيرٌ", "3-1 الإجمالُ في طلبِ الدُّنيا / حديثٌ شريفٌ", "4-1 المعطي المانعُ / عقيدةٌ", "5-1 صلحُ الحُدَيْبِيَةِ / سيرةٌ", "6-1 الأمنُ النفسيُّ / قيمٌ وأخلاقٌ", "1-2 التِقاءُ السَّاكِنَيْنِ (١) / تجويدٌ", "2-2 سورةُ الإسراءِ (١٠٥-١١١) / تفسيرٌ", "3-2 شُعَبُ الإيمانِ / حديثٌ شريفٌ", "4-2 دعوةُ نوحٍ عليه السلام / عقيدةٌ", "5-2 مِنْ مَصادِرِ التَّشريعِ الإسلاميِّ (١) / فِقْهٌ", "6-2 سَمْتُ أهلِ عُمانَ / قيمٌ وأخلاقٌ", "1-3 التِقاءُ السَّاكِنَيْنِ (٢) / تجويدٌ", "2-3 سورةُ الحِجْرِ (٨٧-٩٩) / تفسيرٌ", "3-3 أكبرُ الكبائرِ / حديثٌ شريفٌ", "4-3 مِنْ مَصادِرِ التَّشريعِ الإسلاميِّ (٢) / فِقْهٌ", "5-3 المجلس النبويُّ / سيرةٌ", "6-3 سماحةُ المؤمنِ / قيمٌ وأخلاقٌ", "1-4 سورةُ يوسفَ (٩٤-١٠١) / تفسيرٌ", "2-4 المُسْتَظِلُّونَ بِظِلِّ اللهِ / حديثٌ شريفٌ", "3-4 دعوةُ إبراهيمَ عليه السلام / عقيدةٌ", "4-4 الأيمانُ / فِقْهٌ", "5-4 القَعْقاعُ بنُ عَمْروٍ رضي الله عنه / سيرةٌ", "6-4 النَّزاهَةُ / قيمٌ وأخلاقٌ"],
+ "اللغة العربية": ["1-1 القراءة: البلاغة عند العرب", "1-2 الأنشطة النحوية والصرفية: تطبيقات على ما سبقت دراسته", "1-3 الأنشطة الإملائية: تطبيقات على ما سبقت دراسته", "1-4 التعبير: كتابة فقرة", "1-5 في المعجم: المعجم المختص", "1-6 النص الأدبي: يا سماء", "2-1 القراءة: الأدب في عصر اليعاربة", "2-2 الأنشطة النحوية والصرفية: جملة كاد وأخواتها", "2-3 الأنشطة الإملائية: الهمزة المتطرفة", "2-4 التعبير: تصميم الموضوع", "2-5 الاستماع: عمان جوهرة جزيرة العرب", "2-6 اقرأ واستمتع: من نصيحة الشيخ الخراسيني لأحد أئمة اليعاربة", "3-1 القراءة: المتنبي", "3-2 الأنشطة النحوية والصرفية: الأفعال المتعدية إلى مفعولين أصلهما المبتدأ والخبر", "3-3 الأنشطة الإملائية: تنوين الهمزة المتطرفة", "3-4 التعبير: تصميم موضوع وكتابته", "3-5 النص الأدبي: لوحة الزمن", "4-1 القراءة: قرآن الفجر", "4-2 الأنشطة النحوية والصرفية: الأفعال المتعدية إلى مفعولين ليس أصلهما المبتدأ والخبر", "4-3 الأنشطة الإملائية: رسم الألف في أواخر الأسماء", "4-4 التعبير: التلخيص", "4-5 الاستماع: مريم الصناع", "4-6 اقرأ واستمتع: في العلم", "5-1 القراءة: القصة في القرآن الكريم", "5-2 الأنشطة النحوية والصرفية: المفعول لأجله", "5-3 الأنشطة الإملائية: تطبيقات على رسم الهمزة المتطرفة وكتابة الألف في أواخر الأسماء", "5-4 التعبير: تلخيص موضوع", "5-5 النص الأدبي: يا كوكبا ما كان أقصر عمره", "6-1 القراءة: سيرة بقلم صاحبها", "6-2 الأنشطة النحوية والصرفية: المفعول المطلق", "6-3 الأنشطة الإملائية: رسم الألف في أواخر الأفعال", "6-4 التعبير: ترجمة علم", "6-5 الاستماع: علم الآثار في عصر الفضاء", "6-6 اقرأ واستمتع: ألم تغمض عيناك", "7-1 القراءة: كتاب تحفة الأعيان بسيرة أهل عمان", "7-2 الأنشطة النحوية والصرفية: المفعول فيه", "7-3 الأنشطة الإملائية: تطبيقات على رسم الألف في أواخر الأسماء والأفعال", "7-4 التعبير: كيفية عرض كتاب", "7-5 النص الأدبي: أبا تمام - أين تكون؟", "8-1 القراءة: من الخيال العلمي", "8-2 الأنشطة النحوية والصرفية: مراجعة لما سبقت دراسته", "8-3 الأنشطة الإملائية: تدريبات على علامات الترقيم", "8-4 التعبير: حكاية قصة", "8-5 الاستماع: الرازي", "8-6 النص الأدبي: حسن المجالسة وسوؤها", "8-7 اقرأ واستمتع: حذق طبيب"],
+ "اللغة الإنجليزية": ["Unit 1: Teen Time", "Unit 2: Writers and Writing", "Unit 3: Money", "Unit 4: Space", "Club Corner"],
+ "الرياضيات": ["1-1 الأنواع المختلفة من الأعداد", "2-1 الأعداد الأولية", "3-1 القوى والجذور", "4-1 الأعداد الموجهة", "5-1 ترتيب العمليات الحسابية", "1-2 الكسور المتكافئة", "2-2 العمليات على الكسور", "3-2 النسب المئوية", "4-2 الصيغة العلمية", "5-2 الآلة الحاسبة والصيغة العلمية", "6-2 الأعداد النسبية والأعداد غير النسبية", "1-3 استخدام الحروف (المتغيرات) لتمثيل القيم المجهولة", "2-3 التعويض", "3-3 تبسيط العبارات الجبرية", "4-3 التعامل مع الأقواس", "5-3 الأسس", "1-4 الدائرة", "2-4 الزوايا", "3-4 الإنشاءات الهندسية", "4-4 المثلثات", "5-4 الأشكال الرباعية", "6-4 مضلعات أخرى", "1-5 تقريب الأعداد", "2-5 التقدير", "3-5 الحدود العليا والحدود الدنيا", "1-6 فك الأقواس", "2-6 تحليل العبارات الجبرية إلى عوامل", "3-6 استخدام الصيغ وإعادة تنظيمها", "4-6 حل المعادلات", "5-6 المعادلات الخطية الآنية", "6-6 كتابة المعادلات لحل المسائل", "7-6 المتباينات الخطية", "1-7 رسم المستقيمات", "2-7 القطعة المستقيمة", "1-8 التماثل في الأشكال ثنائية الأبعاد", "2-8 التماثل في الأشكال ثلاثية الأبعاد", "3-8 التحويلات الهندسية", "4-8 تركيب التحويلات الهندسية", "1-9 المتتاليات", "2-9 المجموعات"],
+ "الكيمياء": ["1-1 حالات المادة", "2-1 فصل المواد وتنقيتها", "1-2 الذرات والجزيئات", "2-2 تركيب الذرة", "3-2 ترتيب الإلكترونات في الذرات", "1-3 الجدول الدوري للعناصر: تصنيف العناصر", "2-3 دورية خصائص العناصر في الجدول الدوري", "1-4 الروابط الكيميائية وأهميتها", "2-4 الصيغ الكيميائية", "3-4 البلورات", "1-5 معدل سرعة التفاعل الكيميائي", "2-5 العوامل المؤثرة في معدل سرعة التفاعل", "3-5 تغيرات الطاقة في التفاعلات الكيميائية"],
+ "الفيزياء": ["1-1 أهمية القياس", "2-1 قياس الطول والحجم", "3-1 قياس الزمن", "1-2 فهم السرعة", "2-2 التمثيل البياني (المسافة/الزمن)", "3-2 فهم التسارع", "4-2 حساب السرعة والتسارع", "1-3 الكتلة والوزن والجاذبية", "1-4 الكثافة", "1-5 حالات المادة", "2-5 نموذج الحركة الجزيئية البسيطة للمادة", "3-5 القوى والنظرية الحركية الجزيئية البسيطة للمادة", "4-5 المواد الغازية ونموذج الحركة الجزيئية البسيطة للمادة", "1-6 التمدد الحراري", "1-7 درجة الحرارة وموازين الحرارة", "2-7 تصميم ميزان حرارة", "1-8 التغيرات في الطاقة", "2-8 تطبيقات على تغيرات الطاقة", "3-8 حفظ الطاقة", "4-8 حسابات الطاقة", "5-8 القدرة", "6-8 حساب القدرة", "1-9 التوصيل", "2-9 الحمل الحراري", "3-9 الإشعاع", "1-10 بعض التطبيقات والآثار المترتبة على نقل الطاقة الحرارية"],
+ "الأحياء": ["1-1 خصائص الكائنات الحية", "2-1 الخلايا", "3-1 الخلايا والكائنات الحية", "1-2 الانتشار", "2-2 الأسموزية", "1-3 مِمَّ يتكون جسمك؟", "2-3 الكربوهيدرات", "3-3 الدهون", "4-3 البروتينات", "5-3 الإنزيمات", "1-4 النظام الغذائي", "2-4 السمنة وسوء التغذية", "1-5 التنفس", "2-5 التمارين الرياضية ومعدل التنفس", "1-6 التنظيم في الإنسان", "2-6 الجهاز العصبي في الإنسان", "3-6 العين", "4-6 الهرمونات", "5-6 الاتزان الداخلي"],
+ "الدراسات الاجتماعية": ["1-1 البيانات السكانية ومصادرها", "1-2 بنية السكان", "1-3 الهرم السكاني", "1-4 النمو السكاني والكثافة السكانية", "2-1 العمانيون في شرقي أفريقيا", "2-2 الملامح الحضارية للتواجد العماني في شرقي أفريقيا", "2-3 التواصل العماني مع شرقي أفريقيا", "3-1 عُمان في محيطها الإسلامي", "3-2 عُمان في محيطها العالمي"],
+ "المهارات الحياتية": ["1-1 ممارسة الانتخاب في المدرسة", "1-2 ممارسة الانتخاب في بعض مؤسسات المجتمع", "2-1 التصرف الصحيح عند رؤية حادث", "2-2 إسعاف إصابات العضلات والمفاصل", "2-3 نقل المصاب", "3-1 تعرف التفكير الناقد", "3-2 تطبيقات على التفكير الناقد", "4-1 نظم ميزانية الأسرة", "4-2 تطبيق أسس الشراء"]
+ },
+ "10": {
+ "التربية الإسلامية": ["1-1 أحكام الميم والنون الساكنتين والتنوين (1) الإدغام والإخفاء", "1-2 أحكام الميم والنون الساكنتين والتنوين (2) الإظهار والقلب", "1-3 التفخيم والترقيق (1)", "1-4 التفخيم والترقيق (2)", "2-1 خاتم النبيين (حديث شريف)", "2-2 قيم رسّخها الأنبياء والرسل (قصة يوسف عليه السلام أنموذجاً)", "2-3 الرسالة الخاتمة (المائدة 48-50)", "3-1 الذكاة الشرعية (المائدة 3-4)", "3-2 النذر (حديث شريف)", "3-3 الهدية", "3-4 القرض الحسن", "4-1 الحقوق والواجبات في ميزان الإسلام", "4-2 حق الحياة (النساء 92-93)", "4-3 حقوق ذوي الإعاقة", "4-4 حق التملك (حديث شريف)", "5-1 عمرة القضاء (حديث شريف)", "5-2 فتح مكة", "5-3 وصايا نبوية من حجة الوداع", "5-4 وفاة الرسول ﷺ (آل عمران 144-145)", "6-1 التشريع في عهد الرسول ﷺ (حديث شريف)", "6-2 من مقاصد الشريعة", "6-3 صور من فقه النوازل"],
+ "اللغة العربية": ["1-1 القراءة: الخطاب السامي لحضرة صاحب الجلالة في مجلس عمان", "1-2 الأنشطة النحوية: مراجعة عامة", "1-3 النصوص الأدبية: في الحنين إلى عمان", "1-4 التعبير: المذكرات اليومية", "2-1 Texts الأدبية: أغنية الخليج", "2-2 الأنشطة النحوية: أنواع الحال", "2-3 البلاغة: مقدمة في علم البلاغة", "2-4 الاستماع: من مكارم الأخلاق", "3-1 القراءة: عمان كما رآها الرحالة الأوروبيون", "3-2 الأنشطة النحوية: الحال", "3-3 النقد الأدبي: مقدمة في النقد", "3-4 التلخيص ١", "اقرأ واستمتع: قصيدة إلى أمي", "الأنشطة الإثرائية"],
+ "اللغة الإنجليزية": ["Theme 1: New Media", "Theme 2: Climate Change", "Theme 3: Renewable Energy", "Theme 4: Civilisation"],
+ "الرياضيات": ["1-1 التمثيلات البيانية للتحويل", "2-1 تمثيل المناطق في المستوى الإحداثي", "3-1 البرمجة الخطية", "4-1 الميل", "5-1 التمثيلات البيانية للحركة", "1-2 جمع البيانات وتصنيفها", "2-2 تنظيم البيانات", "3-2 استخدام الجداول لعرض البيانات", "1-3 الكسور الجبرية", "1-4 خصائص التماثل في الدائرة", "2-4 العلاقات بين الزوايا في الدائرة", "1-5 المقاييس الإحصائية", "2-5 الجداول التكرارية", "3-5 المئينّات والربيعّات والمخطط الصندوقي", "1-6 التناسب الطردي والتناسب العكسي في الحدود الجبرية", "1-7 بيانات بمتغيرين", "2-7 المدرج التكراري", "3-7 التكرار التراكمي", "1-8 الدوال وصيغة الدالة"],
+ "الكيمياء": ["1-1 الترابط وخصائص الفلزات", "2-1 العناصر الانتقالية", "3-1 الفلزات القلوية", "4-1 نشاط الفلزات", "1-2 استخلاص الفلزات", "2-2 إنتاج الحديد والفولاذ", "3-2 السبائك", "4-2 تآكل الفلزات وحمايتها", "1-3 الكتل النسبية", "2-3 المول", "3-3 حسابات تتضمن كتلاً متفاعلة", "4-3 حسابات تتضمن حجوم الغازات", "5-3 حسابات تتضمن محاليل متفاعلة", "1-4 الألكانات", "2-4 الألكينات", "3-4 البترول (النفط الخام) وأنواع أخرى من الوقود الأحفوري"],
+ "الفيزياء": ["1-1 الكهرباء الساكنة", "2-1 الاحتكاك والشحن الكهربائي", "3-1 المجالات الكهربائية والشحنة الكهربائية", "4-1 الموصلات الكهربائية والعوازل", "1-2 مكونات الدائرة الكهربائية", "2-2 توصيل المقاومات", "1-3 المخاطر الكهربائية", "2-3 المنصهرات", "1-4 القوى المؤثرة على قطار الملاهي", "2-4 القوى المؤثرة على المركبة الفضائية", "3-4 القوة والكتلة والتسارع", "4-4 استطالة الزنبرك", "5-4 قانون هوك", "1-5 عزم القوة", "2-5 حساب عزم القوة", "3-5 الاستقرار ومركز الكتلة", "1-6 الشغل المبذول", "2-6 حساب الشغل المبذول", "3-6 القدرة", "1-7 الضغط على سطح", "2-7 حساب الضغط", "1-8 بنية النواة", "1-9 النشاط الإشعاعي في كل مكان", "2-9 فهم النشاط الإشعاعي", "3-9 استخدام النظائر المشعة", "1-10 تناقص النشاط الإشعاعي مع مرور الزمن", "2-10 معادلات الاضمحلال الإشعاعي", "3-10 عمر النصف للمادة المشعة", "1-11 التعامل الآمن"],
+ "الأحياء": ["1-1 الجهاز الدوري", "2-1 القلب", "3-1 الأوعية الدموية", "4-1 الدم", "1-2 تبادل الغازات في الإنسان", "2-2 تدخين التبغ", "1-3 التكاثر اللاجنسي والتكاثر الجنسي", "2-3 الأزهار", "3-3 مقارنة التكاثر الجنسي بالتكاثر اللاجنسي", "1-4 أعضاء الجهاز التناسلي في الإنسان", "2-4 الإخصاب وتطور الجنين", "3-4 دورة الطمث (دورة الحيض)", "4-4 فيروس نقص المناعة عند الإنسان HIV ومرض الإيدز AIDS"],
+ "الدراسات الاجتماعية": ["1-1 نشأة الأرض", "2-1 العوامل الداخلية التي تسهم في تشكيل سطح الأرض", "3-1 الصخور", "1-2 التجوية", "2-2 التعرية الريحية", "3-2 التعرية المائية", "4-2 التعرية البحرية", "1-3 ظهور الإسلام وبناء الدولة الجديدة", "2-3 Mدارس الفكرية في الإسلام", "3-3 Mذاهب الإسلامية وتطورها التاريخي"]
+ },
+ "11": {
+ "التربية الإسلامية": ["1-1 القيم وأهميتها", "1-2 قيم حث عليها القرآن الكريم", "1-3 ثواب الشاكر الصابر", "1-4 من القيم الروحية", "1-5 من القيم الشخصية", "2-1 صفات الحروف", "2-2 الهمس والجهر", "2-3 الشدة والرخاوة", "2-4 الاستعلاء والإطباق وما يضادهما", "3-1 أدلة وجود الله تعالى", "3-2 من دلائل وحدانية الله تعالى", "3-3 أسماء الله الحسنى", "3-4 صفات الله تعالى", "3-5 حب الله وتعظيمه", "4-1 السراج المنير", "4-2 الرسول ﷺ الداعية", "4-3 الرسول ﷺ المربي", "4-4 الرسول ﷺ الإنسان", "4-5 حق الرسول ﷺ على أمته", "5-1 العبادة في الإسلام", "5-2 مكانة الصلاة في الإسلام", "5-3 فضل المحافظة على الصلاة", "5-4 من أحكام الإمامة في الصلاة", "5-5 من أحكام الصيام", "6-1 أسس بناء المجتمع المسلم", "6-2 أهداف المجتمع المسلم", "6-3 صفات المجتمع المسلم", "6-4 العلاقات بين أفراد المجتمع المسلم", "6-5 آفات تهدد المجتمع المسلم"],
+ "اللغة العربية": ["المؤنس: من معلقة طرفة", "المؤنس: معلقة طرفة: تأمل في الموت وفي الحياة (نص إثرائي)", "المؤنس: من سورة يوسف", "المؤنس: أسلوب الإضمار في القرآن الكريم (نص إثرائي)", "المؤنس: عدمتك يا قلب: بشار بن برد", "المؤنس: الأغراض الشعرية عند بشار بن برد (نص إثرائي)", "المؤنس: مثل الغراب والأسود: ابن المقفع", "المؤنس: قاضي البصرة: الجاحظ", "المؤنس: كليلة ودمنة (نص إثرائي)", "المؤنس: أشكال السرد في التراث القصصي العربي (نص إثرائي)", "المؤنس: الضحك والتهكم والسخرية (نص إثرائي)", "المؤنس: قاضي البصرة صورة النموذج الواقعي (نص إثرائي)", "المؤنس: نشأة النقد الأدبي عند العرب", "المؤنس: طبقات فحول الشعراء لابن سلام الجمحي", "المؤنس: الشعر والشعراء لابن قتيبة", "المؤنس: تحليل نص: قاضي البصرة للجاحظ", "المؤنس: نهضة التعليم في عمان", "المؤنس: الحوار مع الآخر في الإسلام", "المؤنس: من أجل ثقافة إسلامية معاصرة", "المؤنس: بين الأجيال", "المؤنس: منهجية التعبير", "المؤنس: التدريب على التخطيط - العادات والتقاليد العمانية", "المؤنس: كتابة المقدمة - القلاع والحصون العمانية", "المؤنس: كتابة الجوهر - أهمية التعاون", "المؤنس: كتابة الخاتمة - دور القرآن في الحفاظ على اللغة العربية", "المؤنس: التعبير السردي الوصفي - رحلة إلى الطبيعة", "المؤنس: تعبير حواري - العلاقة بين الآباء والأبناء", "المؤنس: التعبير التحليلي - علاقة الشعر الجاهلي ببيئته", "المفيد: النحو والصرف - المقدمة والمراجعة", "المفيد 1-1 اسم الفاعل", "المفيد 1-2 صيغ المبالغة", "المفيد 1-3 عمل اسم الفاعل", "المفيد 1-4 اسم المفعول", "المفيد 1-5 عمل اسم المفعول", "المفيد 1-6 الصفة المشبهة", "المفيد 1-7 عمل الصفة المشبهة", "المفيد 1-8 اسم التفضيل", "المفيد 1-9 عمل اسم التفضيل", "المفيد: البلاغة - مراجعة وتمهيد علم البيان", "المفيد 2-1 التشبيه: مفهومه وأركانه", "المفيد 2-2 أقسام التشبيه", "المفيد 2-3 التشبيه التمثيلي", "المفيد 2-4 التشبيه الضمني", "المفيد 2-5 التشبيه المقلوب", "المفيد 2-6 تمهيد المجاز (الحقيقة والمجاز)", "المفيد 3-1 العروض - مراجعة وبحر الطويل", "المفيد 3-2 بحر البسيط", "المفيد: نص تطبيقي (فوانيس الظلام)"],
+ "اللغة الإنجليزية": ["Coursebook Theme 1 - Unit 1: Reading Skills (Gist & Detail / Structure)", "Coursebook Theme 1 - Unit 2: Grammar (Present Simple vs Present Continuous)", "Coursebook Theme 1 - Unit 3: Vocabulary (Mobile phones & SMS / Abbreviations)", "Coursebook Theme 1 - Unit 4: Listening (Successful Conversation Strategies)", "Coursebook Theme 1 - Unit 5: Writing (E-mail Structure & Writing)", "Coursebook Theme 2 - Unit 1: Reading (Main Ideas & Adolescence language)", "Coursebook Theme 2 - Unit 2: Grammar (Past Simple vs Past Continuous)", "Coursebook Theme 2 - Unit 3: Vocabulary (Personal Qualities & Friendship)", "Coursebook Theme 2 - Unit 4: Listening (Specific Info & Asking Questions)", "Coursebook Theme 2 - Unit 5: Writing (Correction Code & Letter Writing)", "Coursebook Theme 3 - Unit 1: Reading (Skimming & Scanning / Sorting Info)", "Coursebook Theme 3 - Unit 2: Grammar (Expressing the Future / Sequencing)", "Coursebook Theme 3 - Unit 3: Vocabulary (Holiday Brochures & Describing Places)", "Coursebook Theme 3 - Unit 4: Listening (Prediction Skills & Debate)", "Coursebook Theme 3 - Unit 5: Writing (Tour Description & Design)", "Coursebook Theme 4 - Unit 1: Reading (Focus Questions & Inferring Meaning)", "Coursebook Theme 4 - Unit 2: Grammar (Past Participles & Past Passive)", "Coursebook Theme 4 - Unit 3: Vocabulary (Innovation, Inventions & Word Forms)", "Coursebook Theme 4 - Unit 4: Listening (Virtual Reality & Indirect Questions)", "Coursebook Theme 4 - Unit 5: Writing (E-shopping / Complaint & Informative Essay)", "Coursebook: Communication Activities", "Workbook Theme 1: Communication (Exercises)", "Workbook Theme 2: Those Teenage Things (Exercises)", "Workbook Theme 3: Travellers and Tourists (Exercises)", "Workbook Theme 4: Innovation (Exercises)", "Workbook: Reading Section", "Workbook: Communication Activities", "Workbook: Grammar Practice", "Workbook: Reference Section", "Workbook: Word List", "Workbook: Functional Language Review"],
+ "الرياضيات الأساسية": ["1-1 حلّ المعادلات التربيعية بالتحليل إلى عوامل", "2-1 القيم العظمى والقيم الصغرى للدالة التربيعية", "3-1 المتباينات التربيعية", "4-1 جذور المعادلة التربيعية", "5-1 حلّ المعادلات الآنية (معادلة خطية ومعادلة تربيعية)", "6-1 التقاطع بين مستقيم ومنحنى الدالة التربيعية", "تمارين مراجعة نهاية الوحدة الأولى", "1-2 تعريف الدوال ومجالها ومداها", "2-2 الدوال المركّبة", "3-2 الدوال العكسية", "4-2 منحنى الدالة ومنحنى دالتها العكسية", "تمارين مراجعة نهاية الوحدة الثانية", "1-3 المتتاليات الحسابية", "2-3 المتتاليات الهندسية", "3-3 المتسلسلات الهندسية غير المنتهية", "تمارين مراجعة نهاية الوحدة الثالثة", "1-4 مقاييس النزعة المركزية", "1-4أ الوسط الحسابي", "1-4ب المنوال", "1-4ج الوسيط", "2-4 الحساب التقديري لمقاييس النزعة المركزية", "2-4أ الحساب التقديري لمقاييس النزعة المركزية: الوسط الحسابي والمنوال", "2-4ب الحساب التقديري لمقاييس النزعة المركزية: الوسيط", "3-4 خصائص مقاييس النزعة المركزية", "تمارين مراجعة نهاية الوحدة الرابعة", "1-5 المدى للبيانات المجمعة وغير المجمعة", "2-5 المدى الربيعي", "3-5 التباين والانحراف المعياري", "3-5أ إيجاد التباين والانحراف المعياري", "3-5ب حساب تقديرات التباين والانحراف المعياري", "4-5 خصائص مقاييس التشتت", "تمارين مراجعة نهاية الوحدة الخامسة"],
+ "الرياضيات المتقدمة": ["1-1 الإكمال إلى مربع", "1-1أ كتابة العبارة الجبرية بطريقة الإكمال إلى مربع", "1-1ب استخدام الإكمال إلى مربع لحل المعادلات التربيعية", "2-1 التمثيل البياني للدالة التربيعية", "3-1 جذور المعادلة التربيعية", "4-1 الصيغة التربيعية", "5-1 حلّ المعادلات الآنية (معادلة خطية ومعادلة تربيعية)", "6-1 حلّ معادلات تربيعية أكثر تعقيداً", "7-1 حلّ المتباينات التربيعية", "8-1 التقاطع بين مستقيم ومنحنى الدالة التربيعية", "تمارين مراجعة نهاية الوحدة الأولى", "1-2 تعريف الدالة", "2-2 الدوال المركبة", "3-2 الدوال العكسية", "4-2 منحنى الدالة ومنحنى دالتها العكسية", "5-2 التحويلات الهندسية للدوال", "5-2أ الانسحاب", "5-2ب الانعكاس", "5-2ج التمدد", "6-2 تركيب التحويلات الهندسية", "1-3 المتتاليات الحسابية", "2-3 المتتاليات الهندسية", "3-3 المتسلسلات الهندسية غير المنتهية", "4-3 المزيد من المتتاليات الحسابية والهندسية", "تمارين مراجعة نهاية الوحدة الثالثة", "1-4 الوسط الحسابي (المعدل)", "2-4 التباين والانحراف المعياري", "تمارين مراجعة نهاية الوحدة الرابعة", "1-5 طول القطعة المستقيمة وإحداثيات نقطة منتصفها", "2-5 المستقيمات المتوازية والمستقيمات المتعامدة", "3-5 معادلة الخط المستقيم", "4-5 معادلة الدائرة", "5-5 علاقة المستقيم بالدائرة", "تمارين مراجعة نهاية الوحدة الخامسة", "1-6 المصفوفات والعمليات عليها", "2-6 محدد المصفوفة", "3-6 معكوس المصفوفة", "4-6 استخدام المصفوفات في حل أنظمة المعادلات", "تمارين مراجعة نهاية الوحدة السادسة"],
+ "الكيمياء": ["1-1 مكونات الذرة", "2-1 مستويات الطاقة الفرعية والأفلاك الذرية", "3-1 التوزيع الإلكتروني", "4-1 تدرج الخصائص ودوريتها في الجدول الدوري", "5-1 طاقة التأين (IE)", "1-2 الصيغ الأولية والجزيئية", "2-2 حسابات كتل المواد المتفاعلة والناتجة", "3-2 الحجم المولي والتناسب الكيميائي", "4-2 المعايرة والتناسب الكيميائي", "1-3 أنواع الترابط الكيميائي", "2-3 أشكال الجزيئات", "3-3 تهجين الأفلاك الذرية", "4-3 طول وطاقة الرابطة", "5-3 السالبية الكهربائية والقطبية", "6-3 القوى بين الجزيئات", "7-3 الرابطة الهيدروجينية", "8-3 الروابط والخصائص الفيزيائية", "1-4 أعداد التأكسد", "2-4 تفاعلات الأكسدة-اختزال", "3-4 وزن المعادلات الكيميائية باستخدام أعداد التأكسد", "1-5 التفاعلات المنعكسة والاتزان", "2-5 حالة الاتزان", "3-5 معادلات الاتزان وثابت الاتزان (Kc)", "4-5 الاتزان في تفاعلات الغازات وثابت الاتزان (Kp)", "5-5 الاتزان والصناعات الكيميائية"],
+ "الفيزياء": ["1-1 استخدام الأدوات واتباع التعليمات", "2-1 جمع الأدلة", "3-1 الدقة والضبط والأخطاء وعدم اليقين", "4-1 إيجاد قيمة عدم اليقين", "5-1 النسبة المئوية لعدم اليقين", "6-1 جمع قيم عدم اليقين", "7-1 تسجيل النتائج", "8-1 فهم الوحدات في النظام الدولي للوحدات (SI)", "1-2 المسافة والإزاحة", "2-2 السرعة والسرعة المتجهة", "3-2 التمثيل البياني (الإزاحة-الزمن)", "4-2 جمع الإزاحات", "5-2 جمع السرعات المتجهة", "6-2 طرح المتجهات", "7-2 أمثلة أخرى للكميات العددية والكميات المتجهة", "1-3 معنى التسارع", "2-3 وحدات قياس التسارع", "3-3 استنتاج التسارع", "4-3 استنتاج الإزاحة", "5-3 تطبيقات عملية للتسارع", "6-3 تحديد السرعة المتجهة والتسارع في المختبر", "7-3 معادلات الحركة الخطية", "8-3 اشتقاق معادلات الحركة الخطية", "9-3 التسارع المنتظم وغير المنتظم", "10-3 التسارع بسبب الجاذبية الأرضية", "11-3 تحديد تسارع السقوط الحر (g)", "12-3 الحركة في بعدين: المقذوفات", "13-3 فهم المقذوفات", "1-4 قانون نيوتن الثاني للحركة", "2-4 التعرف على أنواع القوى", "3-4 الكتلة والقصور الذاتي", "4-4 الحركة في الموائع", "5-4 قوى التلامس العمودية والطفو", "6-4 قانون نيوتن الثالث للحركة", "7-4 الوحدات الأساسية والنيوتن", "8-4 جمع القوى", "9-4 مركبات المتجهات", "8-11 درجة الحرارة وطاقة حركة الجزيئات"],
+ "الأحياء": ["1-1 علم الخلية واستخدام المجهر", "2-1 الخلايا النباتية والخلايا الحيوانية كما تُرى بالمجهر الضوئي", "3-1 حساب القياسات ومقدار التكبير", "4-1 الخلايا النباتية والخلايا الحيوانية كما تُرى بالمجهر الإلكتروني", "5-1 البكتيريا", "6-1 الفيروسات", "1-2 الكيمياء الحيوية", "2-2 الكربوهيدرات", "3-2 الدهون", "4-2 البروتينات", "5-2 الماء", "1-3 ما هو الإنزيم؟", "2-3 طريقة عمل الإنزيمات", "3-3 استقصاء سير تفاعل محفّز بالإنزيم", "4-3 العوامل المؤثرة في عمل الإنزيم", "5-3 مقارنة ألفة (تلاؤم) الإنزيمات", "6-3 مثبطات الإنزيم", "7-3 الإنزيمات المثبتة", "1-4 النمو والتكاثر ودور الكروموسومات", "2-4 دورة الخلية", "3-4 الانقسام المتساوي", "4-4 دور التيلوميرات", "5-4 دور الخلايا الجذعية", "6-4 السرطانات"],
+ "العلوم البيئية": ["1-1 الاستدامة", "2-1 دورة الماء", "3-1 النظم البيئية", "1-2 المنهج العلمي", "2-2 جمع البيانات البيئية", "1-3 التفاعلات", "2-3 علاقات التغذية", "3-3 دورات المغذيات", "1-4 تصنيف الكائنات الحية البحرية", "2-4 المجموعات الرئيسية للكائنات الحية البحرية"],
+ "الدراسات الاجتماعية (هذا وطني)": ["1-1 عُمان... الموقع ومظاهر السطح", "1-2 عُمان.. المناخ والنبات الطبيعي", "1-3 عُمان... العصور القديمة وصدر الإسلام", "1-4 عُمان بين القرنين الثاني والسادس الهجريين", "2-1 المجتمع العُماني", "2-2 المؤسسات الثقافية العُمانية بين الماضي والحاضر", "2-3 الإسهامات الثقافية والحضارية العُمانية"],
+ "التاريخ (الحضارة الإسلامية)": ["1-1 مجالات البناء الحضاري للمجتمع الإسلامي", "1-2 أصول الحضارة الإسلامية وخصائصها", "1-3 عوامل ازدهار الحضارة الإسلامية", "2-1 النظم السياسية", "2-2 النظم الإدارية والعسكرية", "2-3 النظم الاجتماعية والفنية", "2-4 النظم التربوية والاقتصادية", "3-1 الحضارة الإسلامية في وسط آسيا وجنوبها", "3-2 الحضارة الإسلامية في شرق آسيا وجنوبها الشرقي", "3-3 دور العمانيين في نشر الحضارة الإسلامية في السواحل الآسيوية", "3-4 دور العمانيين في نشر الحضارة الإسلامية في شرقي إفريقيا", "4-1 معابر انتقال الحضارة الإسلامية إلى أوروبا: (المعبر الإسلامي)", "4-2 معابر انتقال الحضارة الإسلامية إلى أوروبا: (المعبر الأوروبي)", "4-3 مظاهر تأثر الحضارة الأوروبية بالحضارة الإسلامية في مجالات المنهج العلمي والآداب والجغرافيا والفلك والرياضيات", "4-4 مظاهر تأثر الحضارة الأوروبية بالحضارة الإسلامية في مجالات العلوم والعمارة والحياة الاجتماعية والصناعة"],
+ "الجغرافيا الاقتصادية": ["1-1 الموارد الطبيعية وأنواعها", "1-2 الموارد المعدنية وإدارتها", "1-3 التربة واستدامتها", "1-4 مصادر الطاقة وإدارتها", "2-1 الزراعة مفهومها وأنواعها", "2-2 الزراعة المستدامة", "2-3 الصناعة أنواعها ومقوماتها", "2-4 الصناعة وأثرها على البيئة", "3-1 النقل", "3-2 الاتصالات", "3-3 التجارة الدولية", "4-1 السياحة... المفهوم والأهمية", "4-2 أنواع السياحة", "4-3 النظام السياحي... المدخلات والعمليات", "4-4 النظام السياحي... المخرجات"],
+ "المهارات الموسيقية": ["1-1 عنصر الإيقاع", "1-2 عنصر النغم", "1-3 عنصر التعبير (التظليل)", "2-1 التآلفات الهارمونية", "2-2 المصاحبة الهارمونية", "2-3 عزف الألحان الهارمونية", "3-1 نبذة تاريخية لآلة الجيتار", "3-2 مكونات آلة الجيتار", "3-3 طريقة العزف على آلة الجيتار", "4-1 السلالم الكبيرة", "4-2 الموازين المركبة والمقابلات الإيقاعية", "4-3 التآلفات اللحنية", "5-1 فن الصوت", "5-2 من فن الصوت (صوت عُمان الجميلة)", "5-3 الصغراوي (قيثارة الوطن)", "6-1 محمد القصبجي (1892 - 1966م)", "6-2 تحليل مقطوعة موسيقية (ذكرياتي للقصبجي)", "6-3 عزف مقطوعة ذكرياتي", "7-1 عصر الباروك", "7-2 يوهان سباستيان باخ (1685 - 1750م)", "7-3 فن الأوبرا"],
+ "الفنون التشكيلية": ["1-1 الرسم الكاريكاتيري", "1-2 تلوين الرسم الكاريكاتيري", "1-3 الرسومات الكارتونية المصورة", "1-4 تلوين الرسم الكارتوني", "2-1 لوحة بأسلوب تأثيري", "2-2 التحليل اللوني", "2-3 تشكيل منتج الفسيفساء", "2-4 إخراج منتج الفسيفساء", "3-1 من الواقعية إلى التأثيرية", "3-2 من التكعيبية إلى السريالية", "3-3 من المستقبلية إلى التجريدية", "3-4 من الوحشية إلى التعبيرية"],
+ "تقنية المعلومات": ["1-1 المراقبة والتحكم", "1-2 الذكاء الاصطناعي", "1-3 تعلّم الآلة", "1-4 إنشاء نموذج تعلّم الآلة", "1-5 اكتشاف الكائنات في الصور", "1-6 التقنيات الناشئة", "1-7 تأثير التقنية على البيئة والصحة", "2-1 هل تذكر؟", "2-2 وثائق الأعمال", "2-3 مبادئ تصميم وثائق الأعمال", "2-4 نماذج الأعمال", "2-5 استطلاع رضا العملاء", "2-6 تقارير الأعمال", "2-7 المخططات البيانية في تقارير الأعمال", "2-8 المراجع وجدول المحتويات", "2-9 برامج أخرى", "3-1 المشروع الأول: تخطيط عرض تقديمي", "3-2 المشروع الثاني: تقديم عرض", "3-3 المشروع الثالث: تدريب نموذج تعلّم الآلة", "3-4 المشروع الرابع: استخدام نموذج تعلّم الآلة لمقطع برمجي", "3-5 المشروع الخامس: إنشاء استطلاع", "3-6 المشروع السادس: إنشاء تقرير"]
+ },
+ "12": {
+ "التربية الإسلامية": ["1-1 أخطاء عند تطبيق أحكام الميم والنون الساكنتين والتنوين", "1-2 أخطاء في تطبيق المدود", "1-3 أخطاء عند تطبيق صفات الحروف", "2-1 قيم الحضارة الإسلامية", "2-2 من القيم الاجتماعية (العفة والطهر)", "2-3 من القيم الصحية (التداوي)", "2-4 من القيم القيادية", "2-5 من القيم المهنية", "3-1 عالم الغيب", "3-2 الحياة البرزخية", "3-3 البعث والحشر", "3-4 الحساب", "3-5 نعيم الجنة وعذاب النار", "4-1 الهوية الإسلامية", "4-2 الهوية وتحويل القبلة", "4-3 الثابت والمتجدد في الهوية الإسلامية", "4-4 دور العمانيين في تأصيل الهوية الإسلامية", "5-1 المعاملات المالية في الإسلام", "5-2 حرمة الغش", "5-3 من البيوع الجائزة", "5-4 من البيوع المنهي عنها", "5-5 الوعيد الشديد في التعامل بالربا", "6-1 فلاحك باتباعك رسولك ﷺ", "6-2 السيدة عائشة أم المؤمنين رضي الله عنها", "6-3 السيدة حفصة أم المؤمنين رضي الله عنها", "6-4 أبو ذر الغفاري رضي الله عنه", "6-5 سعد بن معاذ رضي الله عنه"],
+ "اللغة العربية": ["المؤنس 1-1 ما ينبغي جلّ أن يسمى: أبو الطيب", "المؤنس 1-2 من خصائص شعر المتنبي: مبروك المناعي", "المؤنس 1-3 عندما جاء المتنبي ملأ الدنيا وشغل الناس: محمد آيت", "المؤنس 2-1 سلوتم وبقينا نحن عشاقا: ابن زيدون", "المؤنس 2-2 وصف الطبيعة في الشعر الأندلسي", "المؤنس 3-1 المقامة القريضية: الهمذاني", "المؤنس 3-2 المقامة الصحارية: البرواني", "المؤنس 3-3 مصطلح السرد في المقامة", "المؤنس 3-4 قراءة أولى لمقامات البرواني", "المؤنس 4-1 مصادر العقل العربي: أنيس مقدسي", "المؤنس 4-2 من سورة فاطر: قرآن كريم", "المؤنس 4-3 الشك واليقين: الجاحظ", "المؤنس 4-4 المنحى العقلي عند الجاحظ: د. علي أبو ملحم", "المؤنس 4-5 علاقة ما بين الشريعة والعقل: ابن رشد", "المؤنس 4-6 ملحق: فصل (عقل) في المعجم المفهرس لمعاني القرآن الكريم", "المؤنس 5-1 غرور المطامع: أبو العتاهية", "المؤنس 5-2 الزهد بين أبي نواس وأبي العتاهية", "المؤنس 5-3 الصنعة الشعرية عند أبي العتاهية", "المؤنس 6-1 خراب القيروان: الحصري", "المؤنس 6-2 الغريب: أبو حيان التوحيدي", "المؤنس 6-3 غرناطة: نزار قباني", "المؤنس 7-1 المرأة والمجتمع: طلال الفاسي", "المؤنس 7-2 إسماعيل والمجتمع: يحيى حقي", "المؤنس 7-3 صناعة المستقبل: صالح المهدي", "المؤنس 7-4 الموسيقى التقليدية هوية وتراث: د. عصام Mلاح", "المؤنس 8-1 منهجية التعبير", "المؤنس 8-2 التلخيص (1)", "المؤنس 8-3 التلخيص (2) المرأة والمجتمع", "المؤنس 8-4 التحقيق الصحفي (الشباب وأوقات الفراغ)", "المؤنس 8-5 فن الإلقاء", "المؤنس 8-6 الزهد في الأدب العربي (تحليل نص أدبي)", "المؤنس 8-7 تدريب على تحليل نص أدبي", "المفيد 1-1 أسلوب التعجب", "المفيد 1-2 الإغراء والتحذير", "المفيد 1-3 المدح والذم", "المفيد 1-4 أسلوب الاختصاص", "المفيد 2-1 المزيد بحرف", "المفيد 2-2 المزيد بحرفين", "المفيد 2-3 المزيد بثلاثة أحرف", "المفيد 3-أ أقوال في البلاغة (للمطالعة)", "المفيد 3-ب علم المعاني: نشأته وتطوره (للمطالعة)", "المفيد 3-1 المسند والمسند إليه", "المفيد 3-2 التقديم والتأخير", "المفيد 3-3 الخبر والإنشاء", "المفيد 3-4 الخبر أنواعه وأغراضه", "المفيد 4-1 بحر الوافر", "المفيد 4-2 بحر الرمل", "المفيد 5-1 أسلوب الاستثناء", "المفيد 5-2 أسلوب الاستفهام", "المفيد 5-3 أسلوب النداء", "المفيد 5-4 أسلوب القسم", "المفيد 5-5 أسلوب الشرط", "المفيد 6-1 الإبدال", "المفيد 6-2 الإعلال", "المفيد 6-3 الإدغام", "المفيد 7-أ (المقدمة) الإنشاء", "المفيد 7-1 الأمر والنهي", "المفيد 7-2 الاستفهام وأغراضه", "المفيد 7-3 النداء وأغراضه", "المفيد 7-ب تبادل الخبر والإنشاء (للمطالعة)", "المفيد 8-أ الخليل بن أحمد (للمطالعة)", "المفيد 8-1 بحر الرجز", "المفيد 8-2 بحر الهزج", "المفيد 8-ج نص تطبيقي متكامل"],
+ "اللغة الإنجليزية": ["Coursebook Theme 1 - Unit 1: Reading Skills (Skimming & Main Ideas)", "Coursebook Theme 1 - Unit 2: Grammar (Past Simple & Passive usages)", "Coursebook Theme 1 - Unit 3: Vocabulary (Shopping & Collocations)", "Coursebook Theme 1 - Unit 4: Listening (Predicting Info & Shopping Surveys)", "Coursebook Theme 1 - Unit 5: Writing (Evaluating Advertisements)", "Coursebook Theme 2 - Unit 1: Reading Speed & Strategies for Further Study", "Coursebook Theme 2 - Unit 2: Grammar (Past Perfect Tense usage)", "Coursebook Theme 2 - Unit 3: Vocabulary (Dealing with New Words & Meanings)", "Coursebook Theme 2 - Unit 4: Listening & Discussing Future Plans", "Coursebook Theme 2 - Unit 5: Writing (Proof-reading & Letter to a Teacher)", "Coursebook Theme 3 - Unit 1: Reading for Specific Info & Hospitality Language", "Coursebook Theme 3 - Unit 2: Grammar (First Conditional & Job Opportunities)", "Coursebook Theme 3 - Unit 4: Listening (Prediction Skills & Role Play Fluency)", "Coursebook Theme 3 - Unit 5: Writing (Narrative Essay Structure)", "Coursebook Theme 4 - Unit 1: Reading Fluency & Pronouns Cohesive Devices", "Coursebook Theme 4 - Unit 2: Grammar (Present Perfect & Continuous / For & Since)", "Coursebook Theme 4 - Unit 3: Vocabulary (Road Safety & Describing Trends)", "Coursebook Theme 4 - Unit 4: Listening (Specific Info & Explaining Operations)", "Coursebook Theme 4 - Unit 5: Writing (Conjunctions & Informative Essay)", "Coursebook: Communication Activities", "Workbook Theme 1: Retail Therapy (Exercises)", "Workbook Theme 2: Starting University (Exercises)", "Workbook Theme 3: Tourism and Hospitality (Exercises)", "Workbook Theme 4: Travel and Transport (Exercises)", "Workbook: Reading Section", "Workbook: Communication Activities", "Workbook: Grammar Practice", "Workbook: Reference Section - Writing Guide", "Workbook: Reference Section - Grammar Reference", "Workbook: Reference Section - Word List", "Workbook: Reference Section - Functional Language Review"],
+ "الرياضيات الأساسية": ["1-1 الدالة الأسّيّة الطبيعية", "2-1 الدالة اللوغاريتمية الطبيعية ومعكوسها", "3-1 الصيغة الأسّيّة والصيغة اللوغاريتمية للأساس هـ", "4-1 حل المعادلات الأسّيّة واللوغاريتمية الطبيعية", "5-1 تحويل علاقة إلى صيغة خطية باستخدام اللوغاريتم الطبيعي", "تمارين مراجعة نهاية الوحدة الأولى", "1-2 المشتقة الأولى", "2-2 الميل عند نقطة", "3-2 معادلة المماس", "4-2 المشتقة الثانية", "5-2 الدوال المتزايدة والمتناقصة", "تمارين مراجعة نهاية الوحدة الثانية", "1-3 المتغيرات العشوائية المتقطعة (المنفصلة)", "2-3 التوزيع الاحتمالي للمتغير العشوائي المتقطع", "3-3 القيمة المتوقعة والتباين للمتغير العشوائي المتقطع", "تمارين مراجعة نهاية الوحدة الثالثة"],
+ "الرياضيات المتقدمة": ["1-1 الراديان", "1-2 طول القوس", "1-3 مساحة القطاع الدائري", "تمارين مراجعة نهاية الوحدة الأولى", "2-1 الزوايا بين 0ْ، 90ْ", "2-2 زاوية الأساس (الزاوية المرجعية)", "2-3 النسب المثلثية للزوايا العامة", "2-4 التمثيلات البيانية للدوال المثلثية", "2-5 الدوال المثلثية العكسية", "2-6 المعادلات المثلثية", "2-7 المتطابقات المثلثية", "2-8 المزيد من المعادلات المثلثية", "تمارين مراجعة نهاية الوحدة الثانية", "3-1 نهاية الدالة عند نقطة", "3-1أ نهاية الدالة كثيرة الحدود", "3-1ب نهاية الدالة النسبية", "3-1ج نهاية الدالة معرّفة بأكثر من قاعدة", "3-2 نهاية الدالة النسبية عند اللانهاية (س ← ±∞)", "3-3 خواص النهايات", "3-4 الاتصال", "تمارين مراجعة نهاية الوحدة الثالثة", "4-1 المشتقة وعلاقتها بالميل", "4-2 مشتقة دالة القوة", "4-3 قاعدة السلسلة", "4-4 المماس والعمودي", "4-5 الدوال المتزايدة والدوال المتناقصة", "4-6 النقاط الحرجة", "تمارين مراجعة نهاية الوحدة الرابعة"],
+ "الكيمياء": ["1-1 الأحماض والقواعد", "2-1 الأحماض والقواعد القوية والضعيفة", "3-1 ثابت تأين الماء Kw وحسابات الرقم الهيدروجيني pH", "4-1 ثابت تأين الأحماض الضعيفة Ka والقواعد الضعيفة Kb", "5-1 معايرة الأحماض والقواعد", "6-1 الاتزان والذوبانية", "7-1 المحاليل المنظمة", "1-2 جهود الأقطاب الكهربائية (E)", "2-2 قياس جهود الأقطاب القياسية", "3-2 جهود الاختزال القياسية", "4-2 تأثير تراكيز الأيونات على قيم جهود الاختزال (E)", "5-2 التحليل الكهربائي", "6-2 حسابات التحليل الكهربائي", "1-3 طاقة الشبكة البلورية (ΔH_latt)", "2-3 التغير في المحتوى الحراري للتذرير (التفكك) والألفة الإلكترونية", "3-3 حلقة (دورة) بورن-هابر", "4-3 التغيرات في المحتوى الحراري للمحاليل", "1-4 أعداد التأكسد", "2-4 تفاعلات الأكسدة-اختزال", "3-4 وزن المعادلات الكيميائية باستخدام أعداد التأكسد", "1-5 التفاعلات المنعكسة والاتزان", "2-5 حالة الاتزان", "3-5 معادلات الاتزان وثابت الاتزان (Kc)", "4-5 الاتزان في تفاعلات الغازات وثابت الاتزان (Kp)", "5-5 الاتزان والصناعات الكيميائية", "8-4 الأمينات"],
+ "الفيزياء": ["1-1 تمثيل مجال الجاذبية", "2-1 شدة مجال الجاذبية (g)", "3-1 الطاقة وجهد الجاذبية", "4-1 الدوران تحت تأثير الجاذبية", "1-2 المجال الكهربائي", "2-2 شدة المجال الكهربائي", "3-2 القوة المؤثرة على شحنة كهربائية", "4-2 قانون كولوم والمجالات الشعاعية", "5-2 الجهد وطاقة الوضع الكهربائية", "1-3 التيار الكهربائي", "2-3 فرق الجهد الكهربائي", "3-3 المقاومة النوعية", "4-3 قانونا كيرشوف", "5-3 الدوائر العملية", "1-4 التعرف على المكثفات", "2-4 الطاقة المخزنة في مكثف", "3-4 توصيل المكثفات على التوازي", "4-4 توصيل المكثفات على التوالي", "5-4 شبكات المكثفات", "6-4 شحن المكثفات وتفريغها", "1-5 توليد المجالات المغناطيسية وتمثيلها", "2-5 القوة المغناطيسية", "3-5 كثافة الفيض المغناطيسي", "4-5 المزيد عن القوى على الموصلات الحاملة لتيار كهربائي", "5-5 الحث الكهرومغناطيسي", "6-5 قانون فاراداي للحث الكهرومغناطيسي", "7-5 قانون لنز", "8-5 تطبيقات الحث الكهرومغناطيسي"],
+ "الأحياء": ["1-1 تركيب DNA و RNA", "2-1 تضاعف DNA", "3-1 الشفرة الجينية", "4-1 بناء البروتين", "5-1 الطفرات الجينية", "1-2 الأمشاج والتكاثر", "2-2 كيف يحدث التباين الجيني؟", "3-2 الوراثة", "4-2 الوراثة والمخططات الجينية", "5-2 الجينات والبروتينات والطراز المظهري", "6-2 التحكم في التعبير الجيني", "1-3 الهندسة الجينية", "2-3 أدوات تقني الجينات", "3-3 فصل وتضخيم DNA", "4-3 التقنية الجينية والطب", "5-3 التقنية الجينية والزراعة", "1-4 الاتزان الداخلي", "2-4 تركيب الكلية", "3-4 التحكم في المحتوى المائي", "4-4 التحكم في تركيز جلوكوز الدم", "5-4 الاتزان الداخلي في النباتات", "1-5 مقارنة جهاز الغدد الصماء والجهاز العصبي", "2-5 التواصل العصبي", "3-5 الانقباض العضلي", "4-5 التحكم والتنسيق في النباتات"],
+ "العلوم البيئية": ["1-1 التركيب العام للخلية", "2-1 حركة المواد", "3-1 تبادل الغازات", "4-1 التنظيم الأسموزي", "1-2 التمثيل الضوئي", "2-2 التمثيل الكيميائي", "3-2 التنفس", "1-3 الترسيب الحمضي والضباب الدخاني الكيميائي الضوئي", "2-3 إدارة تلوث الهواء", "3-3 استنفاد الأوزون", "1-4 تغير المناخ", "2-4 تأثيرات تغير المناخ", "3-4 إدارة تغير المناخ"],
+ "التاريخ (العالم من حولي)": ["1-1 إنجازات الأوائل... طريق المستقبل", "2-1 ثورات كبرى... تغير وجه العالم", "3-1 عالم الغد... آمال وتحديات", "1-2 الطاقة... حياة العالم", "2-2 النفط بين الاستمرارية والنفاد", "3-2 الطاقة المتجددة... رؤية مستقبلية", "1-3 الثقافة الإنسانية: المفهوم والأهمية", "2-3 الأقاليم الثقافية والهوية الوطنية", "3-3 الثقافة الوطنية العمانية والمتغيرات الراهنة", "1-4 الحوار بين المنهجية وشروط النجاح", "2-4 تنوع الثقافات العالمية بين التعارف والحوار", "3-4 الحوار والتواصل الحضاري الدولي", "1-5 التراث العالمي... المفهوم والأهمية", "2-5 التراث العالمي... بين الهوية الوطنية والمسؤولية العالمية", "3-5 التراث العالمي... وثقافة السلام", "4-5 عمان... والتراث العالمي", "1-6 مجتمع المعلومات... حضارة رقمية", "2-6 العالم بين قضايا البيئة... ومخاوف الغد", "3-6 عالمنا... نحو مستقبل مشرق للإنسانية"],
+ "الجغرافيا والتقنيات الحديثة": ["1-1 تطور الجغرافيا والخرائط", "1-2 الخريطة: عناصرها وأنواعها", "1-3 إنتاج الخرائط", "2-1 مدخل إلى علم المساحة", "2-2 المسح الأرضي", "2-3 نظام تحديد المواقع العالمي", "2-4 المسح الجوي التصويري", "3-1 تطور الاستشعار عن بُعد", "3-2 أقمار الاستشعار عن بُعد ومصادر البيانات", "3-3 تحليل الصور الفضائية وتفسيرها", "3-4 تطبيقات الاستشعار عن بُعد", "4-1 مقدمة في نظم المعلومات الجغرافية", "4-2 عناصر نظم المعلومات الجغرافية", "4-3 البيانات في نظم المعلومات الجغرافية", "4-4 تمثيل البيانات المكانية", "4-5 وظائف نظم المعلومات الجغرافية وتطبيقاتها"],
+ "الدراسات الاجتماعية (هذا وطني)": ["1-1 عمان في عصر النباهنة... حضارة وتواصل", "2-1 عمان في عصر اليعاربة... قوة وازدهار", "3-1 عمان في عصر البوسعيد... وحدة ومنجزات", "1-2 البيئة... قضية عالمية ويقظة وطنية", "2-2 البيئة العمانية... حماية واستدامة", "3-2 قضايا بيئية... تحديات عالمية وجهود وطنية", "1-3 سوق العمل... توجه عالمي واهتمام وطني", "2-3 المؤسسات الصغيرة والمتوسطة... الأهمية والجهود الوطنية", "3-3 الاقتصاد القائم على المعرفة... تطلعات ورؤى", "1-4 الهوية العمانية... استحضار الموقع واستنطاق التاريخ", "2-4 الهوية العمانية في ظل الثورة المعرفية", "3-4 عمان... والمواطنة العالمية"],
+ "الجغرافيا الاقتصادية": ["1-1 الموارد الطبيعية وأنواعها", "1-2 الموارد المعدنية وإدارتها", "1-3 التربة واستدامتها", "1-4 مصادر الطاقة وإدارتها", "2-1 الزراعة مفهومها وأنواعها", "2-2 الزراعة المستدامة", "2-3 الصناعة أنواعها ومقوماتها", "2-4 الصناعة وأثرها على البيئة", "3-1 النقل", "3-2 الاتصالات", "3-3 التجارة الدولية", "4-1 السياحة... المفهوم والأهمية", "4-2 أنواع السياحة", "4-3 النظام السياحي... المدخلات والعمليات", "4-4 النظام السياحي... المخرجات"],
+ "الفنون التشكيلية": ["1-1 الرسم الكاريكاتيري", "1-2 تلوين الرسم الكاريكاتيري", "1-3 الرسومات الكارتونية المصورة", "1-4 تلوين الرسم الكارتوني", "2-1 لوحة بأسلوب تأثيري", "2-2 التحليل اللوني", "2-3 تشكيل منتج الفسيفساء", "2-4 إخراج منتج الفسيفساء", "3-1 من الواقعية إلى التأثيرية", "3-2 من التكعيبية إلى السريالية", "3-3 من المستقبلية إلى التجريدية", "3-4 من الوحشية إلى التعبيرية"],
+ "تقنية المعلومات": ["1-1 الشبكات السلكية واللاسلكية", "1-2 محاكاة شبكة الهاتف المحمول", "1-3 محاكاة الاتصال بالإنترنت", "1-4 إنترنت الأشياء", "2-1 تصميم ونمذجة التطبيقات", "2-2 تنفيذ التطبيق", "2-3 برمجة تطبيق الهاتف الذكي", "2-4 اختبار التطبيق", "2-5 التقييم والصيانة", "3-1 التخطيط لشبكة نظام بيئي ذكي", "3-2 محاكاة شبكة نظام بيئي ذكي", "3-3 التخطيط لإنشاء تطبيق", "3-4 إنشاء تطبيق"]
+ }
+};
+
+const subjectOrder = {
+'11': ['التربية الإسلامية','اللغة العربية','اللغة الإنجليزية','الرياضيات الأساسية','الرياضيات المتقدمة','الكيمياء','الفيزياء','الأحياء','العلوم البيئية','الدراسات الاجتماعية (هذا وطني)','التاريخ (الحضارة الإسلامية)','الجغرافيا الاقتصادية','الفنون التشكيلية','المهارات الموسيقية','تقنية المعلومات'],
+'12': ['التربية الإسلامية','اللغة العربية','اللغة الإنجليزية','الرياضيات الأساسية','الرياضيات المتقدمة','الكيمياء','الفيزياء','الأحياء','العلوم البيئية','التاريخ (العالم من حولي)','الجغرافيا والتقنيات الحديثة','الدراسات الاجتماعية (هذا وطني)','الفنون التشكيلية','الرياضة المدرسية','تقنية المعلومات']
+};
+
+function $(id){ return document.getElementById(id); }
+
+function switchTab(tabName) {
+  if(window.innerWidth > 1024) return;
+  if(tabName === 'workspace') {
+    document.body.classList.add('view-workspace');
+    $('tab-workspace').classList.add('active');
+    $('tab-controls').classList.remove('active');
+  } else {
+    document.body.classList.remove('view-workspace');
+    $('tab-controls').classList.add('active');
+    $('tab-workspace').classList.remove('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function timeToMinutes(timeStr) {
+  if(!timeStr) return 0;
+  const parts = timeStr.split(':');
+  return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+}
+
+function minutesToTimeStr(mins) {
+  let h = Math.floor(mins / 60) % 24;
+  let m = mins % 60;
+  const period = h < 12 ? 'صباحًا' : 'مساءً';
+  let displayH = h % 12;
+  if (displayH === 0) displayH = 12;
+  return `${String(displayH).padStart(2,'0')}:${String(m).padStart(2,'0')} ${period}`;
+}
+
+function populateTimeControls(){
+  document.querySelectorAll('select.time-12').forEach(select => {
+    const defaultVal = select.dataset.defaultTime || '00:00';
+    select.innerHTML = '';
+    for(let m = 0; m < 1440; m += 15){
+      const hh = Math.floor(m / 60);
+      const mm = String(m % 60).padStart(2, '0');
+      const timeVal = `${String(hh).padStart(2,'0')}:${mm}`;
+      const period = hh < 12 ? 'صباحًا' : 'مساءً';
+      const displayHour = (hh % 12) === 0 ? 12 : (hh % 12);
+      const option = document.createElement('option');
+      option.value = timeVal;
+      option.textContent = `${String(displayHour).padStart(2,'0')}:${mm} ${period}`;
+      select.appendChild(option);
+    }
+    select.value = defaultVal;
+  });
+
+  if(!$('studyDate').value) $('studyDate').valueAsDate = new Date();
+}
+
+function loadSubjects(){
+  const grade = $('gradeSelect').value;
+  const lessonCard = $('lessonCard');
+  if(!grade){ lessonCard.style.display = 'none'; return; }
+
+  let subjects = Object.keys(lessonData[grade] || {});
+  if(subjectOrder[grade]) {
+    subjects.sort((a, b) => {
+      let idxA = subjectOrder[grade].indexOf(a);
+      let idxB = subjectOrder[grade].indexOf(b);
+      if(idxA === -1) idxA = 999;
+      if(idxB === -1) idxB = 999;
+      return idxA - idxB;
+    });
+  }
+
+  $('subjectSelect').innerHTML = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+  lessonCard.style.display = 'block';
+  loadLessons();
+}
+
+function loadLessons(){
+  const grade = $('gradeSelect').value;
+  const subject = $('subjectSelect').value;
+  const lessons = (lessonData[grade] && lessonData[grade][subject]) || [];
+  
+  $('lessonSelect').innerHTML = lessons.map((l, i) => `
+    <div class="lesson-option">
+      <label class="lesson-info"><input type="checkbox" value="${i}" id="chk_${i}"><span>${l}</span></label>
+      <select class="lesson-activity-select" id="act_${i}">
+        <option value="تحضير الدرس">تحضير الدرس (15 دقيقة)</option>
+        <option value="مراجعة سريعة">مراجعة سريعة (25 دقيقة)</option>
+        <option value="تلخيص وحفظ">تلخيص وحفظ (35 دقيقة)</option>
+        <option value="فهم وشرح">فهم وشرح (45 دقيقة)</option>
+        <option value="حل أسئلة">حل أسئلة (45 دقيقة)</option>
+      </select>
+    </div>`).join('');
+}
+
+let selectedLessonsList = [];
+let breaksList = [];
+
+function addLesson(){
+  const grade = $('gradeSelect').value;
+  const subject = $('subjectSelect').value;
+  const checkboxes = document.querySelectorAll('#lessonSelect input[type="checkbox"]:checked');
+  if(!grade || !subject || checkboxes.length === 0){ alert('حدد درسًا واحدًا على الأقل.'); return; }
+  
+  checkboxes.forEach(cb => {
+    const idx = cb.value;
+    const actSelect = document.getElementById(`act_${idx}`);
+    selectedLessonsList.push({ 
+      subject: subject, 
+      lesson: lessonData[grade][subject][idx], 
+      activity: actSelect ? actSelect.value : 'فهم وشرح',
+      pdfUrl: '#',
+      interactiveUrl: '#'
+    });
+    cb.checked = false;
+  });
+  renderSelectedList();
+}
+
+function renderSelectedList(){
+  $('selectedLessons').innerHTML = selectedLessonsList.map((item, i) => `
+    <div class="tag-item">
+      <div><strong>${item.subject}</strong> - ${item.lesson} <span style="font-size:0.75rem; color:var(--text-secondary);">(${item.activity})</span></div>
+      <span class="remove-btn" onclick="removeLesson(${i})">×</span>
+    </div>`).join('');
+  $('lessonsCount').textContent = selectedLessonsList.length;
+  $('subjectsCount').textContent = new Set(selectedLessonsList.map(x=>x.subject)).size;
+}
+
+function removeLesson(index){ selectedLessonsList.splice(index, 1); renderSelectedList(); }
+
+function addBreak(){
+  const label = $('breakLabel').value.trim() || 'استراحة / صلاة';
+  const startMins = timeToMinutes($('breakStartTime').value);
+  const duration = parseInt($('breakDuration').value, 10);
+  
+  if (breaksList.some(b => startMins < (b.startMins + b.duration) && (startMins + duration) > b.startMins)) {
+    alert(`⚠️ الوقت يتعارض مع استراحة سابقة.`); return;
+  }
+  breaksList.push({ label, startMins, duration });
+  breaksList.sort((a, b) => a.startMins - b.startMins);
+  $('breakLabel').value = '';
+  renderBreaksList();
+}
+
+function renderBreaksList(){
+  $('breaksListContainer').innerHTML = breaksList.map((b, i) => `
+    <div class="tag-item break-tag">
+      <div><strong>☕ ${b.label}</strong> (${minutesToTimeStr(b.startMins)} - ${minutesToTimeStr(b.startMins + b.duration)})</div>
+      <span class="remove-btn" onclick="removeBreak(${i})">×</span>
+    </div>`).join('');
+  $('breaksCount').textContent = breaksList.length;
+}
+
+function removeBreak(index){ breaksList.splice(index, 1); renderBreaksList(); }
+
+function getLessonDuration(activity) {
+  if (activity === 'تحضير الدرس') {
+    return 15;
+  } else if (activity === 'مراجعة سريعة') {
+    return 25;
+  } else if (activity === 'تلخيص وحفظ') {
+    return 35;
+  } else if (activity === 'فهم وشرح' || activity === 'حل أسئلة') {
+    return 45;
+  }
+  return 30;
+}
+
+function generateSchedule(){
+  if(!selectedLessonsList.length){ alert('قم بإضافة الدروس أولاً من لوحة التحكم.'); return; }
+
+  const planType = document.querySelector('input[name="planType"]:checked').value;
+  const baseDateVal = $('studyDate').value;
+  const studyStartMins = timeToMinutes($('startTime').value);
+  const studyEndMins = timeToMinutes($('endTime').value);
+  const studentName = $('studentName').value.trim();
+
+  if(!baseDateVal) { alert('اختر تاريخ بداية الجدول.'); return; }
+  if(studyEndMins <= studyStartMins) { alert('تأكد من أن وقت النهاية بعد وقت البداية.'); return; }
+
+  const timelineBody = $('timelineBody');
+  timelineBody.innerHTML = '';
+  
+  let lessonsQueue = [...selectedLessonsList];
+  let dayOffset = 0, totalStudyMins = 0;
+  let maxDays = planType === 'daily' ? 1 : 7;
+  const baseDate = new Date(baseDateVal);
+
+  while (lessonsQueue.length > 0 && dayOffset < maxDays) {
+    let currentDate = new Date(baseDate);
+    currentDate.setDate(baseDate.getDate() + dayOffset);
+    let dayName = currentDate.toLocaleDateString('ar-OM', { weekday: 'long' });
+    let dateStr = currentDate.toISOString().split('T')[0];
+
+    let daySection = document.createElement('div');
+    daySection.className = 'day-section';
+    daySection.innerHTML = `<div class="day-title"><span>📅 ${dayName} (${dateStr})</span> <span style="font-size:0.8rem; color:var(--text-secondary);">الروتين: ${minutesToTimeStr(studyStartMins)} - ${minutesToTimeStr(studyEndMins)}</span></div><div class="timeline-container"></div>`;
+    let container = daySection.querySelector('.timeline-container');
+    let currentTime = studyStartMins;
+
+    while (currentTime < studyEndMins && lessonsQueue.length > 0) {
+      const activeBreak = breaksList.find(b => currentTime >= b.startMins && currentTime < (b.startMins + b.duration));
+      if (activeBreak) {
+        const breakEndMins = Math.min(activeBreak.startMins + activeBreak.duration, studyEndMins);
+        container.innerHTML += `<div class="timeline-item break-item"><div class="timeline-content"><div><strong>☕ ${activeBreak.label}</strong></div><span class="time-pill">${minutesToTimeStr(currentTime)} - ${minutesToTimeStr(breakEndMins)}</span></div></div>`;
+        currentTime = breakEndMins;
+        continue;
+      }
+
+      const item = lessonsQueue.shift();
+      let duration = getLessonDuration(item.activity);
+      
+      let nextBreak = breaksList.find(b => b.startMins > currentTime && b.startMins < (currentTime + duration));
+      let sessionEndMins = Math.min(nextBreak ? nextBreak.startMins : currentTime + duration, studyEndMins);
+
+      let actualDuration = sessionEndMins - currentTime;
+      if (actualDuration > 0) {
+        totalStudyMins += actualDuration;
+        let resHtml = '';
+        if(item.pdfUrl && item.pdfUrl !== '#') resHtml += `<a href="${item.pdfUrl}" target="_blank" class="res-link res-pdf">📄 ملخص</a>`;
+        if(item.interactiveUrl && item.interactiveUrl !== '#') resHtml += `<a href="${item.interactiveUrl}" target="_blank" class="res-link res-interactive">🌐 نشاط</a>`;
+
+        container.innerHTML += `<div class="timeline-item"><div class="timeline-content"><div class="lesson-details"><strong>${item.subject} - ${item.lesson}</strong><p>نوع النشاط: ${item.activity} (${actualDuration} دقيقة)</p><div class="resource-bar">${resHtml}</div></div><span class="time-pill">${minutesToTimeStr(currentTime)} - ${minutesToTimeStr(sessionEndMins)}</span></div></div>`;
+        currentTime = sessionEndMins;
+      }
+    }
+    timelineBody.appendChild(daySection);
+    dayOffset++;
+  }
+
+  if (lessonsQueue.length > 0 && planType === 'daily') {
+    timelineBody.innerHTML += `<div style="background:#fef2f2; color:#991b1b; padding:15px; border-radius:10px; font-weight:bold; text-align:center;">⚠️ امتلأ وقت اليوم المتاح! متبقي لديك (${lessonsQueue.length}) دروس. اختر (أسبوعي) لترحيلها للغد أوتوماتيكياً.</div>`;
+  }
+
+  $('studyTimeCount').textContent = totalStudyMins;
+  $('scheduleNote').textContent = studentName ? `الخطة الخاصة بالطالب: ${studentName} ✨` : 'خطة دراسية مخصصة ✨';
+  
+  switchTab('workspace');
+}
+
+// 📄 دالة تصدير PDF الاحترافية والمضمونة (تمنع ظهور الصفحة البيضاء في الجوال)
+function exportPDF() {
+  const scheduleArea = $('scheduleArea');
+  const timelineBody = $('timelineBody');
+
+  if (!selectedLessonsList.length || timelineBody.textContent.includes('لا توجد خطط')) {
+    alert('⚠️ يرجى إنشاء المخطط الزمني أولاً قبل الحفظ كـ PDF.');
+    return;
+  }
+
+  if (typeof html2pdf === 'undefined') {
+    alert('⚠️ تعذر تحميل مكتبة PDF، يرجى التأكد من اتصالك بالإنترنت.');
+    return;
+  }
+
+  // إظهار منطقة الجدول مؤقتاً لتفادي إخفائها بواسطة CSS للموبايل
+  const workspace = $('workspaceArea');
+  const originalWorkspaceStyle = workspace.style.display;
+  workspace.style.display = 'block';
+
+  const opt = {
+    margin: [10, 10, 10, 10],
+    filename: 'خطة_ثابر_الدراسية.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { 
+      scale: 2, 
+      useCORS: true, 
+      allowTaint: true,
+      logging: false,
+      windowWidth: 1200 // إجبار التقاط الشاشة بأبعاد سطح المكتب العريضة
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  html2pdf().set(opt).from(scheduleArea).save().then(() => {
+    workspace.style.display = originalWorkspaceStyle;
+  }).catch(err => {
+    console.error(err);
+    workspace.style.display = originalWorkspaceStyle;
+    alert('حدث خطأ أثناء استخراج الملف.');
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  populateTimeControls();
+  $('gradeSelect').addEventListener('change', loadSubjects);
+  $('subjectSelect').addEventListener('change', loadLessons);
+  $('addLessonBtn').addEventListener('click', addLesson);
+  $('addBreakBtn').addEventListener('click', addBreak);
+  $('generateBtn').addEventListener('click', generateSchedule);
+  $('printBtn').addEventListener('click', () => window.print());
+  $('pdfBtn').addEventListener('click', exportPDF);
+});
+</script>
+</body>
+</html>
