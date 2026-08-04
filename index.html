@@ -805,11 +805,12 @@ function formatUrl(url) {
   return trimmed;
 }
 
-// 📲 دالة التوجيه للواتساب عند النقر على محتوى مقفل
+// 📲 دالة التوجيه للواتساب عند النقر على محتوى مقفل (معدلة للعمل بأمان على GitHub)
 function promptSubscription(lessonName, grade) {
   const msg = encodeURIComponent(`مرحباً منصة ثابر، أرغب بالاشتراك لـ (الصف ${grade}) لمشاهدة مرفقات وأنشطة درس: (${lessonName}) ✨`);
   if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال للواتساب للاشتراك وتفعيل إيميلك الآن؟`)) {
-    window.open(`https://wa.me/96871444589?text=${msg}`, '_blank');
+    // استخدمنا التوجيه المباشر بدلاً من فتح نافذة جديدة لمنع الحظر
+    window.location.href = `https://wa.me/96871444589?text=${msg}`;
   }
 }
 
@@ -1226,7 +1227,8 @@ function generateSchedule(){
           if (isLocked) {
             return `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 ${label} (للمشتركين)</a>`;
           }
-          return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="res-link ${btnClass}">${icon} ${label}</a>`;
+          // تم تغيير target="_blank" إلى target="_top" ليفتح الرابط فوراً حتى لو كان الطالب داخل الواتساب
+          return `<a href="${url}" target="_top" rel="noopener noreferrer" class="res-link ${btnClass}">${icon} ${label}</a>`;
         };
 
         resHtml += makeBtn(item.videoUrl, 'فيديو الشرح', 'res-video', '🎥');
