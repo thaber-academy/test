@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
+<!-- 🌟 عنوان ووسوم المعاينة الاحترافية للواتساب وتطبيقات التواصل (Open Graph) -->
 <title>مخطط ثابر الذكي | نسخة التجارب المحمية</title>
 <meta name="description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
 <meta property="og:title" content="مخطط ثابر الذكي | منصة ثابر التعليمية" />
@@ -213,7 +214,6 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
 .modal-card { background: #ffffff; border-radius: var(--radius-lg); max-width: 580px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 28px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); transform: translateY(20px); transition: transform 0.3s ease; position: relative; }
 .modal-overlay.active .modal-card { transform: translateY(0); }
 
-/* مؤشر التحميل البصري */
 .sync-loader {
   display: inline-block;
   font-size: 0.75rem;
@@ -464,12 +464,16 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
 // 🔗 رابط Google Apps Script التجريبي الخاص بك
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbx4T3dMdY7m3ZXtx6EiAEzqIxqy6QORPiZ4Im-POAtgzAjP823j4wVOH66tPUE5GnUu3Q/exec";
 
+// 🔧 دالة ذكية لتنظيف وتأمين الروابط ومصادقة صيغ Google Drive
 function formatUrl(url) {
   if (!url || typeof url !== 'string') return '';
   let trimmed = url.trim();
-  if (trimmed === '' || trimmed === '#') return '';
-  trimmed = trimmed.replace(/^https?:/i, (m) => m.toLowerCase());
-  if (!/^https?:\/\//i.test(trimmed)) trimmed = 'https://' + trimmed;
+  if (!trimmed || trimmed === '#' || trimmed.toLowerCase() === 'null' || trimmed.toLowerCase() === 'undefined') return '';
+  
+  if (!/^https?:\/\//i.test(trimmed)) {
+    trimmed = 'https://' + trimmed;
+  }
+  
   if (trimmed.includes('drive.google.com') && trimmed.includes('/view')) {
     trimmed = trimmed.replace(/\/view.*/, '/preview');
   }
@@ -483,10 +487,9 @@ function promptSubscription(lessonName, grade) {
   }
 }
 
-// 🛡️ المخطط يبدأ فارغاً بدون أي دروس مكتوبة يدوياً للحماية المطلقة
+// 🛡️ المخطط يبدأ فارغاً بدون أي دروس مكتوبة يدوياً للحماية المطلقة من السرقة
 let fullData = { lessons: {} };
 
-// 🌟 دالة جلب البيانات الآمنة ديناميكياً بحسب إيميل الطالب المكتوب
 async function fetchDataFromSheet() {
   const loader = $('syncLoader');
   const userEmail = $('studentEmail') ? $('studentEmail').value.trim().toLowerCase() : '';
@@ -494,7 +497,6 @@ async function fetchDataFromSheet() {
   try {
     if (loader) loader.textContent = "⏳ جلب الدروس...";
     
-    // إرسال الإيميل للسيرفر كاستعلام للتحقق منه وحماية الروابط
     const requestUrl = GOOGLE_SHEET_URL + "?email=" + encodeURIComponent(userEmail);
     const response = await fetch(requestUrl);
     const data = await response.json();
@@ -814,21 +816,20 @@ function generateSchedule(){
       if (actualDuration > 0) {
         totalStudyMins += actualDuration;
         
-        // 🛡️ القفل يظهر إذا كان الدرس "مشتركين" ولم يُرجع السيرفر رابطاً (لأن السيرفر قام بتشفيره)
+        // 🔒 قفل الزر أوتوماتيكياً في حال مسح السيرفر للروابط بسبب عدم الاشتراك
         const isLocked = (item.access === 'مشتركين' && !item.videoUrl && !item.pdfUrl && !item.activityUrl && !item.examUrl);
 
         let resHtml = '';
         
+        // 🛠️ فتح آمن ومباشر للروابط عبر target="_blank" يمنع حظر المتصفح
         const makeBtn = (url, label, btnClass, icon) => {
-          if (isLocked) {
-            return `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 ${label} (للمشتركين)</a>`;
-          }
-          if (!url) return '';
-          return `<a href="${url}" target="_top" rel="noopener noreferrer" class="res-link ${btnClass}">${icon} ${label}</a>`;
+          const formatted = formatUrl(url);
+          if (!formatted) return '';
+          return `<a href="${formatted}" target="_blank" rel="noopener noreferrer" class="res-link ${btnClass}">${icon} ${label}</a>`;
         };
 
         if (isLocked) {
-          resHtml += `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 محتوى مخصص للمشتركين</a>`;
+          resHtml += `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 محتوى مخصص للمشتركين (اضغط للتسجيل)</a>`;
         } else {
           resHtml += makeBtn(item.videoUrl, 'فيديو الشرح', 'res-video', '🎥');
           resHtml += makeBtn(item.pdfUrl, 'ملخص PDF', 'res-pdf', '📄');
@@ -995,7 +996,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (e.target === $('instructionsModal')) closeInstructionsModal();
   });
 
-  // جلب البيانات من شيت جوجل عند فتح الصفحة مباشرة
   fetchDataFromSheet();
 });
 </script>
