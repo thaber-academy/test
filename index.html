@@ -174,7 +174,7 @@ body {
 
 .field-group { margin-bottom: 14px; }
 label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; }
-input[type="text"], input[type="date"], select {
+input[type="text"], input[type="email"], input[type="date"], select {
   width: 100%; padding: 12px 14px; border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; font-weight: 600;
   background: var(--bg-main); color: var(--text-primary); outline: none; transition: 0.2s;
@@ -359,14 +359,15 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
 .lesson-details strong { font-size: 0.95rem; color: var(--text-primary); display: block; }
 .lesson-details p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
 
-/* 🔗 أزرار الروابط التفاعلية */
+/* 🔗 أزرار الروابط التفاعلية والتصميم للقفل */
 .resource-bar { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-.res-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 8px; text-decoration: none; transition: 0.2s; }
+.res-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 8px; text-decoration: none; transition: 0.2s; cursor: pointer;}
 .res-link:hover { transform: translateY(-1px); filter: brightness(0.95); }
 .res-video { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
 .res-pdf { background: #fdf2f8; color: #db2777; border: 1px solid #fbcfe8; }
 .res-interactive { background: var(--brand-light); color: var(--brand-primary); border: 1px solid #c1d6f3; }
 .res-exam { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.res-locked { background: #f1f5f9; color: #64748b; border: 1px dashed #cbd5e1; }
 
 .timeline-actions { background: var(--panel-bg); padding: 16px 24px; display: flex; gap: 10px; justify-content: flex-end; border: 1px solid var(--border-color); border-radius: var(--radius-lg); margin-top: 16px; flex-wrap: wrap; }
 
@@ -494,6 +495,17 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
   .schedule-watermark {
     opacity: 0.08 !important;
   }
+  /* 🌟 إظهار أزرار الروابط وتلوينها بوضوح في الـ PDF المطبوع */
+  .resource-bar { display: flex !important; gap: 6px !important; margin-top: 6px !important; }
+  .res-link {
+    display: inline-flex !important;
+    padding: 3px 8px !important;
+    font-size: 0.7rem !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }
 </style>
 </head>
@@ -552,6 +564,12 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
       <div class="field-group">
         <label>اسم الطالب (اختياري)</label>
         <input type="text" id="studentName" placeholder="مثال: أحمد">
+      </div>
+
+      <!-- 📧 حقل الإيميل للاشتراكات الجديدة -->
+      <div class="field-group">
+        <label>البريد الإلكتروني (لفتح أقفال الدروس للصف المشترك فيه)</label>
+        <input type="email" id="studentEmail" placeholder="example@gmail.com">
       </div>
 
       <div class="field-group">
@@ -774,7 +792,28 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
 // 🔗 رابط Google Apps Script الخاص بك المباشر
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzHe97UL3ydMUKcesP_dxBda4qyYQ6fJNsl-ZDSqd2G3tJy_8TYa6Qc64cyPHwZzMiGAg/exec";
 
-// 📚 قاعدة بيانات محلية شاملة (تضمن الفتح الفوري بدون انتظار أبدًا)
+// 🔧 دالة معالجة الروابط لفتحها بآمان ودون حظر
+function formatUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  let trimmed = url.trim();
+  if (trimmed === '' || trimmed === '#') return '';
+  trimmed = trimmed.replace(/^https?:/i, (m) => m.toLowerCase());
+  if (!/^https?:\/\//i.test(trimmed)) trimmed = 'https://' + trimmed;
+  if (trimmed.includes('drive.google.com') && trimmed.includes('/view')) {
+    trimmed = trimmed.replace(/\/view.*/, '/preview');
+  }
+  return trimmed;
+}
+
+// 📲 دالة التوجيه للواتساب عند النقر على محتوى مقفل
+function promptSubscription(lessonName, grade) {
+  const msg = encodeURIComponent(`مرحباً منصة ثابر، أرغب بالاشتراك لـ (الصف ${grade}) لمشاهدة مرفقات وأنشطة درس: (${lessonName}) ✨`);
+  if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال للواتساب للاشتراك وتفعيل إيميلك الآن؟`)) {
+    window.open(`https://wa.me/96871444589?text=${msg}`, '_blank');
+  }
+}
+
+// 📚 قاعدة بيانات محلية شاملة (تضمن الفتح الفوري بدون انتظار أبدًا، مدمجة بشكل ممتاز)
 const defaultLessonData = {
  "5": {
     "التربية الإسلامية": ["القرآن الكريم", "العقيدة", "الحديث الشريف", "الفقه", "السيرة"],
@@ -838,9 +877,9 @@ const defaultLessonData = {
  }
 };
 
-// 🌟 تحميل البيانات السريعة فورًا من LocalStorage أو القواعد المحلية
-let cached = localStorage.getItem('thaber_lesson_data_cached');
-let lessonData = cached ? JSON.parse(cached) : defaultLessonData;
+// إعداد التخزين الذي يجمع (الدروس) + (المشتركين)
+let cached = localStorage.getItem('thaber_full_data_cached');
+let fullData = cached ? JSON.parse(cached) : { lessons: defaultLessonData, subscribers: {} };
 
 // 🌟 جلب التحديثات في الخلفية بدون حجب أو تعطيل واجهة المستخدم (Background Sync)
 async function syncLessonsFromSheetInBackground() {
@@ -848,15 +887,20 @@ async function syncLessonsFromSheetInBackground() {
     if (GOOGLE_SHEET_URL) {
       const response = await fetch(GOOGLE_SHEET_URL);
       const data = await response.json();
-      if (data && Object.keys(data).length > 0) {
-        lessonData = data;
-        localStorage.setItem('thaber_lesson_data_cached', JSON.stringify(data));
-        console.log("⚡ تم التحديث السريع والامتزاج مع Google Sheets");
+      
+      // التوافق مع الكود الجديد
+      if (data && data.lessons) {
+        fullData = data;
+        localStorage.setItem('thaber_full_data_cached', JSON.stringify(data));
+        console.log("⚡ تم التحديث السريع ومزامنة الاشتراكات");
         
-        // إذا كان المستخدم فاتح الصف، نحدث القوائم بدون إزعاجه
         if ($('gradeSelect').value) {
           loadSubjects();
         }
+      } 
+      // دعم خلفي في حال بقاء الكود القديم شغالاً
+      else if (data && !data.lessons) {
+        fullData = { lessons: data, subscribers: {} };
       }
     }
   } catch (error) {
@@ -903,33 +947,44 @@ function minutesToTimeStr(mins) {
   return `${String(displayH).padStart(2,'0')}:${String(m).padStart(2,'0')} ${period}`;
 }
 
+// ⏰ دالة توليد التواقيت المحصنة لمنع الاختفاء
 function populateTimeControls(){
-  document.querySelectorAll('select.time-12').forEach(select => {
-    const defaultVal = select.dataset.defaultTime || '00:00';
-    select.innerHTML = '';
-    for(let m = 0; m < 1440; m += 15){
-      const hh = Math.floor(m / 60);
-      const mm = String(m % 60).padStart(2, '0');
-      const timeVal = `${String(hh).padStart(2,'0')}:${mm}`;
-      const period = hh < 12 ? 'صباحًا' : 'مساءً';
-      const displayHour = (hh % 12) === 0 ? 12 : (hh % 12);
-      const option = document.createElement('option');
-      option.value = timeVal;
-      option.textContent = `${String(displayHour).padStart(2,'0')}:${mm} ${period}`;
-      select.appendChild(option);
-    }
-    select.value = defaultVal;
-  });
+  try {
+    document.querySelectorAll('select.time-12').forEach(select => {
+      const defaultVal = select.dataset.defaultTime || '00:00';
+      select.innerHTML = '';
+      for(let m = 0; m < 1440; m += 15){
+        const hh = Math.floor(m / 60);
+        const mm = String(m % 60).padStart(2, '0');
+        const timeVal = `${String(hh).padStart(2,'0')}:${mm}`;
+        const period = hh < 12 ? 'صباحًا' : 'مساءً';
+        const displayHour = (hh % 12) === 0 ? 12 : (hh % 12);
+        const displayHStr = String(displayHour).padStart(2, '0');
+        const option = document.createElement('option');
+        option.value = timeVal;
+        option.textContent = `${displayHStr}:${mm} ${period}`;
+        select.appendChild(option);
+      }
+      select.value = defaultVal;
+    });
 
-  if(!$('studyDate').value) $('studyDate').valueAsDate = new Date();
+    const dateInput = $('studyDate');
+    if(dateInput && !dateInput.value) {
+      dateInput.valueAsDate = new Date();
+    }
+  } catch (err) {
+    console.error("خطأ في جلب التواقيت:", err);
+  }
 }
 
 function loadSubjects(){
   const grade = $('gradeSelect').value;
   const lessonCard = $('lessonCard');
-  if(!grade || !lessonData[grade]){ lessonCard.style.display = 'none'; return; }
+  const lessonsObj = fullData.lessons || {};
 
-  let subjects = Object.keys(lessonData[grade] || {});
+  if(!grade || !lessonsObj[grade]){ lessonCard.style.display = 'none'; return; }
+
+  let subjects = Object.keys(lessonsObj[grade] || {});
   if(subjectOrder[grade]) {
     subjects.sort((a, b) => {
       let idxA = subjectOrder[grade].indexOf(a);
@@ -948,7 +1003,8 @@ function loadSubjects(){
 function loadLessons(){
   const grade = $('gradeSelect').value;
   const subject = $('subjectSelect').value;
-  const lessons = (lessonData[grade] && lessonData[grade][subject]) || [];
+  const lessonsObj = fullData.lessons || {};
+  const lessons = (lessonsObj[grade] && lessonsObj[grade][subject]) || [];
   
   $('lessonSelect').innerHTML = lessons.map((l, i) => {
     const lessonName = typeof l === 'object' ? l.name : l;
@@ -998,16 +1054,20 @@ function addLesson(isAuto = false){
   }
   
   let duplicateCount = 0;
+  const lessonsObj = fullData.lessons || {};
 
   checkboxes.forEach(cb => {
     const idx = cb.value;
-    const lessonObj = lessonData[grade][subject][idx];
+    const lessonObj = lessonsObj[grade][subject][idx];
     
     const lessonName = typeof lessonObj === 'object' ? lessonObj.name : lessonObj;
-    const videoUrl = typeof lessonObj === 'object' ? (lessonObj.video || '') : '';
-    const activityUrl = typeof lessonObj === 'object' ? (lessonObj.activity || '') : '';
-    const examUrl = typeof lessonObj === 'object' ? (lessonObj.exam || '') : '';
-    const pdfUrl = typeof lessonObj === 'object' ? (lessonObj.pdf || '') : '';
+    
+    // تنسيق الروابط وإصلاحها
+    const videoUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.video || '') : '');
+    const activityUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.activity || '') : '');
+    const examUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.exam || '') : '');
+    const pdfUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.pdf || '') : '');
+    const accessType = typeof lessonObj === 'object' ? (lessonObj.access || 'مجاني') : 'مجاني';
 
     const actSelect = document.getElementById(`act_${idx}`);
     const activityVal = actSelect ? actSelect.value : 'فهم وشرح';
@@ -1024,7 +1084,9 @@ function addLesson(isAuto = false){
         videoUrl: videoUrl,
         activityUrl: activityUrl,
         examUrl: examUrl,
-        pdfUrl: pdfUrl
+        pdfUrl: pdfUrl,
+        access: accessType,
+        grade: grade
       });
     }
 
@@ -1105,6 +1167,12 @@ function generateSchedule(){
   const studyStartMins = timeToMinutes($('startTime').value);
   const studyEndMins = timeToMinutes($('endTime').value);
   const studentName = $('studentName').value.trim();
+  const selectedGrade = $('gradeSelect').value;
+  const userEmail = $('studentEmail') ? $('studentEmail').value.trim().toLowerCase() : '';
+
+  // 🔍 التحقق هل إيميل الطالب مسجل ضمن مشتركي هذا الصف تحديداً؟
+  const gradeSubscribers = (fullData.subscribers && fullData.subscribers[selectedGrade]) ? fullData.subscribers[selectedGrade] : [];
+  const isSubscribedForThisGrade = gradeSubscribers.includes(userEmail);
 
   if(!baseDateVal) { alert('اختر تاريخ بداية الجدول.'); return; }
   if(studyEndMins <= studyStartMins) { alert('تأكد من أن وقت النهاية بعد وقت البداية.'); return; }
@@ -1148,17 +1216,29 @@ function generateSchedule(){
       if (actualDuration > 0) {
         totalStudyMins += actualDuration;
         
+        // 🔒 القفل يظهر إذا كان الدرس مخصصاً للمشتركين والإيميل غير مسجل لهذا الصف
+        const isLocked = (item.access === 'مشتركين' && !isSubscribedForThisGrade);
+
         let resHtml = '';
-        if(item.videoUrl) resHtml += `<a href="${item.videoUrl}" target="_blank" class="res-link res-video">🎥 فيديو الشرح</a>`;
-        if(item.pdfUrl) resHtml += `<a href="${item.pdfUrl}" target="_blank" class="res-link res-pdf">📄 ملخص PDF</a>`;
-        if(item.activityUrl) resHtml += `<a href="${item.activityUrl}" target="_blank" class="res-link res-interactive">🌐 نشاط تفاعلي</a>`;
-        if(item.examUrl) resHtml += `<a href="${item.examUrl}" target="_blank" class="res-link res-exam">📝 اختبار إلكتروني</a>`;
+        
+        const makeBtn = (url, label, btnClass, icon) => {
+          if (!url) return '';
+          if (isLocked) {
+            return `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 ${label} (للمشتركين)</a>`;
+          }
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="res-link ${btnClass}">${icon} ${label}</a>`;
+        };
+
+        resHtml += makeBtn(item.videoUrl, 'فيديو الشرح', 'res-video', '🎥');
+        resHtml += makeBtn(item.pdfUrl, 'ملخص PDF', 'res-pdf', '📄');
+        resHtml += makeBtn(item.activityUrl, 'نشاط تفاعلي', 'res-interactive', '🌐');
+        resHtml += makeBtn(item.examUrl, 'اختبار إلكتروني', 'res-exam', '📝');
 
         container.innerHTML += `
           <div class="timeline-item">
             <div class="timeline-content">
               <div class="lesson-details">
-                <strong>${item.subject} - ${item.lesson}</strong>
+                <strong>${item.subject} - ${item.lesson} ${isLocked ? '<span style="color:#ef4444; font-size:0.75rem;">(🔒 مشتركين)</span>' : ''}</strong>
                 <p>نوع النشاط: ${item.activity} (${actualDuration} دقيقة)</p>
                 <div class="resource-bar">${resHtml}</div>
               </div>
@@ -1298,6 +1378,9 @@ function formatICSDate(dateObj, mins) {
   const minutes = String(mins % 60).padStart(2, '0');
   return `${year}${month}${day}T${hours}${minutes}00`;
 }
+
+// ⚡ تشغيل فوري وتلقائي لبناء عناصر القوائم والتواقيت بمجرد قراءة الكود
+populateTimeControls();
 
 window.addEventListener('DOMContentLoaded', () => {
   populateTimeControls();
