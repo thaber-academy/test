@@ -4,10 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-<!-- 🌟 مكتبة تسجيل الدخول الرسمية من Google -->
+<!-- 🌟 مكتبات جوجل ودمج العلامة المائية للـ PDF -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
-<!-- 🌟 عنوان ووسوم المعاينة للواتساب وتطبيقات التواصل (Open Graph) -->
+<!-- 🌟 عنوان ووسوم المعاينة -->
 <title>مخطط ثابر الذكي | منصة ثابر التعليمية</title>
 <meta name="description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
 <meta property="og:title" content="مخطط ثابر الذكي | منصة ثابر التعليمية" />
@@ -256,7 +257,7 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
       <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="شعار ثابر" class="brand-logo-img">
       <div class="brand-title">
         <h1>مخطط ثابر الذكي</h1>
-        <p>نسخة التجارب المحمية</p>
+        <p>النسخة المحمية الموثقة</p>
       </div>
     </div>
 
@@ -486,7 +487,7 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
 
 const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbx4T3dMdY7m3ZXtx6EiAEzqIxqy6QORPiZ4Im-POAtgzAjP823j4wVOH66tPUE5GnUu3Q/exec";
 
-// 🔑 تفكيك توكن Google لاستخراج البريد الإلكتروني الحقيقي والمؤكد
+// 🔑 تفكيك توكن Google
 function parseJwt (token) {
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -528,8 +529,50 @@ function formatUrl(url) {
   return trimmed;
 }
 
+// 🛡️ تحويل رابط جوجل درايف للتحميل المباشر لتسهيل دمج العلامة المائية
+function getDriveDirectUrl(url) {
+  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match && match[1]) {
+    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+  }
+  return url;
+}
+
+// 🖨️ دالة فتح ملف الـ PDF وطباعة العلامة المائية عليه برمجياً
+async function openWatermarkedPDF(originalUrl) {
+  const userEmail = localStorage.getItem('thaber_verified_email') || 'غير موثق (النسخة المجانية)';
+  const directUrl = getDriveDirectUrl(originalUrl);
+  
+  try {
+    // محاولة جلب الملف (قد يتم حظره من قبل جوجل درايف بسبب الـ CORS)
+    const existingPdfBytes = await fetch(directUrl).then(res => res.arrayBuffer());
+    const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+    const pages = pdfDoc.getPages();
+    
+    pages.forEach(page => {
+      const { width, height } = page.getSize();
+      page.drawText(`مخصص للطالب: ${userEmail}`, {
+        x: width / 6,
+        y: height / 2,
+        size: 20,
+        opacity: 0.25,
+        rotate: PDFLib.degrees(35),
+      });
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const blobUrl = URL.createObjectURL(blob);
+    window.open(blobUrl, '_blank');
+  } catch (err) {
+    // في حال حظر الجلب بسبب سياسات جوجل، يتم فتح الملف الأصلي بشكل طبيعي
+    console.warn("تم فتح الملف الأصلي نظراً لقيود سياسة الحماية (CORS).");
+    window.open(originalUrl, '_blank');
+  }
+}
+
 function promptSubscription(lessonName, grade) {
-  if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال لصفحة الاشتراك وتفعيل إيميلك الآن؟`)) {
+  if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال لصفحة الاشتراك وتفعيل حسابك الآن؟`)) {
     window.location.href = "subscribe.html";
   }
 }
@@ -885,8 +928,13 @@ function generateSchedule(){
         if (isLocked) {
           resHtml += `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 محتوى مخصص للمشتركين (اضغط للتسجيل)</a>`;
         } else {
+          // دمج الأزرار العادية وزر الـ PDF المائي
           resHtml += makeBtn(item.videoUrl, 'فيديو الشرح', 'res-video', '🎥');
-          resHtml += makeBtn(item.pdfUrl, 'ملخص PDF', 'res-pdf', '📄');
+          
+          if (item.pdfUrl) {
+            resHtml += `<a onclick="openWatermarkedPDF('${item.pdfUrl}')" class="res-link res-pdf">📄 ملخص PDF</a>`;
+          }
+          
           resHtml += makeBtn(item.activityUrl, 'نشاط تفاعلي', 'res-interactive', '🌐');
           resHtml += makeBtn(item.examUrl, 'اختبار إلكتروني', 'res-exam', '📝');
         }
