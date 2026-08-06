@@ -857,6 +857,8 @@ positions.forEach(pos => {
   });
 });
 
+    }); // إغلاق pages.forEach
+
     const finalPdfBytes = await pdfDoc.save();
     const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
