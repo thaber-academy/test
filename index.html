@@ -837,14 +837,14 @@ async function openWatermarkedPDF(originalUrl) {
       const { width, height } = page.getSize();
 
       // العلامة المائية = إيميل الطالب المسجل
-      const watermarkSize = 16;
-const watermarkOpacity = 0.15;
+      const watermarkSize = 20;
+const watermarkOpacity = 0.20;
 const watermarkAngle = 35;
 
 const positions = [
-  { x: width * 0.12, y: height * 0.72 },
-  { x: width * 0.32, y: height * 0.48 },
-  { x: width * 0.12, y: height * 0.24 }
+  { x: centerX, y: height * 0.833 },
+  { x: centerX, y: height * 0.500 },
+  { x: centerX, y: height * 0.167 }
 ];
 
 positions.forEach(pos => {
