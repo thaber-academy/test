@@ -1,18 +1,14 @@
 <!doctype html>
-
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 <!-- 🌟 مكتبات جوجل ودمج العلامة المائية للـ PDF -->
-
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <!-- 🌟 عنوان ووسوم المعاينة -->
-
 <title>مخطط ثابر الذكي | منصة ثابر التعليمية</title>
 <meta name="description" content="نظّم وقتك، ضاعف تركيزك، واصنع جدول مذاكرتك الشخصي في ثوانٍ مع منصة ثابر التعليمية." />
 <meta property="og:title" content="مخطط ثابر الذكي | منصة ثابر التعليمية" />
@@ -342,7 +338,6 @@ button.res-link {
 }
 
 </style>
-
 </head>
 <body>
 
@@ -356,11 +351,10 @@ button.res-link {
       </div>
     </div>
 
-<div class="header-actions">
-  <button type="button" class="btn-instructions" onclick="openInstructionsModal()">📖 طريقة الاستخدام</button>
-  <a href="https://wa.me/96871444589" target="_blank" class="badge-contact">💬 71444589</a>
-</div>
-
+    <div class="header-actions">
+      <button type="button" class="btn-instructions" onclick="openInstructionsModal()">📖 طريقة الاستخدام</button>
+      <a href="https://wa.me/96871444589" target="_blank" class="badge-contact">💬 71444589</a>
+    </div>
   </div>
 </header>
 
@@ -372,138 +366,138 @@ button.res-link {
 </div>
 
 <div class="app-layout">
-
-  <aside class="control-panel" id="controlsArea">
-
-<div class="panel-card">
-  <div class="card-header">
-    <span class="step-badge">1</span>
-    <h2>الروتين ووقت المذاكرة</h2>
-  </div>
   
-  <div class="field-group">
-    <div class="toggle-group">
-      <label><input type="radio" name="planType" value="daily" checked> <span>يوم واحد</span></label>
-      <label><input type="radio" name="planType" value="weekly"> <span>أسبوعي (مرحل)</span></label>
-    </div>
-  </div>
-
-  <div class="field-group">
-    <label>اسم الطالب (اختياري)</label>
-    <input type="text" id="studentName" placeholder="مثال: أحمد">
-  </div>
-
-  <!-- 🔐 زر ودبوس تسجيل الدخول الموثق بحساب Google -->
-  <div class="field-group">
-    <label>للخدمات المميزة (سجل الدخول بإيميلك المشترك به)</label>
-    <div id="googleAuthSection">
-      <div id="g_id_onload"
-           data-client_id="850336296571-jt6e5fvnp08btkl1vgaeesph8vlqt9nj.apps.googleusercontent.com"
-           data-callback="handleCredentialResponse"
-           data-auto_prompt="false">
+  <aside class="control-panel" id="controlsArea">
+    
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">1</span>
+        <h2>الروتين ووقت المذاكرة</h2>
       </div>
-      <div class="g_id_signin" 
-           data-type="standard" 
-           data-size="large" 
-           data-theme="outline" 
-           data-text="sign_in_with" 
-           data-shape="rectangular" 
-           data-logo_alignment="left">
+      
+      <div class="field-group">
+        <div class="toggle-group">
+          <label><input type="radio" name="planType" value="daily" checked> <span>يوم واحد</span></label>
+          <label><input type="radio" name="planType" value="weekly"> <span>أسبوعي (مرحل)</span></label>
+        </div>
       </div>
 
-      <div id="userProfileBadge" style="display:none; background: var(--brand-light); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid #c1d6f3; align-items: center; justify-content: space-between; margin-top: 8px;">
-        <span id="userEmailDisplay" style="font-weight: 800; font-size: 0.85rem; color: var(--brand-primary);"></span>
-        <button type="button" onclick="googleSignOut()" style="background: #ef4444; color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; cursor: pointer;">خروج 🚪</button>
+      <div class="field-group">
+        <label>اسم الطالب (اختياري)</label>
+        <input type="text" id="studentName" placeholder="مثال: أحمد">
+      </div>
+
+      <!-- 🔐 زر ودبوس تسجيل الدخول الموثق بحساب Google -->
+      <div class="field-group">
+        <label>للخدمات المميزة (سجل الدخول بإيميلك المشترك به)</label>
+        <div id="googleAuthSection">
+          <div id="g_id_onload"
+               data-client_id="850336296571-jt6e5fvnp08btkl1vgaeesph8vlqt9nj.apps.googleusercontent.com"
+               data-callback="handleCredentialResponse"
+               data-auto_prompt="false">
+          </div>
+          <div class="g_id_signin" 
+               data-type="standard" 
+               data-size="large" 
+               data-theme="outline" 
+               data-text="sign_in_with" 
+               data-shape="rectangular" 
+               data-logo_alignment="left">
+          </div>
+
+          <div id="userProfileBadge" style="display:none; background: var(--brand-light); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid #c1d6f3; align-items: center; justify-content: space-between; margin-top: 8px;">
+            <span id="userEmailDisplay" style="font-weight: 800; font-size: 0.85rem; color: var(--brand-primary);"></span>
+            <button type="button" onclick="googleSignOut()" style="background: #ef4444; color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; cursor: pointer;">خروج 🚪</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>تاريخ بداية الجدول</label>
+        <input type="date" id="studyDate">
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label>بداية المذاكرة</label>
+          <select id="startTime" data-default-time="16:00" class="time-12"></select>
+        </div>
+        <div class="field-group">
+          <label>نهاية المذاكرة</label>
+          <select id="endTime" data-default-time="21:00" class="time-12"></select>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="field-group">
-    <label>تاريخ بداية الجدول</label>
-    <input type="date" id="studyDate">
-  </div>
-
-  <div class="grid-2">
-    <div class="field-group">
-      <label>بداية المذاكرة</label>
-      <select id="startTime" data-default-time="16:00" class="time-12"></select>
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">2</span>
+        <h2>الاستراحة والصلاة</h2>
+      </div>
+      <div class="field-group">
+        <label>المسمى (مثال: صلاة المغرب)</label>
+        <input type="text" id="breakLabel" placeholder="أدخل اسم الاستراحة">
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <label>البداية</label>
+          <select id="breakStartTime" data-default-time="18:30" class="time-12"></select>
+        </div>
+        <div class="field-group">
+          <label>المدة</label>
+          <select id="breakDuration">
+            <option value="15">15 دقيقة</option>
+            <option value="30" selected>30 دقيقة</option>
+            <option value="45">45 دقيقة</option>
+            <option value="60">60 دقيقة</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline" id="addBreakBtn">+ إضافة</button>
+      <div id="breaksListContainer" class="selected-tags"></div>
     </div>
-    <div class="field-group">
-      <label>نهاية المذاكرة</label>
-      <select id="endTime" data-default-time="21:00" class="time-12"></select>
+
+    <div class="panel-card">
+      <div class="card-header">
+        <span class="step-badge">3</span>
+        <h2>الصف الدراسي <span id="syncLoader" class="sync-loader"></span></h2>
+      </div>
+      <div class="field-group">
+        <select id="gradeSelect">
+          <option value="">-- اختر الصف --</option>
+          <option value="5">الصف الخامس</option>
+          <option value="6">الصف السادس</option>
+          <option value="7">الصف السابع</option>
+          <option value="8">الصف الثامن</option>
+          <option value="9">الصف التاسع</option>
+          <option value="10">الصف العاشر</option>
+          <option value="11">الصف الحادي عشر</option>
+          <option value="12">الصف الثاني عشر / دبلوم التعليم العام</option>
+        </select>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="panel-card">
-  <div class="card-header">
-    <span class="step-badge">2</span>
-    <h2>الاستراحة والصلاة</h2>
-  </div>
-  <div class="field-group">
-    <label>المسمى (مثال: صلاة المغرب)</label>
-    <input type="text" id="breakLabel" placeholder="أدخل اسم الاستراحة">
-  </div>
-  <div class="grid-2">
-    <div class="field-group">
-      <label>البداية</label>
-      <select id="breakStartTime" data-default-time="18:30" class="time-12"></select>
+    <div class="panel-card" id="lessonCard" style="display:none;">
+      <div class="card-header">
+        <span class="step-badge">4</span>
+        <h2>تحديد الدروس</h2>
+      </div>
+      <div class="field-group">
+        <label>المادة</label>
+        <select id="subjectSelect"></select>
+      </div>
+      <div class="field-group">
+        <label>حدد الدروس ونوع النشاط</label>
+        <div id="lessonSelect" class="lessons-picker"></div>
+      </div>
+      <button type="button" class="btn btn-outline" id="addLessonBtn">إضافة للمسودة +</button>
+      <div id="selectedLessons" class="selected-tags"></div>
+      <div id="clearDraftContainer" style="display:none;">
+        <button type="button" class="clear-draft-btn" onclick="clearDraft()">🗑️ تفريغ كافة الدروس من المسودة</button>
+      </div>
     </div>
-    <div class="field-group">
-      <label>المدة</label>
-      <select id="breakDuration">
-        <option value="15">15 دقيقة</option>
-        <option value="30" selected>30 دقيقة</option>
-        <option value="45">45 دقيقة</option>
-        <option value="60">60 دقيقة</option>
-      </select>
-    </div>
-  </div>
-  <button type="button" class="btn btn-outline" id="addBreakBtn">+ إضافة</button>
-  <div id="breaksListContainer" class="selected-tags"></div>
-</div>
 
-<div class="panel-card">
-  <div class="card-header">
-    <span class="step-badge">3</span>
-    <h2>الصف الدراسي <span id="syncLoader" class="sync-loader"></span></h2>
-  </div>
-  <div class="field-group">
-    <select id="gradeSelect">
-      <option value="">-- اختر الصف --</option>
-      <option value="5">الصف الخامس</option>
-      <option value="6">الصف السادس</option>
-      <option value="7">الصف السابع</option>
-      <option value="8">الصف الثامن</option>
-      <option value="9">الصف التاسع</option>
-      <option value="10">الصف العاشر</option>
-      <option value="11">الصف الحادي عشر</option>
-      <option value="12">الصف الثاني عشر / دبلوم التعليم العام</option>
-    </select>
-  </div>
-</div>
-
-<div class="panel-card" id="lessonCard" style="display:none;">
-  <div class="card-header">
-    <span class="step-badge">4</span>
-    <h2>تحديد الدروس</h2>
-  </div>
-  <div class="field-group">
-    <label>المادة</label>
-    <select id="subjectSelect"></select>
-  </div>
-  <div class="field-group">
-    <label>حدد الدروس ونوع النشاط</label>
-    <div id="lessonSelect" class="lessons-picker"></div>
-  </div>
-  <button type="button" class="btn btn-outline" id="addLessonBtn">إضافة للمسودة +</button>
-  <div id="selectedLessons" class="selected-tags"></div>
-  <div id="clearDraftContainer" style="display:none;">
-    <button type="button" class="clear-draft-btn" onclick="clearDraft()">🗑️ تفريغ كافة الدروس من المسودة</button>
-  </div>
-</div>
-
-<button type="button" class="btn btn-brand" id="generateBtn" style="padding: 16px; font-size: 1.1rem;">✨ إنشاء المخطط الزمني</button>
+    <button type="button" class="btn btn-brand" id="generateBtn" style="padding: 16px; font-size: 1.1rem;">✨ إنشاء المخطط الزمني</button>
 
   </aside>
 
@@ -515,52 +509,51 @@ button.res-link {
       <div class="stat-box"><span class="stat-number" id="breaksCount">0</span><span class="stat-label">فواصل</span></div>
     </div>
 
-<div class="timeline-card" id="scheduleArea">
-  <div class="schedule-watermark">
-    <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="علامة مائية منصة ثابر">
-  </div>
+    <div class="timeline-card" id="scheduleArea">
+      <div class="schedule-watermark">
+        <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="علامة مائية منصة ثابر">
+      </div>
 
-  <table class="print-layout-table">
-    <thead class="print-header-group">
-      <tr>
-        <td>
-          <div class="thaber-brand-stamp">
-            <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="منصة ثابر التعليمية" class="stamp-logo-img">
-            <div class="stamp-info">
-              <h4>منصة ثابر التعليمية | مخطط المذاكرة الذكي</h4>
-              <p>💬 للتواصل والاشتراكات: 71444589</p>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <div class="timeline-header">
-            <div>
-              <h2>✨ مخطط ثابر الذكي</h2>
-              <p id="scheduleNote">قم بإعداد الخطة من الإعدادات لتظهر هنا.</p>
-            </div>
-          </div>
-          
-          <div class="timeline-body" id="timelineBody">
-            <div style="text-align:center; padding: 40px; color: var(--text-secondary); font-weight: 700;">
-              لا توجد خطط مجدولة حالياً ☕
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+      <table class="print-layout-table">
+        <thead class="print-header-group">
+          <tr>
+            <td>
+              <div class="thaber-brand-stamp">
+                <img src="https://i.imgur.com/pZ9hazV.png" crossorigin="anonymous" alt="منصة ثابر التعليمية" class="stamp-logo-img">
+                <div class="stamp-info">
+                  <h4>منصة ثابر التعليمية | مخطط المذاكرة الذكي</h4>
+                  <p>💬 للتواصل والاشتراكات: 71444589</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="timeline-header">
+                <div>
+                  <h2>✨ مخطط ثابر الذكي</h2>
+                  <p id="scheduleNote">قم بإعداد الخطة من الإعدادات لتظهر هنا.</p>
+                </div>
+              </div>
+              
+              <div class="timeline-body" id="timelineBody">
+                <div style="text-align:center; padding: 40px; color: var(--text-secondary); font-weight: 700;">
+                  لا توجد خطط مجدولة حالياً ☕
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-<div class="timeline-actions">
-  <button type="button" class="btn btn-whatsapp" id="shareWaBtn" style="width:auto;">📲 إرسال الجدول عبر الواتساب</button>
-  <button type="button" class="btn btn-outline" id="calendarBtn" style="width:auto;">📅 إضافة للتقويم الشخصي</button>
-  <button type="button" class="btn btn-brand" id="printBtn" style="width:auto;">🖨️ طباعة الجدول / حفظ كـ PDF</button>
-</div>
-
+    <div class="timeline-actions">
+      <button type="button" class="btn btn-whatsapp" id="shareWaBtn" style="width:auto;">📲 إرسال الجدول عبر الواتساب</button>
+      <button type="button" class="btn btn-outline" id="calendarBtn" style="width:auto;">📅 إضافة للتقويم الشخصي</button>
+      <button type="button" class="btn btn-brand" id="printBtn" style="width:auto;">🖨️ طباعة الجدول / حفظ كـ PDF</button>
+    </div>
   </main>
 </div>
 
@@ -579,8 +572,8 @@ button.res-link {
   </div>
 </div>
 
-<!-- 🎥 نافذة تشغيل فيديو Bunny Stream -->
 
+<!-- 🎥 نافذة تشغيل فيديو Bunny Stream -->
 <div id="videoModal" class="video-modal" aria-hidden="true">
   <div class="video-modal-box" role="dialog" aria-modal="true" aria-label="مشغل فيديو الدرس">
     <button
@@ -591,16 +584,15 @@ button.res-link {
       title="إغلاق"
     >×</button>
 
-<div class="video-wrapper">
-  <iframe
-    id="bunnyPlayer"
-    src=""
-    title="فيديو الدرس"
-    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-    allowfullscreen
-  ></iframe>
-</div>
-
+    <div class="video-wrapper">
+      <iframe
+        id="bunnyPlayer"
+        src=""
+        title="فيديو الدرس"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+        allowfullscreen
+      ></iframe>
+    </div>
   </div>
 </div>
 
@@ -726,6 +718,52 @@ function formatUrl(url) {
   return trimmed;
 }
 
+// 📚 دعم عدة موارد داخل نفس الخلية، كل مورد في سطر مستقل.
+// للتسمية الاختيارية استخدم: الاسم|القيمة
+function parseNamedResources(rawValue, defaultLabel) {
+  const raw = String(rawValue || '').trim();
+  if (!raw) return [];
+
+  const lines = raw
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(Boolean);
+
+  const parsed = lines.map(line => {
+    const separatorIndex = line.indexOf('|');
+
+    if (separatorIndex > 0) {
+      const customLabel = line.slice(0, separatorIndex).trim();
+      const value = line.slice(separatorIndex + 1).trim();
+
+      if (value) {
+        return { label: customLabel || '', value: value, custom: !!customLabel };
+      }
+    }
+
+    return { label: '', value: line, custom: false };
+  }).filter(item => item.value);
+
+  const total = parsed.length;
+
+  return parsed.map((item, index) => ({
+    value: item.value,
+    label: item.custom
+      ? item.label
+      : (total === 1 ? defaultLabel : `${defaultLabel} ${index + 1}`)
+  }));
+}
+
+function escapeHtmlText(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+
 // 🛡️ تحويل رابط جوجل درايف للتحميل المباشر لتسهيل دمج العلامة المائية
 function getDriveDirectUrl(url) {
   const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -735,23 +773,34 @@ function getDriveDirectUrl(url) {
   return url;
 }
 
-// 🖨️ دالة فتح ملف الـ PDF وطباعة العلامة المائية عليه برمجياً
+// 🖨️ فتح PDF، وإذا كان الطالب مسجل الدخول يتم وضع إيميله كعلامة مائية
 async function openWatermarkedPDF(originalUrl) {
-  const userEmail = localStorage.getItem('thaber_verified_email') || 'غير موثق (النسخة المجانية)';
+  const userEmail = localStorage.getItem('thaber_verified_email') || '';
+
+  // إذا لم يكن الطالب مسجل الدخول: افتح الملف الأصلي كما هو
+  if (!userEmail) {
+    window.open(originalUrl, '_blank');
+    return;
+  }
+
   const directUrl = getDriveDirectUrl(originalUrl);
-  
+
   try {
-    const existingPdfBytes = await fetch(directUrl).then(res => res.arrayBuffer());
+    const response = await fetch(directUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const existingPdfBytes = await response.arrayBuffer();
     const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
     const pages = pdfDoc.getPages();
-    
+
     pages.forEach(page => {
       const { width, height } = page.getSize();
-      page.drawText(`مخصص للطالب: ${userEmail}`, {
-        x: width / 6,
-        y: height / 2,
+
+      page.drawText(userEmail, {
+        x: Math.max(30, width * 0.16),
+        y: height * 0.50,
         size: 20,
-        opacity: 0.25,
+        opacity: 0.22,
         rotate: PDFLib.degrees(35),
       });
     });
@@ -761,7 +810,7 @@ async function openWatermarkedPDF(originalUrl) {
     const blobUrl = URL.createObjectURL(blob);
     window.open(blobUrl, '_blank');
   } catch (err) {
-    console.warn("تم فتح الملف الأصلي نظراً لقيود سياسة الحماية (CORS).");
+    console.warn("تعذر دمج العلامة المائية بسبب قيود المصدر (CORS)، تم فتح الملف الأصلي.", err);
     window.open(originalUrl, '_blank');
   }
 }
@@ -964,13 +1013,21 @@ function addLesson(isAuto = false){
     
     const lessonName = typeof lessonObj === 'object' ? lessonObj.name : lessonObj;
     
-    // 🎥 عمود الفيديو في Google Sheet يحتوي على Bunny Video ID فقط (وليس رابطاً)
+    // 🎥 عمود الفيديو: يدعم فيديو واحد أو عدة فيديوهات في نفس الخلية.
+    // للتسمية الاختيارية: اسم الفيديو|VIDEO_ID
     const videoId = typeof lessonObj === 'object'
       ? String(lessonObj.videoId || '').trim()
       : '';
+
     const activityUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.activity || '') : '');
     const examUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.exam || '') : '');
-    const pdfUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.pdf || '') : '');
+
+    // 📄 عمود PDF: يدعم ملف واحد أو عدة ملفات في نفس الخلية.
+    // للتسمية الاختيارية: اسم الملف|الرابط
+    const pdfUrl = typeof lessonObj === 'object'
+      ? String(lessonObj.pdf || '').trim()
+      : '';
+
     const accessType = typeof lessonObj === 'object' ? (lessonObj.access || 'مجاني') : 'مجاني';
 
     const actSelect = document.getElementById(`act_${idx}`);
@@ -1129,19 +1186,34 @@ function generateSchedule(){
         if (isLocked) {
           resHtml += `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 محتوى مخصص للمشتركين (اضغط للتسجيل)</a>`;
         } else {
-          if (item.videoId) {
+          const videoResources = parseNamedResources(item.videoId, 'فيديو الشرح');
+
+          videoResources.forEach(video => {
+            const safeVideoId = encodeURIComponent(video.value);
+
             resHtml += `
               <button
                 type="button"
-                onclick="openBunnyVideo('${item.videoId}')"
+                onclick="openBunnyVideo(decodeURIComponent('${safeVideoId}'))"
                 class="res-link res-video"
-              >🎥 فيديو الشرح</button>`;
-          }
-          
-          if (item.pdfUrl) {
-            resHtml += `<a onclick="openWatermarkedPDF('${item.pdfUrl}')" class="res-link res-pdf">📄 ملخص PDF</a>`;
-          }
-          
+              >🎥 ${escapeHtmlText(video.label)}</button>`;
+          });
+
+          const pdfResources = parseNamedResources(item.pdfUrl, 'ملخص PDF');
+
+          pdfResources.forEach(pdf => {
+            const formattedPdf = formatUrl(pdf.value);
+            if (!formattedPdf) return;
+
+            const safePdfUrl = encodeURIComponent(formattedPdf);
+
+            resHtml += `
+              <a
+                onclick="openWatermarkedPDF(decodeURIComponent('${safePdfUrl}'))"
+                class="res-link res-pdf"
+              >📄 ${escapeHtmlText(pdf.label)}</a>`;
+          });
+
           resHtml += makeBtn(item.activityUrl, 'نشاط تفاعلي', 'res-interactive', '🌐');
           resHtml += makeBtn(item.examUrl, 'اختبار إلكتروني', 'res-exam', '📝');
         }
@@ -1310,6 +1382,5 @@ window.addEventListener('DOMContentLoaded', () => {
   fetchDataFromSheet();
 });
 </script>
-
 </body>
 </html>
