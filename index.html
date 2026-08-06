@@ -602,9 +602,9 @@ button.res-link {
 /* ==========================================================
    🎥 إعداد مشغل Bunny Stream
    ضع Library ID الخاص بمكتبة Bunny Stream بين علامتي الاقتباس.
-   مثال: const BUNNY_LIBRARY_ID = '123456';
+   مثال: const BUNNY_LIBRARY_ID = '630526';
    ========================================================== */
-const BUNNY_LIBRARY_ID = '630526';
+const BUNNY_LIBRARY_ID = 'ضع_LIBRARY_ID_هنا';
 
 function openBunnyVideo(videoId) {
   const cleanVideoId = String(videoId || '').trim();
@@ -614,7 +614,7 @@ function openBunnyVideo(videoId) {
     return;
   }
 
-  if (!BUNNY_LIBRARY_ID || BUNNY_LIBRARY_ID === '630526') {
+  if (!BUNNY_LIBRARY_ID || BUNNY_LIBRARY_ID === 'ضع_LIBRARY_ID_هنا') {
     alert('يرجى ضبط BUNNY_LIBRARY_ID في ملف الموقع أولاً.');
     return;
   }
