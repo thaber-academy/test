@@ -247,6 +247,96 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
   .resource-bar { display: flex !important; gap: 6px !important; margin-top: 6px !important; }
   .res-link { display: inline-flex !important; padding: 3px 8px !important; font-size: 0.7rem !important; border-radius: 4px !important; text-decoration: none !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
+
+/* =========================================
+   🎥 Bunny Stream Modal Player
+   ========================================= */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.video-modal.active {
+  display: flex;
+}
+
+.video-modal-box {
+  position: relative;
+  width: min(100%, 1050px);
+  background: #000;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,.72);
+  color: #fff;
+  font-family: inherit;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s ease;
+}
+
+.video-modal-close:hover {
+  background: #ef4444;
+  transform: scale(1.05);
+}
+
+button.res-link {
+  font-family: inherit;
+}
+
+@media (max-width: 640px) {
+  .video-modal {
+    padding: 10px;
+  }
+  .video-modal-box {
+    border-radius: 12px;
+  }
+  .video-modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 25px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -482,8 +572,97 @@ input:focus, select:focus { background: #fff; border-color: var(--brand-primary)
   </div>
 </div>
 
+
+<!-- 🎥 نافذة تشغيل فيديو Bunny Stream -->
+<div id="videoModal" class="video-modal" aria-hidden="true">
+  <div class="video-modal-box" role="dialog" aria-modal="true" aria-label="مشغل فيديو الدرس">
+    <button
+      type="button"
+      class="video-modal-close"
+      onclick="closeBunnyVideo()"
+      aria-label="إغلاق الفيديو"
+      title="إغلاق"
+    >×</button>
+
+    <div class="video-wrapper">
+      <iframe
+        id="bunnyPlayer"
+        src=""
+        title="فيديو الدرس"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</div>
+
 <script>
 'use strict';
+
+/* ==========================================================
+   🎥 إعداد مشغل Bunny Stream
+   ضع Library ID الخاص بمكتبة Bunny Stream بين علامتي الاقتباس.
+   مثال: const BUNNY_LIBRARY_ID = '123456';
+   ========================================================== */
+const BUNNY_LIBRARY_ID = 'ضع_LIBRARY_ID_هنا';
+
+function openBunnyVideo(videoId) {
+  const cleanVideoId = String(videoId || '').trim();
+
+  if (!cleanVideoId) {
+    alert('الفيديو غير متوفر حالياً.');
+    return;
+  }
+
+  if (!BUNNY_LIBRARY_ID || BUNNY_LIBRARY_ID === 'ضع_LIBRARY_ID_هنا') {
+    alert('يرجى ضبط BUNNY_LIBRARY_ID في ملف الموقع أولاً.');
+    return;
+  }
+
+  const player = document.getElementById('bunnyPlayer');
+  const modal = document.getElementById('videoModal');
+
+  const playerUrl =
+    `https://iframe.mediadelivery.net/embed/${encodeURIComponent(BUNNY_LIBRARY_ID)}/${encodeURIComponent(cleanVideoId)}?autoplay=true&loop=false&muted=false&preload=true&responsive=true`;
+
+  player.src = playerUrl;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBunnyVideo() {
+  const player = document.getElementById('bunnyPlayer');
+  const modal = document.getElementById('videoModal');
+
+  if (player) player.src = '';
+
+  if (modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('videoModal');
+
+  if (modal) {
+    modal.addEventListener('click', function (event) {
+      if (event.target === modal) {
+        closeBunnyVideo();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      closeBunnyVideo();
+    }
+  });
+});
+
 
 // 🆔 إنشاء وتثبيت بصمة الجهاز في المتصفح
 function getDeviceId() {
@@ -777,7 +956,10 @@ function addLesson(isAuto = false){
     
     const lessonName = typeof lessonObj === 'object' ? lessonObj.name : lessonObj;
     
-    const videoUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.video || '') : '');
+    // 🎥 عمود الفيديو في Google Sheet يحتوي على Bunny Video ID فقط (وليس رابطاً)
+    const videoId = typeof lessonObj === 'object'
+      ? String(lessonObj.video || '').trim()
+      : '';
     const activityUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.activity || '') : '');
     const examUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.exam || '') : '');
     const pdfUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.pdf || '') : '');
@@ -795,7 +977,7 @@ function addLesson(isAuto = false){
         subject: subject, 
         lesson: lessonName, 
         activity: activityVal,
-        videoUrl: videoUrl,
+        videoId: videoId,
         activityUrl: activityUrl,
         examUrl: examUrl,
         pdfUrl: pdfUrl,
@@ -926,7 +1108,7 @@ function generateSchedule(){
       if (actualDuration > 0) {
         totalStudyMins += actualDuration;
         
-        const isLocked = (item.access === 'مشتركين' && !item.videoUrl && !item.pdfUrl && !item.activityUrl && !item.examUrl);
+        const isLocked = (item.access === 'مشتركين' && !item.videoId && !item.pdfUrl && !item.activityUrl && !item.examUrl);
 
         let resHtml = '';
         
@@ -939,7 +1121,14 @@ function generateSchedule(){
         if (isLocked) {
           resHtml += `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 محتوى مخصص للمشتركين (اضغط للتسجيل)</a>`;
         } else {
-          resHtml += makeBtn(item.videoUrl, 'فيديو الشرح', 'res-video', '🎥');
+          if (item.videoId) {
+            resHtml += `
+              <button
+                type="button"
+                onclick="openBunnyVideo('${item.videoId}')"
+                class="res-link res-video"
+              >🎥 فيديو الشرح</button>`;
+          }
           
           if (item.pdfUrl) {
             resHtml += `<a onclick="openWatermarkedPDF('${item.pdfUrl}')" class="res-link res-pdf">📄 ملخص PDF</a>`;
