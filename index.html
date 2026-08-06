@@ -773,153 +773,48 @@ function getDriveDirectUrl(url) {
   return url;
 }
 
-// استخراج File ID من أشهر صيغ روابط Google Drive
-function getGoogleDriveFileId(url) {
-  const value = String(url || '').trim();
-  if (!value) return '';
-
-  const patterns = [
-    /\/file\/d\/([a-zA-Z0-9_-]+)/i,
-    /\/d\/([a-zA-Z0-9_-]+)/i,
-    /[?&]id=([a-zA-Z0-9_-]+)/i
-  ];
-
-  for (const pattern of patterns) {
-    const match = value.match(pattern);
-    if (match && match[1]) return match[1];
-  }
-
-  return '';
-}
-
-// 🖨️ فتح PDF من Google Drive عبر Apps Script، وإذا كان الطالب مسجل الدخول يتم وضع إيميله كعلامة مائية
+// 🖨️ فتح PDF، وإذا كان الطالب مسجل الدخول يتم وضع إيميله كعلامة مائية
 async function openWatermarkedPDF(originalUrl) {
   const userEmail = localStorage.getItem('thaber_verified_email') || '';
 
-  // غير مسجل دخول = فتح الملف الأصلي
+  // إذا لم يكن الطالب مسجل الدخول: افتح الملف الأصلي كما هو
   if (!userEmail) {
     window.open(originalUrl, '_blank');
     return;
   }
 
+  const directUrl = getDriveDirectUrl(originalUrl);
+
   try {
-    let pdfBytes;
+    const response = await fetch(directUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    // ==========================================
-    // 1) Bunny CDN
-    // ==========================================
-    if (originalUrl.includes('.b-cdn.net/')) {
-
-      const response = await fetch(originalUrl);
-
-      if (!response.ok) {
-        throw new Error(`Bunny HTTP ${response.status}`);
-      }
-
-      const arrayBuffer = await response.arrayBuffer();
-      pdfBytes = new Uint8Array(arrayBuffer);
-
-    } else {
-
-      // ==========================================
-      // 2) Google Drive
-      // ==========================================
-      const fileId = getGoogleDriveFileId(originalUrl);
-
-      if (!fileId) {
-        window.open(originalUrl, '_blank');
-        return;
-      }
-
-      const proxyUrl =
-        `${GOOGLE_SHEET_URL}?action=getPdf&fileId=${encodeURIComponent(fileId)}&email=${encodeURIComponent(userEmail)}`;
-
-      const response = await fetch(proxyUrl);
-
-      if (!response.ok) {
-        throw new Error(`Google Apps Script HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (!data || data.status !== 'success' || !data.base64) {
-        throw new Error(
-          (data && (data.message || data.error)) ||
-          'تعذر جلب ملف PDF'
-        );
-      }
-
-      const binary = atob(data.base64);
-
-      pdfBytes = new Uint8Array(binary.length);
-
-      for (let i = 0; i < binary.length; i++) {
-        pdfBytes[i] = binary.charCodeAt(i);
-      }
-    }
-
-    // ==========================================
-    // فتح PDF
-    // ==========================================
-    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-
+    const existingPdfBytes = await response.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
     const pages = pdfDoc.getPages();
 
-    const watermarkSize = 25;
-    const watermarkOpacity = 0.25;
-    const watermarkAngle = 0;
-
     pages.forEach(page => {
-
       const { width, height } = page.getSize();
 
-      const positions = [
-        { x: width * 0.30, y: height * 0.800 },
-        { x: width * 0.30, y: height * 0.600 },
-        { x: width * 0.30, y: height * 0.400 },
-        { x: width * 0.30, y: height * 0.200 }
-      ];
-
-      positions.forEach(pos => {
-
-        page.drawText(userEmail, {
-          x: pos.x,
-          y: pos.y,
-          size: watermarkSize,
-          opacity: watermarkOpacity,
-          rotate: PDFLib.degrees(watermarkAngle),
-        });
-
+      page.drawText(userEmail, {
+        x: Math.max(30, width * 0.16),
+        y: height * 0.50,
+        size: 20,
+        opacity: 0.22,
+        rotate: PDFLib.degrees(35),
       });
-
     });
 
-    // ==========================================
-    // إنشاء النسخة المائية
-    // ==========================================
-    const finalPdfBytes = await pdfDoc.save();
-
-    const blob = new Blob(
-      [finalPdfBytes],
-      { type: 'application/pdf' }
-    );
-
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
-
     window.open(blobUrl, '_blank');
-
   } catch (err) {
-
-    console.error(
-      'تعذر تجهيز PDF بالعلامة المائية:',
-      err
-    );
-
-    alert(
-      'تعذر تجهيز ملف PDF بالعلامة المائية.'
-    );
+    console.warn("تعذر دمج العلامة المائية بسبب قيود المصدر (CORS)، تم فتح الملف الأصلي.", err);
+    window.open(originalUrl, '_blank');
   }
 }
+
 function promptSubscription(lessonName, grade) {
   if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال لصفحة الاشتراك وتفعيل حسابك الآن؟`)) {
     // الرابط الجديد لصفحة الاشتراك
