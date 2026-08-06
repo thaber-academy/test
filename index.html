@@ -796,81 +796,129 @@ function getGoogleDriveFileId(url) {
 async function openWatermarkedPDF(originalUrl) {
   const userEmail = localStorage.getItem('thaber_verified_email') || '';
 
-  // إذا لم يكن الطالب مسجل الدخول: افتح الملف الأصلي كما هو
+  // غير مسجل دخول = فتح الملف الأصلي
   if (!userEmail) {
     window.open(originalUrl, '_blank');
     return;
   }
 
-  const fileId = getGoogleDriveFileId(originalUrl);
-
-  // إذا لم يكن الرابط رابط Google Drive معروفاً، نحافظ على السلوك السابق
-  if (!fileId) {
-    window.open(originalUrl, '_blank');
-    return;
-  }
-
   try {
-    const proxyUrl =
-      `${GOOGLE_SHEET_URL}?action=getPdf&fileId=${encodeURIComponent(fileId)}&email=${encodeURIComponent(userEmail)}`;
+    let pdfBytes;
 
-    const response = await fetch(proxyUrl);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    // ==========================================
+    // 1) Bunny CDN
+    // ==========================================
+    if (originalUrl.includes('.b-cdn.net/')) {
 
-    const data = await response.json();
+      const response = await fetch(originalUrl);
 
-    if (!data || data.status !== 'success' || !data.base64) {
-      throw new Error((data && (data.message || data.error)) || 'تعذر جلب ملف PDF');
+      if (!response.ok) {
+        throw new Error(`Bunny HTTP ${response.status}`);
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      pdfBytes = new Uint8Array(arrayBuffer);
+
+    } else {
+
+      // ==========================================
+      // 2) Google Drive
+      // ==========================================
+      const fileId = getGoogleDriveFileId(originalUrl);
+
+      if (!fileId) {
+        window.open(originalUrl, '_blank');
+        return;
+      }
+
+      const proxyUrl =
+        `${GOOGLE_SHEET_URL}?action=getPdf&fileId=${encodeURIComponent(fileId)}&email=${encodeURIComponent(userEmail)}`;
+
+      const response = await fetch(proxyUrl);
+
+      if (!response.ok) {
+        throw new Error(`Google Apps Script HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data || data.status !== 'success' || !data.base64) {
+        throw new Error(
+          (data && (data.message || data.error)) ||
+          'تعذر جلب ملف PDF'
+        );
+      }
+
+      const binary = atob(data.base64);
+
+      pdfBytes = new Uint8Array(binary.length);
+
+      for (let i = 0; i < binary.length; i++) {
+        pdfBytes[i] = binary.charCodeAt(i);
+      }
     }
 
-    const binary = atob(data.base64);
-    const pdfBytesFromDrive = new Uint8Array(binary.length);
+    // ==========================================
+    // فتح PDF
+    // ==========================================
+    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
 
-    for (let i = 0; i < binary.length; i++) {
-      pdfBytesFromDrive[i] = binary.charCodeAt(i);
-    }
-
-    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytesFromDrive);
     const pages = pdfDoc.getPages();
 
+    const watermarkSize = 16;
+    const watermarkOpacity = 0.15;
+    const watermarkAngle = 35;
+
     pages.forEach(page => {
+
       const { width, height } = page.getSize();
 
-      // العلامة المائية = إيميل الطالب المسجل
-      const watermarkSize = 20;
-const watermarkOpacity = 0.20;
-const watermarkAngle = 35;
+      const positions = [
+        { x: width * 0.30, y: height * 0.833 },
+        { x: width * 0.30, y: height * 0.500 },
+        { x: width * 0.30, y: height * 0.167 }
+      ];
 
-const positions = [
-  { x: centerX, y: height * 0.833 },
-  { x: centerX, y: height * 0.500 },
-  { x: centerX, y: height * 0.167 }
-];
+      positions.forEach(pos => {
 
-positions.forEach(pos => {
-  page.drawText(userEmail, {
-    x: pos.x,
-    y: pos.y,
-    size: watermarkSize,
-    opacity: watermarkOpacity,
-    rotate: PDFLib.degrees(watermarkAngle),
-  });
-});
+        page.drawText(userEmail, {
+          x: pos.x,
+          y: pos.y,
+          size: watermarkSize,
+          opacity: watermarkOpacity,
+          rotate: PDFLib.degrees(watermarkAngle),
+        });
 
-    }); // إغلاق pages.forEach
+      });
 
+    });
+
+    // ==========================================
+    // إنشاء النسخة المائية
+    // ==========================================
     const finalPdfBytes = await pdfDoc.save();
-    const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
+
+    const blob = new Blob(
+      [finalPdfBytes],
+      { type: 'application/pdf' }
+    );
+
     const blobUrl = URL.createObjectURL(blob);
 
     window.open(blobUrl, '_blank');
 
   } catch (err) {
-    console.error("تعذر جلب أو وضع العلامة المائية على PDF:", err);
-    alert('تعذر تجهيز ملف PDF بالعلامة المائية. تأكد من صلاحية رابط Google Drive ثم حاول مجدداً.');
+
+    console.error(
+      'تعذر تجهيز PDF بالعلامة المائية:',
+      err
+    );
+
+    alert(
+      'تعذر تجهيز ملف PDF بالعلامة المائية.'
+    );
   }
 }
-
 function promptSubscription(lessonName, grade) {
   if(confirm(`🔒 هذا المحتوى مخصص لطلاب (الصف ${grade}) المشتركين.\n\nهل ترغب بالانتقال لصفحة الاشتراك وتفعيل حسابك الآن؟`)) {
     // الرابط الجديد لصفحة الاشتراك
