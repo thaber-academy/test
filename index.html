@@ -958,7 +958,7 @@ function addLesson(isAuto = false){
     
     // 🎥 عمود الفيديو في Google Sheet يحتوي على Bunny Video ID فقط (وليس رابطاً)
     const videoId = typeof lessonObj === 'object'
-      ? String(lessonObj.video || '').trim()
+      ? String(lessonObj.videoId || '').trim()
       : '';
     const activityUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.activity || '') : '');
     const examUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.exam || '') : '');
