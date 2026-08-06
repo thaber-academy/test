@@ -837,14 +837,25 @@ async function openWatermarkedPDF(originalUrl) {
       const { width, height } = page.getSize();
 
       // العلامة المائية = إيميل الطالب المسجل
-      page.drawText(userEmail, {
-        x: Math.max(30, width * 0.16),
-        y: height * 0.50,
-        size: 20,
-        opacity: 0.22,
-        rotate: PDFLib.degrees(35),
-      });
-    });
+      const watermarkSize = 16;
+const watermarkOpacity = 0.15;
+const watermarkAngle = 35;
+
+const positions = [
+  { x: width * 0.12, y: height * 0.72 },
+  { x: width * 0.32, y: height * 0.48 },
+  { x: width * 0.12, y: height * 0.24 }
+];
+
+positions.forEach(pos => {
+  page.drawText(userEmail, {
+    x: pos.x,
+    y: pos.y,
+    size: watermarkSize,
+    opacity: watermarkOpacity,
+    rotate: PDFLib.degrees(watermarkAngle),
+  });
+});
 
     const finalPdfBytes = await pdfDoc.save();
     const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
