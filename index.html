@@ -773,7 +773,26 @@ function getDriveDirectUrl(url) {
   return url;
 }
 
-// 🖨️ فتح PDF، وإذا كان الطالب مسجل الدخول يتم وضع إيميله كعلامة مائية
+// استخراج File ID من أشهر صيغ روابط Google Drive
+function getGoogleDriveFileId(url) {
+  const value = String(url || '').trim();
+  if (!value) return '';
+
+  const patterns = [
+    /\/file\/d\/([a-zA-Z0-9_-]+)/i,
+    /\/d\/([a-zA-Z0-9_-]+)/i,
+    /[?&]id=([a-zA-Z0-9_-]+)/i
+  ];
+
+  for (const pattern of patterns) {
+    const match = value.match(pattern);
+    if (match && match[1]) return match[1];
+  }
+
+  return '';
+}
+
+// 🖨️ فتح PDF من Google Drive عبر Apps Script، وإذا كان الطالب مسجل الدخول يتم وضع إيميله كعلامة مائية
 async function openWatermarkedPDF(originalUrl) {
   const userEmail = localStorage.getItem('thaber_verified_email') || '';
 
@@ -783,19 +802,41 @@ async function openWatermarkedPDF(originalUrl) {
     return;
   }
 
-  const directUrl = getDriveDirectUrl(originalUrl);
+  const fileId = getGoogleDriveFileId(originalUrl);
+
+  // إذا لم يكن الرابط رابط Google Drive معروفاً، نحافظ على السلوك السابق
+  if (!fileId) {
+    window.open(originalUrl, '_blank');
+    return;
+  }
 
   try {
-    const response = await fetch(directUrl);
+    const proxyUrl =
+      `${GOOGLE_SHEET_URL}?action=getPdf&fileId=${encodeURIComponent(fileId)}&email=${encodeURIComponent(userEmail)}`;
+
+    const response = await fetch(proxyUrl);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    const existingPdfBytes = await response.arrayBuffer();
-    const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+    const data = await response.json();
+
+    if (!data || data.status !== 'success' || !data.base64) {
+      throw new Error((data && (data.message || data.error)) || 'تعذر جلب ملف PDF');
+    }
+
+    const binary = atob(data.base64);
+    const pdfBytesFromDrive = new Uint8Array(binary.length);
+
+    for (let i = 0; i < binary.length; i++) {
+      pdfBytesFromDrive[i] = binary.charCodeAt(i);
+    }
+
+    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytesFromDrive);
     const pages = pdfDoc.getPages();
 
     pages.forEach(page => {
       const { width, height } = page.getSize();
 
+      // العلامة المائية = إيميل الطالب المسجل
       page.drawText(userEmail, {
         x: Math.max(30, width * 0.16),
         y: height * 0.50,
@@ -805,13 +846,15 @@ async function openWatermarkedPDF(originalUrl) {
       });
     });
 
-    const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const finalPdfBytes = await pdfDoc.save();
+    const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blob);
+
     window.open(blobUrl, '_blank');
+
   } catch (err) {
-    console.warn("تعذر دمج العلامة المائية بسبب قيود المصدر (CORS)، تم فتح الملف الأصلي.", err);
-    window.open(originalUrl, '_blank');
+    console.error("تعذر جلب أو وضع العلامة المائية على PDF:", err);
+    alert('تعذر تجهيز ملف PDF بالعلامة المائية. تأكد من صلاحية رابط Google Drive ثم حاول مجدداً.');
   }
 }
 
