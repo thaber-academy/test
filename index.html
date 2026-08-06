@@ -865,18 +865,19 @@ async function openWatermarkedPDF(originalUrl) {
 
     const pages = pdfDoc.getPages();
 
-    const watermarkSize = 16;
-    const watermarkOpacity = 0.15;
-    const watermarkAngle = 35;
+    const watermarkSize = 25;
+    const watermarkOpacity = 0.25;
+    const watermarkAngle = 0;
 
     pages.forEach(page => {
 
       const { width, height } = page.getSize();
 
       const positions = [
-        { x: width * 0.30, y: height * 0.833 },
-        { x: width * 0.30, y: height * 0.500 },
-        { x: width * 0.30, y: height * 0.167 }
+        { x: width * 0.30, y: height * 0.800 },
+        { x: width * 0.30, y: height * 0.600 },
+        { x: width * 0.30, y: height * 0.400 },
+        { x: width * 0.30, y: height * 0.200 }
       ];
 
       positions.forEach(pos => {
