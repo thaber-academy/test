@@ -602,7 +602,7 @@ button.res-link {
 /* ==========================================================
    🎥 إعداد مشغل Bunny Stream
    ضع Library ID الخاص بمكتبة Bunny Stream بين علامتي الاقتباس.
-   مثال: const BUNNY_LIBRARY_ID = '630526';
+   مثال: const BUNNY_LIBRARY_ID = '123456';
    ========================================================== */
 const BUNNY_LIBRARY_ID = '630526';
 
@@ -718,6 +718,62 @@ function formatUrl(url) {
   return trimmed;
 }
 
+// 📚 يدعم أكثر من مورد في الخلية نفسها، كل مورد في سطر مستقل.
+// للتسمية الاختيارية استخدم: الاسم|القيمة
+function parseNamedResources(rawValue, defaultLabel) {
+  const raw = String(rawValue || '').trim();
+  if (!raw) return [];
+
+  const lines = raw
+    .split(/
+?
+/)
+    .map(line => line.trim())
+    .filter(Boolean);
+
+  const parsed = lines.map(line => {
+    const separatorIndex = line.indexOf('|');
+
+    if (separatorIndex > 0) {
+      const customLabel = line.slice(0, separatorIndex).trim();
+      const value = line.slice(separatorIndex + 1).trim();
+
+      if (value) {
+        return {
+          label: customLabel || '',
+          value: value,
+          custom: !!customLabel
+        };
+      }
+    }
+
+    return {
+      label: '',
+      value: line,
+      custom: false
+    };
+  }).filter(item => item.value);
+
+  const total = parsed.length;
+
+  return parsed.map((item, index) => ({
+    value: item.value,
+    label: item.custom
+      ? item.label
+      : (total === 1 ? defaultLabel : `${defaultLabel} ${index + 1}`)
+  }));
+}
+
+function escapeHtmlText(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+
 // 🛡️ تحويل رابط جوجل درايف للتحميل المباشر لتسهيل دمج العلامة المائية
 function getDriveDirectUrl(url) {
   const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -727,23 +783,35 @@ function getDriveDirectUrl(url) {
   return url;
 }
 
-// 🖨️ دالة فتح ملف الـ PDF وطباعة العلامة المائية عليه برمجياً
+// 🖨️ فتح ملف PDF، وإذا كان الطالب مسجل الدخول يتم وضع إيميله كعلامة مائية
 async function openWatermarkedPDF(originalUrl) {
-  const userEmail = localStorage.getItem('thaber_verified_email') || 'غير موثق (النسخة المجانية)';
+  const userEmail = localStorage.getItem('thaber_verified_email') || '';
+
+  // إذا لم يسجل الطالب الدخول: افتح الملف كما هو بدون علامة مائية
+  if (!userEmail) {
+    window.open(originalUrl, '_blank');
+    return;
+  }
+
   const directUrl = getDriveDirectUrl(originalUrl);
-  
+
   try {
-    const existingPdfBytes = await fetch(directUrl).then(res => res.arrayBuffer());
+    const response = await fetch(directUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const existingPdfBytes = await response.arrayBuffer();
     const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
     const pages = pdfDoc.getPages();
-    
+
     pages.forEach(page => {
       const { width, height } = page.getSize();
-      page.drawText(`مخصص للطالب: ${userEmail}`, {
-        x: width / 6,
-        y: height / 2,
+
+      // العلامة المائية = إيميل الطالب المسجل
+      page.drawText(userEmail, {
+        x: Math.max(30, width * 0.16),
+        y: height * 0.50,
         size: 20,
-        opacity: 0.25,
+        opacity: 0.22,
         rotate: PDFLib.degrees(35),
       });
     });
@@ -753,7 +821,7 @@ async function openWatermarkedPDF(originalUrl) {
     const blobUrl = URL.createObjectURL(blob);
     window.open(blobUrl, '_blank');
   } catch (err) {
-    console.warn("تم فتح الملف الأصلي نظراً لقيود سياسة الحماية (CORS).");
+    console.warn("تعذر دمج العلامة المائية بسبب قيود المصدر (CORS)، تم فتح الملف الأصلي.", err);
     window.open(originalUrl, '_blank');
   }
 }
@@ -955,14 +1023,21 @@ function addLesson(isAuto = false){
     const lessonObj = lessonsObj[grade][subject][idx];
     
     const lessonName = typeof lessonObj === 'object' ? lessonObj.name : lessonObj;
-    
-    // 🎥 عمود الفيديو في Google Sheet يحتوي على Bunny Video ID فقط (وليس رابطاً)
+    // 🎥 العمود D: فيديو واحد أو عدة فيديوهات، كل فيديو في سطر.
+    // للتسمية الاختيارية: اسم الفيديو|VIDEO_ID
     const videoId = typeof lessonObj === 'object'
       ? String(lessonObj.videoId || '').trim()
       : '';
+
     const activityUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.activity || '') : '');
     const examUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.exam || '') : '');
-    const pdfUrl = formatUrl(typeof lessonObj === 'object' ? (lessonObj.pdf || '') : '');
+
+    // 📄 العمود G: ملف PDF واحد أو عدة ملفات، كل رابط في سطر.
+    // للتسمية الاختيارية: اسم الملف|الرابط
+    const pdfUrl = typeof lessonObj === 'object'
+      ? String(lessonObj.pdf || '').trim()
+      : '';
+
     const accessType = typeof lessonObj === 'object' ? (lessonObj.access || 'مجاني') : 'مجاني';
 
     const actSelect = document.getElementById(`act_${idx}`);
@@ -1121,19 +1196,30 @@ function generateSchedule(){
         if (isLocked) {
           resHtml += `<a onclick="promptSubscription('${item.lesson}', '${item.grade}')" class="res-link res-locked">🔒 محتوى مخصص للمشتركين (اضغط للتسجيل)</a>`;
         } else {
-          if (item.videoId) {
+          const videoResources = parseNamedResources(item.videoId, 'فيديو الشرح');
+          videoResources.forEach(video => {
+            const safeVideoId = encodeURIComponent(video.value);
             resHtml += `
               <button
                 type="button"
-                onclick="openBunnyVideo('${item.videoId}')"
+                onclick="openBunnyVideo(decodeURIComponent('${safeVideoId}'))"
                 class="res-link res-video"
-              >🎥 فيديو الشرح</button>`;
-          }
-          
-          if (item.pdfUrl) {
-            resHtml += `<a onclick="openWatermarkedPDF('${item.pdfUrl}')" class="res-link res-pdf">📄 ملخص PDF</a>`;
-          }
-          
+              >🎥 ${escapeHtmlText(video.label)}</button>`;
+          });
+
+          const pdfResources = parseNamedResources(item.pdfUrl, 'ملخص PDF');
+          pdfResources.forEach(pdf => {
+            const formattedPdf = formatUrl(pdf.value);
+            if (!formattedPdf) return;
+
+            const safePdfUrl = encodeURIComponent(formattedPdf);
+            resHtml += `
+              <a
+                onclick="openWatermarkedPDF(decodeURIComponent('${safePdfUrl}'))"
+                class="res-link res-pdf"
+              >📄 ${escapeHtmlText(pdf.label)}</a>`;
+          });
+
           resHtml += makeBtn(item.activityUrl, 'نشاط تفاعلي', 'res-interactive', '🌐');
           resHtml += makeBtn(item.examUrl, 'اختبار إلكتروني', 'res-exam', '📝');
         }
